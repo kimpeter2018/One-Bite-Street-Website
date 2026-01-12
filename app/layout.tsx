@@ -1,55 +1,43 @@
 import type { Metadata } from "next";
+import { Inter, Playfair_Display, Space_Grotesk } from "next/font/google";
 import "./globals.css";
+import Header from "@/components/layout/Header";
+import Footer from "@/components/layout/Footer";
+
+const inter = Inter({
+  subsets: ["latin"],
+  variable: "--font-inter",
+  display: "swap",
+});
+
+const playfair = Playfair_Display({
+  subsets: ["latin"],
+  variable: "--font-playfair",
+  display: "swap",
+});
+
+const spaceGrotesk = Space_Grotesk({
+  subsets: ["latin"],
+  variable: "--font-space",
+  display: "swap",
+});
 
 export const metadata: Metadata = {
-  title: {
-    default: "Culinary Collective | Food & Beverage Consulting",
-    template: "%s | Culinary Collective",
-  },
+  title: "One Bite Street | Co-live, Co-work, Co-entertain",
   description:
-    "Transforming food & beverage operations through expert consulting, innovative menu design, and workflow optimization.",
+    "A multidisciplinary hospitality and creative collective building sustainable ecosystems for creators through food festivals, cafés, hotels, creative hubs, and consulting.",
   keywords: [
-    "F&B consulting",
+    "hospitality",
+    "creative hub",
+    "co-working",
+    "co-living",
+    "food festivals",
     "restaurant consulting",
-    "menu design",
-    "culinary consulting",
-    "workflow optimization",
   ],
-  authors: [{ name: "Culinary Collective" }],
   openGraph: {
+    title: "One Bite Street",
+    description: "BE HUMAN: co-live, co-work, and co-entertain",
     type: "website",
-    locale: "en_US",
-    url: "https://culinarycollective.com",
-    siteName: "Culinary Collective",
-    title: "Culinary Collective | Food & Beverage Consulting",
-    description:
-      "Transforming food & beverage operations through expert consulting, innovative menu design, and workflow optimization.",
-    images: [
-      {
-        url: "/og-image.jpg",
-        width: 1200,
-        height: 630,
-        alt: "Culinary Collective",
-      },
-    ],
-  },
-  twitter: {
-    card: "summary_large_image",
-    title: "Culinary Collective | Food & Beverage Consulting",
-    description:
-      "Transforming food & beverage operations through expert consulting.",
-    images: ["/og-image.jpg"],
-  },
-  robots: {
-    index: true,
-    follow: true,
-    googleBot: {
-      index: true,
-      follow: true,
-      "max-video-preview": -1,
-      "max-image-preview": "large",
-      "max-snippet": -1,
-    },
   },
 };
 
@@ -59,8 +47,15 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en">
-      <body className="antialiased">{children}</body>
+    <html
+      lang="en"
+      className={`${inter.variable} ${playfair.variable} ${spaceGrotesk.variable}`}
+    >
+      <body className="font-body bg-cream text-charcoal antialiased">
+        <Header />
+        <main>{children}</main>
+        <Footer />
+      </body>
     </html>
   );
 }

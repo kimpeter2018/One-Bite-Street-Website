@@ -9,33 +9,29 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
-        background: "var(--background)",
-        foreground: "var(--foreground)",
-        accent: "var(--accent)",
-        muted: "var(--muted)",
-
-        cream: "var(--cream)",
-        sand: "var(--sand)",
-        stone: "var(--stone)",
-        border: "var(--border)",
+        warmth: "#E8825C",
+        earth: "#C87C5A",
+        cream: "#F5EFE7",
+        charcoal: "#2C2C2C",
+        graphite: "#4A4A4A",
+        sand: "#E5DDD5",
+        white: "#FEFDFB",
+        olive: "#A3957A",
+        rust: "#B85C38",
       },
       fontFamily: {
-        sans: [
-          "system-ui",
-          "-apple-system",
-          "BlinkMacSystemFont",
-          '"Segoe UI"',
-          "Roboto",
-          '"Helvetica Neue"',
-          "Arial",
-          "sans-serif",
-        ],
-        serif: ["Georgia", "serif"],
+        display: ["var(--font-playfair)", "serif"],
+        heading: ["var(--font-space)", "sans-serif"],
+        body: ["var(--font-inter)", "sans-serif"],
+      },
+      spacing: {
+        128: "8rem",
+        144: "9rem",
       },
       animation: {
-        "fade-in": "fadeIn 0.6s ease-in-out",
-        "slide-up": "slideUp 0.6s ease-out",
-        "slide-down": "slideDown 0.6s ease-out",
+        "fade-in": "fadeIn 0.6s ease-out forwards",
+        "slide-up": "slideUp 0.6s ease-out forwards",
+        "slide-in-left": "slideInLeft 0.6s ease-out forwards",
       },
       keyframes: {
         fadeIn: {
@@ -46,13 +42,10 @@ const config: Config = {
           "0%": { transform: "translateY(20px)", opacity: "0" },
           "100%": { transform: "translateY(0)", opacity: "1" },
         },
-        slideDown: {
-          "0%": { transform: "translateY(-20px)", opacity: "0" },
-          "100%": { transform: "translateY(0)", opacity: "1" },
+        slideInLeft: {
+          "0%": { transform: "translateX(-20px)", opacity: "0" },
+          "100%": { transform: "translateX(0)", opacity: "1" },
         },
-      },
-      transitionTimingFunction: {
-        "bounce-in": "cubic-bezier(0.68, -0.55, 0.265, 1.55)",
       },
     },
   },
