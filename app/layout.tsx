@@ -23,7 +23,7 @@ const spaceGrotesk = Space_Grotesk({
 });
 
 export const metadata: Metadata = {
-  title: "One Bite Street | Co-live, Co-work, Co-entertain",
+  title: "One Bite Street | BE HUMAN",
   description:
     "A multidisciplinary hospitality and creative collective building sustainable ecosystems for creators through food festivals, cafés, hotels, creative hubs, and consulting.",
   keywords: [
