@@ -1,4 +1,3 @@
-// app/ventures/page.tsx
 import Container from "@/components/layout/Container";
 import Section from "@/components/ui/Section";
 import Link from "next/link";
@@ -109,7 +108,7 @@ export default function VenturesPage() {
       </Section>
 
       {/* How It Works */}
-      <Section className="bg-charcoal text-white">
+      <Section className="bg-charcoal text-graphite">
         <div className="mx-auto max-w-6xl">
           <h2 className="font-heading mb-16 text-center text-3xl md:text-4xl lg:text-5xl">
             How The Ecosystem Works
@@ -227,12 +226,12 @@ export default function VenturesPage() {
           </p>
           <div className="flex flex-col justify-center gap-4 sm:flex-row">
             <Link href="/residency">
-              <button className="focus:ring-warmth bg-warmth hover:bg-earth inline-flex w-full items-center justify-center rounded-sm px-8 py-4 text-lg font-medium text-white shadow-sm transition-all duration-200 focus:ring-2 focus:ring-offset-2 focus:outline-none disabled:cursor-not-allowed disabled:opacity-50 sm:w-auto">
+              <button className="focus:ring-warmth bg-warmth hover:bg-earth text-graphite inline-flex w-full items-center justify-center rounded-sm px-8 py-4 text-lg font-medium shadow-sm transition-all duration-200 focus:ring-2 focus:ring-offset-2 focus:outline-none disabled:cursor-not-allowed disabled:opacity-50 sm:w-auto">
                 Apply for Residency
               </button>
             </Link>
             <Link href="/contact">
-              <button className="focus:ring-warmth border-charcoal text-charcoal hover:bg-charcoal inline-flex w-full items-center justify-center rounded-sm border-2 px-8 py-4 text-lg font-medium transition-all duration-200 hover:text-white focus:ring-2 focus:ring-offset-2 focus:outline-none disabled:cursor-not-allowed disabled:opacity-50 sm:w-auto">
+              <button className="focus:ring-warmth border-charcoal text-charcoal hover:bg-charcoal hover:text-graphite inline-flex w-full items-center justify-center rounded-sm border-2 px-8 py-4 text-lg font-medium transition-all duration-200 focus:ring-2 focus:ring-offset-2 focus:outline-none disabled:cursor-not-allowed disabled:opacity-50 sm:w-auto">
                 Get in Touch
               </button>
             </Link>

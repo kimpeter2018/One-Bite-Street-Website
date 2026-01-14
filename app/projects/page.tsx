@@ -57,7 +57,7 @@ export default function ProjectsPage() {
                 onClick={() => setFilter(option.value)}
                 className={`rounded-sm px-6 py-3 font-medium transition-all duration-200 ${
                   filter === option.value
-                    ? "bg-warmth text-white shadow-md"
+                    ? "bg-warmth text-graphite shadow-md"
                     : "bg-cream text-charcoal hover:bg-sand border-sand border-2"
                 }`}
               >
@@ -93,7 +93,7 @@ export default function ProjectsPage() {
                   <div className="border-sand hover:border-warmth flex h-full flex-col overflow-hidden rounded-sm border-2 bg-white transition-all duration-300 hover:shadow-xl">
                     {/* Image */}
                     <div className="bg-graphite relative aspect-4/3 overflow-hidden">
-                      <div className="from-warmth/20 to-earth/20 absolute inset-0 flex items-center justify-center bg-linear-to-br text-6xl text-white transition-transform duration-500 group-hover:scale-110">
+                      <div className="from-warmth/20 to-earth/20 text-graphite absolute inset-0 flex items-center justify-center bg-linear-to-br text-6xl transition-transform duration-500 group-hover:scale-110">
                         {project.ventureType[0] === "food-festivals" && "🎪"}
                         {project.ventureType[0] === "cafe-restaurant" && "☕"}
                         {project.ventureType[0] === "hotel" && "🏨"}
@@ -106,9 +106,9 @@ export default function ProjectsPage() {
                         <span
                           className={`rounded-full px-3 py-1 text-xs font-semibold tracking-wide uppercase ${
                             project.status === "completed"
-                              ? "bg-olive/90 text-white"
+                              ? "bg-olive/90 text-graphite"
                               : project.status === "ongoing"
-                                ? "bg-warmth/90 text-white"
+                                ? "bg-warmth/90 text-graphite"
                                 : "bg-sand/90 text-charcoal"
                           }`}
                         >
@@ -119,7 +119,7 @@ export default function ProjectsPage() {
                       {/* Featured Badge */}
                       {project.featured && (
                         <div className="absolute top-4 left-4">
-                          <span className="bg-rust/90 rounded-full px-3 py-1 text-xs font-semibold tracking-wide text-white uppercase">
+                          <span className="bg-rust/90 text-graphite rounded-full px-3 py-1 text-xs font-semibold tracking-wide uppercase">
                             Featured
                           </span>
                         </div>
@@ -176,7 +176,7 @@ export default function ProjectsPage() {
       </Section>
 
       {/* Stats Section */}
-      <Section className="bg-charcoal text-white">
+      <Section className="bg-charcoal text-graphite">
         <Container>
           <h2 className="font-heading mb-12 text-center text-3xl md:text-4xl">
             Impact by the Numbers
@@ -226,7 +226,7 @@ export default function ProjectsPage() {
             meaningful together.
           </p>
           <Link href="/contact">
-            <button className="focus:ring-warmth bg-warmth hover:bg-earth inline-flex items-center justify-center rounded-sm px-8 py-4 text-lg font-medium text-white shadow-sm transition-all duration-200 focus:ring-2 focus:ring-offset-2 focus:outline-none disabled:cursor-not-allowed disabled:opacity-50">
+            <button className="focus:ring-warmth bg-warmth hover:bg-earth text-graphite inline-flex items-center justify-center rounded-sm px-8 py-4 text-lg font-medium shadow-sm transition-all duration-200 focus:ring-2 focus:ring-offset-2 focus:outline-none disabled:cursor-not-allowed disabled:opacity-50">
               Get in Touch
             </button>
           </Link>

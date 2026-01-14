@@ -19,10 +19,11 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>(
           "focus:ring-warmth focus:ring-2 focus:ring-offset-2 focus:outline-none",
           "disabled:cursor-not-allowed disabled:opacity-50",
           {
-            "bg-warmth hover:bg-earth text-white shadow-sm":
+            "bg-warmth hover:bg-earth text-graphite shadow-sm":
               variant === "primary",
-            "bg-charcoal hover:bg-graphite text-white": variant === "secondary",
-            "border-charcoal text-charcoal hover:bg-charcoal border-2 hover:text-white":
+            "bg-charcoal hover:bg-graphite text-graphite":
+              variant === "secondary",
+            "border-charcoal text-charcoal hover:bg-charcoal hover:text-graphite border-2":
               variant === "outline",
             "text-charcoal hover:bg-sand": variant === "ghost",
           },

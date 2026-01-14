@@ -206,7 +206,7 @@ export default function AboutPage() {
       </Section>
 
       {/* Team Section */}
-      <Section className="bg-charcoal text-white">
+      <Section className="bg-charcoal text-graphite">
         <div className="mx-auto max-w-4xl text-center">
           <h2 className="font-heading mb-8 text-3xl md:text-4xl lg:text-5xl">
             Meet the Team
@@ -259,7 +259,7 @@ export default function AboutPage() {
               <Button
                 variant="outline"
                 size="lg"
-                className="hover:text-charcoal border-white text-white hover:bg-white"
+                className="hover:text-charcoal text-graphite border-white hover:bg-white"
               >
                 See Full Team
               </Button>
@@ -269,7 +269,7 @@ export default function AboutPage() {
       </Section>
 
       {/* CTA Section */}
-      <Section className="bg-warmth text-white">
+      <Section className="bg-warmth text-graphite">
         <div className="mx-auto max-w-3xl text-center">
           <h2 className="font-heading mb-6 text-3xl md:text-4xl">
             Ready to Be Part of This?
@@ -292,7 +292,7 @@ export default function AboutPage() {
               <Button
                 size="lg"
                 variant="outline"
-                className="hover:text-warmth w-full border-white text-white hover:bg-white sm:w-auto"
+                className="hover:text-warmth text-graphite w-full border-white hover:bg-white sm:w-auto"
               >
                 Get in Touch
               </Button>

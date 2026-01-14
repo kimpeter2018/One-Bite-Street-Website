@@ -86,7 +86,7 @@ export default function VenturePage({ params }: { params: { slug: string } }) {
                 }}
               >
                 <div className="flex items-start gap-4">
-                  <div className="bg-warmth flex h-8 w-8 shrink-0 items-center justify-center rounded-full text-sm font-bold text-white">
+                  <div className="bg-warmth text-graphite flex h-8 w-8 shrink-0 items-center justify-center rounded-full text-sm font-bold">
                     {index + 1}
                   </div>
                   <p className="text-graphite text-lg leading-relaxed">
@@ -269,7 +269,7 @@ export default function VenturePage({ params }: { params: { slug: string } }) {
       </Section>
 
       {/* CTA */}
-      <Section className="bg-warmth text-white">
+      <Section className="bg-warmth text-graphite">
         <div className="mx-auto max-w-3xl text-center">
           <h2 className="font-heading mb-6 text-3xl md:text-4xl">
             Interested in Working Together?
@@ -293,7 +293,7 @@ export default function VenturePage({ params }: { params: { slug: string } }) {
               <Button
                 size="lg"
                 variant="outline"
-                className="hover:text-warmth w-full border-white text-white hover:bg-white sm:w-auto"
+                className="hover:text-warmth text-graphite w-full border-white hover:bg-white sm:w-auto"
               >
                 View All Ventures
               </Button>

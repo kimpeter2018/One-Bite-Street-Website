@@ -209,7 +209,7 @@ export default function HomePage() {
             {/* Simple visual representation */}
             <div className="relative">
               {/* Center - Creative Hub */}
-              <div className="bg-warmth mx-auto flex aspect-square max-w-xs flex-col items-center justify-center rounded-full p-8 text-center text-white md:p-12">
+              <div className="bg-warmth text-graphite mx-auto flex aspect-square max-w-xs flex-col items-center justify-center rounded-full p-8 text-center md:p-12">
                 <div className="mb-3 text-4xl md:text-5xl">🌱</div>
                 <h3 className="font-heading text-xl font-bold md:text-2xl">
                   Creative Hub
@@ -258,7 +258,7 @@ export default function HomePage() {
       </section>
 
       {/* Featured Projects Preview */}
-      <section className="bg-charcoal py-24 text-white md:py-32">
+      <section className="bg-charcoal text-graphite py-24 md:py-32">
         <Container>
           <div className="mb-16 text-center">
             <h2 className="font-heading mb-4 text-3xl md:text-4xl lg:text-5xl">
@@ -339,7 +339,7 @@ export default function HomePage() {
               <Button
                 variant="outline"
                 size="lg"
-                className="hover:text-charcoal border-white text-white hover:bg-white"
+                className="hover:text-charcoal text-graphite border-white hover:bg-white"
               >
                 View All Projects
               </Button>
@@ -349,7 +349,7 @@ export default function HomePage() {
       </section>
 
       {/* Stats Section */}
-      <section className="bg-warmth py-24 text-white md:py-32">
+      <section className="bg-warmth text-graphite py-24 md:py-32">
         <Container>
           <div className="grid grid-cols-2 gap-8 md:grid-cols-4 md:gap-12">
             <div className="text-center">

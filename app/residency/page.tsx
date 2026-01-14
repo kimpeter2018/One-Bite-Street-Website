@@ -39,7 +39,7 @@ export default function ResidencyPage() {
           <div className="grid gap-8 md:grid-cols-2">
             {/* Living Space */}
             <div className="bg-cream border-sand hover:border-warmth rounded-sm border-2 p-8 transition-all duration-300">
-              <div className="bg-warmth mb-6 flex h-16 w-16 items-center justify-center rounded-full text-3xl text-white">
+              <div className="bg-warmth text-graphite mb-6 flex h-16 w-16 items-center justify-center rounded-full text-3xl">
                 🏠
               </div>
               <h3 className="font-heading mb-4 text-2xl">Affordable Living</h3>
@@ -52,7 +52,7 @@ export default function ResidencyPage() {
 
             {/* Working Space */}
             <div className="bg-cream border-sand hover:border-warmth rounded-sm border-2 p-8 transition-all duration-300">
-              <div className="bg-earth mb-6 flex h-16 w-16 items-center justify-center rounded-full text-3xl text-white">
+              <div className="bg-earth text-graphite mb-6 flex h-16 w-16 items-center justify-center rounded-full text-3xl">
                 💻
               </div>
               <h3 className="font-heading mb-4 text-2xl">Co-Working Space</h3>
@@ -65,7 +65,7 @@ export default function ResidencyPage() {
 
             {/* Community */}
             <div className="bg-cream border-sand hover:border-warmth rounded-sm border-2 p-8 transition-all duration-300">
-              <div className="bg-olive mb-6 flex h-16 w-16 items-center justify-center rounded-full text-3xl text-white">
+              <div className="bg-olive text-graphite mb-6 flex h-16 w-16 items-center justify-center rounded-full text-3xl">
                 🤝
               </div>
               <h3 className="font-heading mb-4 text-2xl">Creative Community</h3>
@@ -78,7 +78,7 @@ export default function ResidencyPage() {
 
             {/* Income Opportunities */}
             <div className="bg-cream border-sand hover:border-warmth rounded-sm border-2 p-8 transition-all duration-300">
-              <div className="bg-rust mb-6 flex h-16 w-16 items-center justify-center rounded-full text-3xl text-white">
+              <div className="bg-rust text-graphite mb-6 flex h-16 w-16 items-center justify-center rounded-full text-3xl">
                 💰
               </div>
               <h3 className="font-heading mb-4 text-2xl">
@@ -104,7 +104,7 @@ export default function ResidencyPage() {
           <div className="space-y-8">
             {/* Step 1 */}
             <div className="flex items-start gap-6">
-              <div className="bg-warmth flex h-12 w-12 shrink-0 items-center justify-center rounded-full text-xl font-bold text-white">
+              <div className="bg-warmth text-graphite flex h-12 w-12 shrink-0 items-center justify-center rounded-full text-xl font-bold">
                 1
               </div>
               <div className="border-sand grow rounded-sm border-2 bg-white p-6">
@@ -120,7 +120,7 @@ export default function ResidencyPage() {
 
             {/* Step 2 */}
             <div className="flex items-start gap-6">
-              <div className="bg-earth flex h-12 w-12 shrink-0 items-center justify-center rounded-full text-xl font-bold text-white">
+              <div className="bg-earth text-graphite flex h-12 w-12 shrink-0 items-center justify-center rounded-full text-xl font-bold">
                 2
               </div>
               <div className="border-sand growded-sm border-2 bg-white p-6">
@@ -136,7 +136,7 @@ export default function ResidencyPage() {
 
             {/* Step 3 */}
             <div className="flex items-start gap-6">
-              <div className="bg-olive flex h-12 w-12 shrink-0 items-center justify-center rounded-full text-xl font-bold text-white">
+              <div className="bg-olive text-graphite flex h-12 w-12 shrink-0 items-center justify-center rounded-full text-xl font-bold">
                 3
               </div>
               <div className="border-sand grow rounded-sm border-2 bg-white p-6">
@@ -151,7 +151,7 @@ export default function ResidencyPage() {
 
             {/* Step 4 */}
             <div className="flex items-start gap-6">
-              <div className="bg-rust flex h-12 w-12 shrink-0 items-center justify-center rounded-full text-xl font-bold text-white">
+              <div className="bg-rust text-graphite flex h-12 w-12 shrink-0 items-center justify-center rounded-full text-xl font-bold">
                 4
               </div>
               <div className="border-sand grow rounded-sm border-2 bg-white p-6">
@@ -231,7 +231,7 @@ export default function ResidencyPage() {
       </Section>
 
       {/* Current Residents */}
-      <Section className="bg-charcoal text-white">
+      <Section className="bg-charcoal text-graphite">
         <div className="mx-auto max-w-6xl">
           <h2 className="font-heading mb-12 text-center text-3xl md:text-4xl">
             Meet Some Current Residents
@@ -338,7 +338,7 @@ export default function ResidencyPage() {
       </Section>
 
       {/* CTA */}
-      <Section className="bg-warmth text-white">
+      <Section className="bg-warmth text-graphite">
         <div className="mx-auto max-w-3xl text-center">
           <h2 className="font-heading mb-6 text-3xl md:text-4xl">
             Ready to Join Us?
@@ -361,7 +361,7 @@ export default function ResidencyPage() {
               <Button
                 size="lg"
                 variant="outline"
-                className="hover:text-warmth w-full border-white text-white hover:bg-white sm:w-auto"
+                className="hover:text-warmth text-graphite w-full border-white hover:bg-white sm:w-auto"
               >
                 Learn More About Us
               </Button>

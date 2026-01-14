@@ -78,7 +78,7 @@ export default function ContactPage() {
           <div className="mb-16 grid gap-8 md:grid-cols-3">
             {/* Email */}
             <div className="bg-cream border-sand hover:border-warmth rounded-sm border-2 p-8 text-center transition-colors">
-              <div className="bg-warmth mx-auto mb-6 flex h-16 w-16 items-center justify-center rounded-full text-3xl text-white">
+              <div className="bg-warmth text-graphite mx-auto mb-6 flex h-16 w-16 items-center justify-center rounded-full text-3xl">
                 ✉️
               </div>
               <h3 className="font-heading mb-3 text-xl">Email Us</h3>
@@ -95,7 +95,7 @@ export default function ContactPage() {
 
             {/* Social */}
             <div className="bg-cream border-sand hover:border-warmth rounded-sm border-2 p-8 text-center transition-colors">
-              <div className="bg-earth mx-auto mb-6 flex h-16 w-16 items-center justify-center rounded-full text-3xl text-white">
+              <div className="bg-earth text-graphite mx-auto mb-6 flex h-16 w-16 items-center justify-center rounded-full text-3xl">
                 💬
               </div>
               <h3 className="font-heading mb-3 text-xl">Follow Us</h3>
@@ -120,7 +120,7 @@ export default function ContactPage() {
 
             {/* Location */}
             <div className="bg-cream border-sand hover:border-warmth rounded-sm border-2 p-8 text-center transition-colors">
-              <div className="bg-olive mx-auto mb-6 flex h-16 w-16 items-center justify-center rounded-full text-3xl text-white">
+              <div className="bg-olive text-graphite mx-auto mb-6 flex h-16 w-16 items-center justify-center rounded-full text-3xl">
                 📍
               </div>
               <h3 className="font-heading mb-3 text-xl">Visit Us</h3>

@@ -46,16 +46,16 @@ export default function ProjectPage({ params }: { params: { slug: string } }) {
             {/* Project Meta */}
             <div className="animate-slide-up mb-6 flex flex-wrap gap-3">
               {project.featured && (
-                <span className="bg-rust rounded-full px-4 py-2 text-xs font-semibold tracking-wide text-white uppercase">
+                <span className="bg-rust text-graphite rounded-full px-4 py-2 text-xs font-semibold tracking-wide uppercase">
                   Featured Project
                 </span>
               )}
               <span
                 className={`rounded-full px-4 py-2 text-xs font-semibold tracking-wide uppercase ${
                   project.status === "completed"
-                    ? "bg-olive text-white"
+                    ? "bg-olive text-graphite"
                     : project.status === "ongoing"
-                      ? "bg-warmth text-white"
+                      ? "bg-warmth text-graphite"
                       : "bg-sand text-charcoal"
                 }`}
               >
@@ -143,7 +143,7 @@ export default function ProjectPage({ params }: { params: { slug: string } }) {
               {/* Challenge */}
               {project.challenge && (
                 <div className="border-sand rounded-sm border-2 bg-white p-8">
-                  <div className="bg-warmth mb-6 flex h-12 w-12 items-center justify-center rounded-full text-2xl text-white">
+                  <div className="bg-warmth text-graphite mb-6 flex h-12 w-12 items-center justify-center rounded-full text-2xl">
                     🎯
                   </div>
                   <h3 className="font-heading text-warmth mb-4 text-2xl">
@@ -158,7 +158,7 @@ export default function ProjectPage({ params }: { params: { slug: string } }) {
               {/* Solution */}
               {project.solution && (
                 <div className="border-sand rounded-sm border-2 bg-white p-8">
-                  <div className="bg-earth mb-6 flex h-12 w-12 items-center justify-center rounded-full text-2xl text-white">
+                  <div className="bg-earth text-graphite mb-6 flex h-12 w-12 items-center justify-center rounded-full text-2xl">
                     💡
                   </div>
                   <h3 className="font-heading text-earth mb-4 text-2xl">
@@ -173,7 +173,7 @@ export default function ProjectPage({ params }: { params: { slug: string } }) {
               {/* Outcome */}
               {project.outcome && (
                 <div className="border-sand rounded-sm border-2 bg-white p-8">
-                  <div className="bg-olive mb-6 flex h-12 w-12 items-center justify-center rounded-full text-2xl text-white">
+                  <div className="bg-olive text-graphite mb-6 flex h-12 w-12 items-center justify-center rounded-full text-2xl">
                     ✨
                   </div>
                   <h3 className="font-heading text-olive mb-4 text-2xl">
@@ -282,7 +282,7 @@ export default function ProjectPage({ params }: { params: { slug: string } }) {
       )}
 
       {/* CTA */}
-      <Section className="bg-warmth text-white">
+      <Section className="bg-warmth text-graphite">
         <div className="mx-auto max-w-3xl text-center">
           <h2 className="font-heading mb-6 text-3xl md:text-4xl">
             Have a Project in Mind?
