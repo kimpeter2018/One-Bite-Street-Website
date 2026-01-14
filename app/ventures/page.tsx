@@ -1,3 +1,4 @@
+// app/ventures/page.tsx
 import Container from "@/components/layout/Container";
 import Section from "@/components/ui/Section";
 import Link from "next/link";
@@ -10,14 +11,14 @@ export default function VenturesPage() {
       <section className="from-warmth/10 via-cream to-sand relative overflow-hidden bg-linear-to-br pt-32 pb-20">
         <Container>
           <div className="mx-auto max-w-4xl text-center">
-            <p className="text-graphite animate-fade-in mb-6 text-sm tracking-widest uppercase">
+            <p className="animate-fade-in text-graphite mb-6 text-sm tracking-widest uppercase">
               What We Do
             </p>
-            <h1 className="font-display text-charcoal animate-slide-up mb-8 text-5xl md:text-6xl lg:text-7xl">
+            <h1 className="animate-slide-up font-display text-charcoal mb-8 text-5xl md:text-6xl lg:text-7xl">
               Our Ventures
             </h1>
             <p
-              className="text-graphite animate-slide-up mx-auto max-w-3xl text-xl leading-relaxed md:text-2xl"
+              className="animate-slide-up text-graphite mx-auto max-w-3xl text-xl leading-relaxed md:text-2xl"
               style={{ animationDelay: "0.1s" }}
             >
               Five interconnected ventures working together to create a
@@ -38,7 +39,7 @@ export default function VenturesPage() {
             Each venture supports and strengthens the others. Revenue from our
             hospitality ventures funds the Creative Hub. Creators from the Hub
             contribute to our cafés, restaurants, and festivals. Together,
-            wed&apos;re building something thatd&apos;s greater than the sum of
+            we&apos;re building something that&apos;s greater than the sum of
             its parts.
           </p>
         </div>
@@ -56,7 +57,7 @@ export default function VenturesPage() {
                 opacity: 0,
               }}
             >
-              <div className="bg-cream border-sand hover:border-warmth flex h-full flex-col overflow-hidden rounded-sm border-2 transition-all duration-300 hover:shadow-xl">
+              <div className="border-sand bg-cream hover:border-warmth flex h-full flex-col overflow-hidden rounded-sm border-2 transition-all duration-300 hover:shadow-xl">
                 {/* Icon Section */}
                 <div className="border-sand group-hover:bg-warmth/5 flex items-center justify-center border-b-2 bg-white p-8 transition-colors">
                   <div className="transform text-7xl transition-transform duration-300 group-hover:scale-110">
@@ -76,7 +77,7 @@ export default function VenturesPage() {
                     {venture.title}
                   </h3>
 
-                  <p className="text-earth font-heading mb-4 text-lg">
+                  <p className="font-heading text-earth mb-4 text-lg">
                     {venture.tagline}
                   </p>
 
@@ -108,7 +109,7 @@ export default function VenturesPage() {
       </Section>
 
       {/* How It Works */}
-      <Section className="bg-charcoal text-graphite">
+      <Section className="bg-charcoal text-white">
         <div className="mx-auto max-w-6xl">
           <h2 className="font-heading mb-16 text-center text-3xl md:text-4xl lg:text-5xl">
             How The Ecosystem Works
@@ -164,42 +165,42 @@ export default function VenturesPage() {
       <Section className="bg-cream">
         <div className="mx-auto max-w-4xl text-center">
           <h2 className="font-heading mb-12 text-3xl md:text-4xl">
-            The Impact Wed&apos;re Creating
+            The Impact We&apos;re Creating
           </h2>
 
           <div className="mb-12 grid gap-8 sm:grid-cols-2">
             <div className="border-sand rounded-sm border-2 bg-white p-8">
-              <div className="text-warmth font-display mb-2 text-4xl font-bold">
+              <div className="font-display text-warmth mb-2 text-4xl font-bold">
                 50+
               </div>
-              <p className="text-graphite font-heading">
+              <p className="font-heading text-graphite">
                 Vendors & Creators Supported
               </p>
             </div>
 
             <div className="border-sand rounded-sm border-2 bg-white p-8">
-              <div className="text-earth font-display mb-2 text-4xl font-bold">
+              <div className="font-display text-earth mb-2 text-4xl font-bold">
                 12+
               </div>
-              <p className="text-graphite font-heading">
+              <p className="font-heading text-graphite">
                 Successful Projects Launched
               </p>
             </div>
 
             <div className="border-sand rounded-sm border-2 bg-white p-8">
-              <div className="text-olive font-display mb-2 text-4xl font-bold">
+              <div className="font-display text-olive mb-2 text-4xl font-bold">
                 5k+
               </div>
-              <p className="text-graphite font-heading">
+              <p className="font-heading text-graphite">
                 Community Members Engaged
               </p>
             </div>
 
             <div className="border-sand rounded-sm border-2 bg-white p-8">
-              <div className="text-rust font-display mb-2 text-4xl font-bold">
+              <div className="font-display text-rust mb-2 text-4xl font-bold">
                 100%
               </div>
-              <p className="text-graphite font-heading">
+              <p className="font-heading text-graphite">
                 Commitment to Our Mission
               </p>
             </div>
@@ -208,7 +209,7 @@ export default function VenturesPage() {
           <p className="text-graphite text-lg leading-relaxed">
             These numbers tell part of the story, but the real impact is in the
             lives changed, the connections made, and the creative work
-            thatd&apos;s now possible because of this ecosystem.
+            that&apos;s now possible because of this ecosystem.
           </p>
         </div>
       </Section>
@@ -220,18 +221,18 @@ export default function VenturesPage() {
             Want to Be Part of This?
           </h2>
           <p className="text-graphite mb-8 text-lg leading-relaxed">
-            Whether youd&apos;re interested in partnering on a venture,
+            Whether you&apos;re interested in partnering on a venture,
             participating as a creator, or simply learning more about what we
-            do—wed&apos;d love to hear from you.
+            do—we&apos;d love to hear from you.
           </p>
           <div className="flex flex-col justify-center gap-4 sm:flex-row">
             <Link href="/residency">
-              <button className="focus:ring-warmth bg-warmth hover:bg-earth text-graphite inline-flex w-full items-center justify-center rounded-sm px-8 py-4 text-lg font-medium shadow-sm transition-all duration-200 focus:ring-2 focus:ring-offset-2 focus:outline-none disabled:cursor-not-allowed disabled:opacity-50 sm:w-auto">
+              <button className="bg-warmth hover:bg-earth focus:ring-warmth inline-flex w-full items-center justify-center rounded-sm px-8 py-4 text-lg font-medium text-white shadow-sm transition-all duration-200 focus:ring-2 focus:ring-offset-2 focus:outline-none disabled:cursor-not-allowed disabled:opacity-50 sm:w-auto">
                 Apply for Residency
               </button>
             </Link>
             <Link href="/contact">
-              <button className="focus:ring-warmth border-charcoal text-charcoal hover:bg-charcoal hover:text-graphite inline-flex w-full items-center justify-center rounded-sm border-2 px-8 py-4 text-lg font-medium transition-all duration-200 focus:ring-2 focus:ring-offset-2 focus:outline-none disabled:cursor-not-allowed disabled:opacity-50 sm:w-auto">
+              <button className="border-charcoal text-charcoal hover:bg-charcoal focus:ring-warmth inline-flex w-full items-center justify-center rounded-sm border-2 px-8 py-4 text-lg font-medium transition-all duration-200 hover:text-white focus:ring-2 focus:ring-offset-2 focus:outline-none disabled:cursor-not-allowed disabled:opacity-50 sm:w-auto">
                 Get in Touch
               </button>
             </Link>

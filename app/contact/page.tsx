@@ -1,3 +1,4 @@
+/* eslint-disable @next/next/no-html-link-for-pages */
 // app/contact/page.tsx
 "use client";
 
@@ -282,7 +283,7 @@ export default function ContactPage() {
                 Explore our consulting services.
               </p>
               <a
-                href="/ventures/fb-consulting"
+                href="/ventures/consulting"
                 className="text-warmth hover:text-earth inline-flex items-center gap-2 font-medium transition-colors"
               >
                 View Consulting Services
