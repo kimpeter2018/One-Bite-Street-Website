@@ -1,305 +1,324 @@
-import Container from "@/components/layout/Container";
-import Section from "@/components/ui/Section";
-import Button from "@/components/ui/Button";
 import Link from "next/link";
+import Button from "@/components/ui/Button";
 
 export default function AboutPage() {
   return (
     <>
       {/* Hero Section */}
-      <section className="from-cream via-sand to-olive/20 relative overflow-hidden bg-linear-to-br pt-32 pb-20">
-        <Container>
+      <section className="from-surface via-accent/10 relative overflow-hidden bg-gradient-to-br to-white pt-32 pb-20">
+        <div className="container mx-auto px-4">
           <div className="mx-auto max-w-4xl text-center">
-            <p className="text-graphite animate-fade-in mb-6 text-sm tracking-widest uppercase">
+            <p className="text-text-secondary animate-fade-in mb-6 text-sm tracking-widest uppercase">
               Our Story
             </p>
-            <h1 className="font-display text-charcoal animate-slide-up mb-8 text-5xl md:text-6xl lg:text-7xl">
-              BE HUMAN
+            <h1 className="font-display text-text-primary animate-slide-up mb-8 text-5xl md:text-6xl lg:text-7xl">
+              About OneBite Street
             </h1>
             <p
-              className="text-graphite animate-slide-up text-xl leading-relaxed md:text-2xl"
+              className="text-text-secondary animate-slide-up text-xl leading-relaxed md:text-2xl"
               style={{ animationDelay: "0.1s" }}
             >
-              One Bite Street is more than a business—it&apos;s a philosophy, a
-              movement, and a commitment to creating spaces where humanity
-              thrives.
+              We&apos;re passionate about creating food festivals that celebrate
+              local talent, bring communities together, and make great food
+              accessible to everyone.
             </p>
           </div>
-        </Container>
+        </div>
       </section>
 
-      {/* Philosophy Section */}
-      <Section className="bg-white">
-        <div className="mx-auto max-w-4xl">
-          <h2 className="font-heading mb-12 text-center text-3xl md:text-4xl lg:text-5xl">
-            Our Philosophy
-          </h2>
-
-          <div className="space-y-8 text-lg leading-relaxed">
-            <div className="border-warmth border-l-4 py-4 pl-8">
-              <h3 className="font-heading text-warmth mb-4 text-2xl">
-                Be Human
-              </h3>
-              <p className="text-graphite">
-                True humanity is found in{" "}
-                <span className="text-charcoal font-semibold">
-                  co-existence
-                </span>
-                —sharing spaces, ideas, creativity, and daily life. We believe
-                that when people come together without barriers, magic happens.
-                Creativity flows. Communities form. Life becomes richer.
+      {/* Our Mission */}
+      <section className="bg-white py-24 md:py-32">
+        <div className="container mx-auto px-4">
+          <div className="mx-auto max-w-4xl">
+            <h2 className="font-heading text-text-primary mb-8 text-center text-3xl md:text-4xl lg:text-5xl">
+              Our Mission
+            </h2>
+            <div className="text-text-secondary space-y-6 text-lg leading-relaxed">
+              <p>
+                OneBite Street was founded with a simple belief: food has the
+                power to bring people together. In a world that often feels
+                disconnected, we create spaces where communities can gather,
+                discover new flavors, and celebrate the creativity of local food
+                vendors.
               </p>
-            </div>
-
-            <div className="border-earth border-l-4 py-4 pl-8">
-              <h3 className="font-heading text-earth mb-4 text-2xl">
-                One Bite at a Time
-              </h3>
-              <p className="text-graphite">
-                <span className="text-charcoal font-semibold">
-                  &quot;One Bite&quot;
-                </span>{" "}
-                represents something light, simple, and meaningful. Small
-                opportunities for creators. Warm, enjoyable experiences for
-                guests. Sustainable steps toward a bigger vision. We&apos;re
-                building this ecosystem one thoughtful bite at a time.
+              <p>
+                Our festivals are more than just events—they&apos;re
+                celebrations of culinary diversity, platforms for emerging food
+                entrepreneurs, and gathering places for food lovers from all
+                walks of life.
               </p>
-            </div>
-
-            <div className="border-olive border-l-4 py-4 pl-8">
-              <h3 className="font-heading text-olive mb-4 text-2xl">
-                The Sustainable Creator Ecosystem
-              </h3>
-              <p className="text-graphite">
-                We&apos;re creating a world where creators can focus on their
-                craft without excessive financial pressure. By integrating
-                hospitality ventures with creative spaces, we&apos;ve designed a
-                self-sustaining model: revenue from cafés, restaurants, hotels,
-                and festivals supports the Creative Hub, allowing artists to
-                live, work, and collaborate in one shared environment.
+              <p>
+                We&apos;re committed to supporting local food businesses by
+                providing them with opportunities to showcase their work,
+                connect with customers, and grow their brands in a supportive,
+                well-organized environment.
               </p>
             </div>
           </div>
         </div>
-      </Section>
+      </section>
 
-      {/* Mission & Values */}
-      <Section className="bg-cream">
-        <div className="mx-auto max-w-6xl">
-          <h2 className="font-heading mb-16 text-center text-3xl md:text-4xl lg:text-5xl">
-            What Drives Us
-          </h2>
+      {/* Our Values */}
+      <section className="bg-surface py-24 md:py-32">
+        <div className="container mx-auto px-4">
+          <div className="mx-auto max-w-6xl">
+            <h2 className="font-heading text-text-primary mb-16 text-center text-3xl md:text-4xl lg:text-5xl">
+              Our Values
+            </h2>
 
-          <div className="grid gap-8 md:grid-cols-3">
-            <div className="border-sand hover:border-warmth rounded-sm border-2 bg-white p-8 transition-all duration-300">
-              <div className="mb-6 text-5xl">🤝</div>
-              <h3 className="font-heading mb-4 text-xl">Community First</h3>
-              <p className="text-graphite leading-relaxed">
-                Every decision we make prioritizes the wellbeing and growth of
-                our community. We&apos;re building spaces where people genuinely
-                want to spend time.
-              </p>
-            </div>
-
-            <div className="border-sand hover:border-warmth rounded-sm border-2 bg-white p-8 transition-all duration-300">
-              <div className="mb-6 text-5xl">🌱</div>
-              <h3 className="font-heading mb-4 text-xl">Sustainable Growth</h3>
-              <p className="text-graphite leading-relaxed">
-                We grow organically, never sacrificing quality or values for
-                speed. Every venture is designed to support the ecosystem
-                long-term.
-              </p>
-            </div>
-
-            <div className="border-sand hover:border-warmth rounded-sm border-2 bg-white p-8 transition-all duration-300">
-              <div className="mb-6 text-5xl">✨</div>
-              <h3 className="font-heading mb-4 text-xl">Creative Excellence</h3>
-              <p className="text-graphite leading-relaxed">
-                We celebrate creativity in all forms—from culinary arts to
-                design, from events to experiences. Excellence isn&apos;t just a
-                goal; it&apos;s our standard.
-              </p>
-            </div>
-          </div>
-        </div>
-      </Section>
-
-      {/* The Journey */}
-      <Section className="bg-white">
-        <div className="mx-auto max-w-4xl">
-          <h2 className="font-heading mb-16 text-center text-3xl md:text-4xl lg:text-5xl">
-            Our Journey
-          </h2>
-
-          <div className="relative">
-            {/* Timeline line */}
-            <div className="bg-sand absolute top-0 bottom-0 left-8 hidden w-0.5 md:block" />
-
-            <div className="space-y-12">
-              {/* Timeline Item 1 */}
-              <div className="relative pl-0 md:pl-20">
-                <div className="bg-warmth absolute top-2 left-5 hidden h-6 w-6 rounded-full border-4 border-white md:block" />
-                <div className="bg-cream border-sand rounded-sm border-2 p-8">
-                  <p className="text-warmth mb-2 text-sm font-semibold">2022</p>
-                  <h3 className="font-heading mb-4 text-2xl">The Spark</h3>
-                  <p className="text-graphite leading-relaxed">
-                    One Bite Street began as a conversation between friends
-                    frustrated by the challenges facing creators—high living
-                    costs, lack of sustainable income, isolation. We asked
-                    ourselves: what if we could create a different model?
-                  </p>
-                </div>
+            <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
+              {/* Value 1 */}
+              <div className="border-border hover:border-primary rounded-lg border-2 bg-white p-8 transition-all hover:shadow-lg">
+                <div className="mb-6 text-5xl">🤝</div>
+                <h3 className="font-heading text-text-primary mb-4 text-xl">
+                  Community First
+                </h3>
+                <p className="text-text-secondary leading-relaxed">
+                  We prioritize the wellbeing and success of our vendors,
+                  attendees, and the local communities we serve.
+                </p>
               </div>
 
-              {/* Timeline Item 2 */}
-              <div className="relative pl-0 md:pl-20">
-                <div className="bg-earth absolute top-2 left-5 hidden h-6 w-6 rounded-full border-4 border-white md:block" />
-                <div className="bg-cream border-sand rounded-sm border-2 p-8">
-                  <p className="text-earth mb-2 text-sm font-semibold">2023</p>
-                  <h3 className="font-heading mb-4 text-2xl">First Ventures</h3>
-                  <p className="text-graphite leading-relaxed">
-                    We launched our first food festival, bringing together 50+
-                    local vendors and thousands of visitors. The response was
-                    overwhelming. People were hungry—not just for good food, but
-                    for genuine connection and community.
-                  </p>
-                </div>
+              {/* Value 2 */}
+              <div className="border-border hover:border-primary rounded-lg border-2 bg-white p-8 transition-all hover:shadow-lg">
+                <div className="mb-6 text-5xl">✨</div>
+                <h3 className="font-heading text-text-primary mb-4 text-xl">
+                  Quality & Excellence
+                </h3>
+                <p className="text-text-secondary leading-relaxed">
+                  We carefully curate every aspect of our festivals to ensure
+                  the highest quality experience for everyone involved.
+                </p>
               </div>
 
-              {/* Timeline Item 3 */}
-              <div className="relative pl-0 md:pl-20">
-                <div className="bg-olive absolute top-2 left-5 hidden h-6 w-6 rounded-full border-4 border-white md:block" />
-                <div className="bg-cream border-sand rounded-sm border-2 p-8">
-                  <p className="text-olive mb-2 text-sm font-semibold">2024</p>
-                  <h3 className="font-heading mb-4 text-2xl">
-                    Expanding the Ecosystem
-                  </h3>
-                  <p className="text-graphite leading-relaxed">
-                    With successful festivals under our belt and café concepts
-                    in development, we&apos;re now building toward our flagship
-                    vision: the Creative Hub. A place where creators can truly
-                    thrive, supported by a self-sustaining hospitality
-                    ecosystem.
-                  </p>
-                </div>
+              {/* Value 3 */}
+              <div className="border-border hover:border-primary rounded-lg border-2 bg-white p-8 transition-all hover:shadow-lg">
+                <div className="mb-6 text-5xl">🌍</div>
+                <h3 className="font-heading text-text-primary mb-4 text-xl">
+                  Sustainability
+                </h3>
+                <p className="text-text-secondary leading-relaxed">
+                  We&apos;re committed to minimizing environmental impact
+                  through sustainable practices and responsible event
+                  management.
+                </p>
               </div>
 
-              {/* Timeline Item 4 */}
-              <div className="relative pl-0 md:pl-20">
-                <div className="bg-warmth absolute top-2 left-5 hidden h-6 w-6 rounded-full border-4 border-white md:block" />
-                <div className="bg-cream border-sand rounded-sm border-2 p-8">
-                  <p className="text-warmth mb-2 text-sm font-semibold">
-                    2025 & Beyond
-                  </p>
-                  <h3 className="font-heading mb-4 text-2xl">The Future</h3>
-                  <p className="text-graphite leading-relaxed">
-                    We&apos;re just getting started. With each venture, each
-                    partnership, each creator who joins our community,
-                    we&apos;re proving that a more human way of working and
-                    living is possible. Join us on this journey.
-                  </p>
-                </div>
+              {/* Value 4 */}
+              <div className="border-border hover:border-primary rounded-lg border-2 bg-white p-8 transition-all hover:shadow-lg">
+                <div className="mb-6 text-5xl">🎨</div>
+                <h3 className="font-heading text-text-primary mb-4 text-xl">
+                  Diversity & Inclusion
+                </h3>
+                <p className="text-text-secondary leading-relaxed">
+                  We celebrate culinary diversity and create inclusive spaces
+                  where everyone feels welcome.
+                </p>
+              </div>
+
+              {/* Value 5 */}
+              <div className="border-border hover:border-primary rounded-lg border-2 bg-white p-8 transition-all hover:shadow-lg">
+                <div className="mb-6 text-5xl">💡</div>
+                <h3 className="font-heading text-text-primary mb-4 text-xl">
+                  Innovation
+                </h3>
+                <p className="text-text-secondary leading-relaxed">
+                  We constantly evolve and improve, finding new ways to create
+                  memorable festival experiences.
+                </p>
+              </div>
+
+              {/* Value 6 */}
+              <div className="border-border hover:border-primary rounded-lg border-2 bg-white p-8 transition-all hover:shadow-lg">
+                <div className="mb-6 text-5xl">❤️</div>
+                <h3 className="font-heading text-text-primary mb-4 text-xl">
+                  Passion
+                </h3>
+                <p className="text-text-secondary leading-relaxed">
+                  We genuinely love what we do and it shows in every festival we
+                  organize.
+                </p>
               </div>
             </div>
           </div>
         </div>
-      </Section>
+      </section>
 
-      {/* Team Section */}
-      <Section className="bg-charcoal text-graphite">
-        <div className="mx-auto max-w-4xl text-center">
-          <h2 className="font-heading mb-8 text-3xl md:text-4xl lg:text-5xl">
-            Meet the Team
-          </h2>
-          <p className="text-sand mb-12 text-xl leading-relaxed">
-            We&apos;re a diverse group of hospitality professionals, creatives,
-            designers, and community builders united by a shared vision.
-          </p>
+      {/* The Team */}
+      <section className="bg-white py-24 md:py-32">
+        <div className="container mx-auto px-4">
+          <div className="mx-auto max-w-4xl">
+            <h2 className="font-heading text-text-primary mb-8 text-center text-3xl md:text-4xl lg:text-5xl">
+              Meet the Team
+            </h2>
+            <p className="text-text-secondary mb-16 text-center text-lg">
+              We&apos;re a passionate group of food lovers, event organizers,
+              and community builders dedicated to creating unforgettable
+              festival experiences.
+            </p>
 
-          <div className="mt-12 grid gap-8 md:grid-cols-3">
-            {/* Team Member 1 */}
-            <div className="text-center">
-              <div className="bg-graphite mx-auto mb-4 flex h-32 w-32 items-center justify-center rounded-full text-6xl">
-                👤
+            <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
+              {/* Team Member 1 */}
+              <div className="text-center">
+                <div className="bg-surface mx-auto mb-4 flex h-32 w-32 items-center justify-center rounded-full text-6xl">
+                  👤
+                </div>
+                <h3 className="font-heading text-text-primary mb-2 text-xl">
+                  Team Member
+                </h3>
+                <p className="text-primary mb-3 text-sm font-semibold">
+                  Founder
+                </p>
+                <p className="text-text-secondary text-sm">
+                  Passionate about bringing people together through food and
+                  community events.
+                </p>
               </div>
-              <h3 className="font-heading mb-2 text-xl">Team Member</h3>
-              <p className="text-warmth mb-3 text-sm">Co-Founder</p>
-              <p className="text-sand text-sm">
-                Passionate about creating spaces where community thrives
-              </p>
-            </div>
 
-            {/* Team Member 2 */}
-            <div className="text-center">
-              <div className="bg-graphite mx-auto mb-4 flex h-32 w-32 items-center justify-center rounded-full text-6xl">
-                👤
+              {/* Team Member 2 */}
+              <div className="text-center">
+                <div className="bg-surface mx-auto mb-4 flex h-32 w-32 items-center justify-center rounded-full text-6xl">
+                  👤
+                </div>
+                <h3 className="font-heading text-text-primary mb-2 text-xl">
+                  Team Member
+                </h3>
+                <p className="text-primary mb-3 text-sm font-semibold">
+                  Operations Lead
+                </p>
+                <p className="text-text-secondary text-sm">
+                  Ensures every festival runs smoothly from start to finish.
+                </p>
               </div>
-              <h3 className="font-heading mb-2 text-xl">Team Member</h3>
-              <p className="text-warmth mb-3 text-sm">Co-Founder</p>
-              <p className="text-sand text-sm">
-                Bringing culinary expertise and creative vision
-              </p>
-            </div>
 
-            {/* Team Member 3 */}
-            <div className="text-center">
-              <div className="bg-graphite mx-auto mb-4 flex h-32 w-32 items-center justify-center rounded-full text-6xl">
-                👤
+              {/* Team Member 3 */}
+              <div className="text-center">
+                <div className="bg-surface mx-auto mb-4 flex h-32 w-32 items-center justify-center rounded-full text-6xl">
+                  👤
+                </div>
+                <h3 className="font-heading text-text-primary mb-2 text-xl">
+                  Team Member
+                </h3>
+                <p className="text-primary mb-3 text-sm font-semibold">
+                  Vendor Relations
+                </p>
+                <p className="text-text-secondary text-sm">
+                  Works closely with vendors to support their success at our
+                  events.
+                </p>
               </div>
-              <h3 className="font-heading mb-2 text-xl">Team Member</h3>
-              <p className="text-warmth mb-3 text-sm">Operations Lead</p>
-              <p className="text-sand text-sm">
-                Making the magic happen behind the scenes
-              </p>
             </div>
-          </div>
-
-          <div className="mt-16">
-            <Link href="/about/team">
-              <Button
-                variant="outline"
-                size="lg"
-                className="hover:text-charcoal text-graphite border-white hover:bg-white"
-              >
-                See Full Team
-              </Button>
-            </Link>
           </div>
         </div>
-      </Section>
+      </section>
+
+      {/* Our Journey */}
+      <section className="bg-surface py-24 md:py-32">
+        <div className="container mx-auto px-4">
+          <div className="mx-auto max-w-4xl">
+            <h2 className="font-heading text-text-primary mb-16 text-center text-3xl md:text-4xl lg:text-5xl">
+              Our Journey
+            </h2>
+
+            <div className="relative">
+              {/* Timeline line */}
+              <div className="border-border absolute top-0 bottom-0 left-8 hidden w-0.5 border-l-2 md:block" />
+
+              <div className="space-y-12">
+                {/* Timeline Item 1 */}
+                <div className="relative pl-0 md:pl-20">
+                  <div className="bg-primary absolute top-2 left-5 hidden h-6 w-6 rounded-full border-4 border-white md:block" />
+                  <div className="border-border rounded-lg border-2 bg-white p-8">
+                    <p className="text-primary mb-2 text-sm font-semibold">
+                      The Beginning
+                    </p>
+                    <h3 className="font-heading text-text-primary mb-4 text-2xl">
+                      The Idea
+                    </h3>
+                    <p className="text-text-secondary leading-relaxed">
+                      OneBite Street started with a simple observation: our
+                      community needed more spaces where people could gather,
+                      discover local food, and connect with each other.
+                    </p>
+                  </div>
+                </div>
+
+                {/* Timeline Item 2 */}
+                <div className="relative pl-0 md:pl-20">
+                  <div className="bg-primary absolute top-2 left-5 hidden h-6 w-6 rounded-full border-4 border-white md:block" />
+                  <div className="border-border rounded-lg border-2 bg-white p-8">
+                    <p className="text-primary mb-2 text-sm font-semibold">
+                      First Steps
+                    </p>
+                    <h3 className="font-heading text-text-primary mb-4 text-2xl">
+                      Our First Festival
+                    </h3>
+                    <p className="text-text-secondary leading-relaxed">
+                      We launched our first food festival, bringing together
+                      local vendors and creating an experience that exceeded our
+                      expectations. The community response was overwhelming.
+                    </p>
+                  </div>
+                </div>
+
+                {/* Timeline Item 3 */}
+                <div className="relative pl-0 md:pl-20">
+                  <div className="bg-primary absolute top-2 left-5 hidden h-6 w-6 rounded-full border-4 border-white md:block" />
+                  <div className="border-border rounded-lg border-2 bg-white p-8">
+                    <p className="text-primary mb-2 text-sm font-semibold">
+                      Today
+                    </p>
+                    <h3 className="font-heading text-text-primary mb-4 text-2xl">
+                      Growing Together
+                    </h3>
+                    <p className="text-text-secondary leading-relaxed">
+                      We continue to grow and evolve, always staying true to our
+                      mission of bringing communities together through
+                      exceptional food festival experiences.
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
 
       {/* CTA Section */}
-      <Section className="bg-warmth text-graphite">
-        <div className="mx-auto max-w-3xl text-center">
-          <h2 className="font-heading mb-6 text-3xl md:text-4xl">
-            Ready to Be Part of This?
-          </h2>
-          <p className="mb-8 text-lg leading-relaxed opacity-90">
-            Whether you&apos;re a creator, a partner, or someone who believes in
-            what we&apos;re building, we&apos;d love to hear from you.
-          </p>
-          <div className="flex flex-col justify-center gap-4 sm:flex-row">
-            <Link href="/residency">
-              <Button
-                size="lg"
-                variant="secondary"
-                className="w-full sm:w-auto"
-              >
-                Apply for Residency
-              </Button>
-            </Link>
-            <Link href="/contact">
-              <Button
-                size="lg"
-                variant="outline"
-                className="hover:text-warmth text-graphite w-full border-white hover:bg-white sm:w-auto"
-              >
-                Get in Touch
-              </Button>
-            </Link>
+      <section className="bg-primary text-text-inverse py-24 md:py-32">
+        <div className="container mx-auto px-4">
+          <div className="mx-auto max-w-3xl text-center">
+            <h2 className="font-heading mb-6 text-3xl md:text-4xl">
+              Want to Work With Us?
+            </h2>
+            <p className="mb-8 text-lg leading-relaxed opacity-90">
+              Whether you&apos;re interested in becoming a vendor, partnering on
+              an event, or simply learning more about what we do—we&apos;d love
+              to hear from you.
+            </p>
+            <div className="flex flex-col justify-center gap-4 sm:flex-row">
+              <Link href="/contact">
+                <Button
+                  size="lg"
+                  variant="secondary"
+                  className="w-full sm:w-auto"
+                >
+                  Get in Touch
+                </Button>
+              </Link>
+              <Link href="/">
+                <Button
+                  size="lg"
+                  variant="outline"
+                  className="text-text-inverse hover:text-primary w-full border-white hover:bg-white sm:w-auto"
+                >
+                  Back to Home
+                </Button>
+              </Link>
+            </div>
           </div>
         </div>
-      </Section>
+      </section>
     </>
   );
 }

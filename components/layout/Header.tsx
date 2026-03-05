@@ -2,8 +2,6 @@
 
 import { useState, useEffect } from "react";
 import Link from "next/link";
-import { cn } from "@/lib/utils";
-import Container from "./Container";
 
 export default function Header() {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -19,29 +17,22 @@ export default function Header() {
 
   const navigation = [
     { name: "About", href: "/about" },
-    { name: "Ventures", href: "/ventures" },
-    { name: "Projects", href: "/projects" },
-    { name: "Residency", href: "/residency" },
-    { name: "Journal", href: "/journal" },
     { name: "Contact", href: "/contact" },
   ];
 
   return (
     <header
-      className={cn(
-        "fixed top-0 right-0 left-0 z-50 transition-all duration-300",
-        isScrolled
-          ? "bg-white/80 shadow-sm backdrop-blur-md"
-          : "bg-transparent",
-      )}
+      className={`fixed top-0 right-0 left-0 z-50 transition-all duration-300 ${
+        isScrolled ? "bg-white/90 shadow-md backdrop-blur-md" : "bg-transparent"
+      }`}
     >
-      <Container>
+      <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <nav className="flex items-center justify-between py-6">
           <Link
             href="/"
-            className="font-heading text-charcoal hover:text-warmth text-2xl font-bold transition-colors"
+            className="font-heading text-text-primary hover:text-primary text-2xl font-bold transition-colors"
           >
-            One Bite Street
+            OneBite Street
           </Link>
 
           {/* Desktop Navigation */}
@@ -50,7 +41,7 @@ export default function Header() {
               <li key={item.name}>
                 <Link
                   href={item.href}
-                  className="text-graphite hover:text-warmth text-sm font-medium transition-colors"
+                  className="text-text-secondary hover:text-primary text-sm font-medium transition-colors"
                 >
                   {item.name}
                 </Link>
@@ -60,7 +51,7 @@ export default function Header() {
 
           {/* Mobile Menu Button */}
           <button
-            className="text-charcoal md:hidden"
+            className="text-text-primary md:hidden"
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
             aria-label="Toggle menu"
           >
@@ -97,7 +88,7 @@ export default function Header() {
                 <li key={item.name}>
                   <Link
                     href={item.href}
-                    className="text-graphite hover:text-warmth block text-base font-medium transition-colors"
+                    className="text-text-secondary hover:text-primary block text-base font-medium transition-colors"
                     onClick={() => setMobileMenuOpen(false)}
                   >
                     {item.name}
@@ -107,7 +98,7 @@ export default function Header() {
             </ul>
           </div>
         )}
-      </Container>
+      </div>
     </header>
   );
 }
