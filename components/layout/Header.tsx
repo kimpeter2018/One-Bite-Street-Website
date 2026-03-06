@@ -32,7 +32,7 @@ export default function Header() {
             href="/"
             className="font-heading text-text-primary hover:text-primary text-2xl font-bold transition-colors"
           >
-            OneBite Street
+            One Bite Street
           </Link>
 
           {/* Desktop Navigation */}
