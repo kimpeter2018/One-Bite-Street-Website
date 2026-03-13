@@ -5,76 +5,17 @@ import { useState, useEffect } from "react";
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 
-interface InquiryPath {
-  id: string;
-  emoji: string;
-  title: string;
-  description: string;
-  href?: string;
-  isForm?: boolean;
+interface FormData {
+  name: string;
+  email: string;
+  subject: string;
+  message: string;
 }
 
-// ─── Data ─────────────────────────────────────────────────────────────────────
-
-const INQUIRY_PATHS: InquiryPath[] = [
-  {
-    id: "vendor",
-    emoji: "🍜",
-    title: "Become a Vendor",
-    description:
-      "Want to bring your food to one of our festivals? Tell us about what you make.",
-    isForm: true,
-  },
-  {
-    id: "partner",
-    emoji: "🤝",
-    title: "Partner With Us",
-    description:
-      "Venues, sponsors, collaborators — if you think there&apos;s something to build together, let&apos;s talk.",
-    isForm: true,
-  },
-  {
-    id: "consulting",
-    emoji: "💡",
-    title: "F&amp;B Consulting",
-    description:
-      "Need help shaping a restaurant concept, tightening your operations, or finding your identity?",
-    isForm: true,
-  },
-  {
-    id: "residency",
-    emoji: "🏠",
-    title: "Creative Residency",
-    description:
-      "Looking for space to live, work, and create alongside others? We&apos;re building it.",
-    href: "/ventures/spaces",
-  },
-  {
-    id: "press",
-    emoji: "📰",
-    title: "Press &amp; Media",
-    description:
-      "Writing about us? We&apos;d love to help. Reach out directly.",
-    isForm: true,
-  },
-  {
-    id: "general",
-    emoji: "👋",
-    title: "Just Saying Hello",
-    description:
-      "No agenda. You came across us somewhere and want to know more. That&apos;s enough.",
-    isForm: true,
-  },
-];
-
-const INQUIRY_OPTIONS = [
-  { value: "vendor", label: "Become a vendor" },
-  { value: "partner", label: "Partner with us" },
-  { value: "consulting", label: "F&B consulting" },
-  { value: "residency", label: "Creative residency" },
-  { value: "press", label: "Press / media" },
-  { value: "general", label: "Just saying hello" },
-];
+interface FormState {
+  status: "idle" | "loading" | "success" | "error";
+  errorMessage: string;
+}
 
 // ─── Sub-components ───────────────────────────────────────────────────────────
 
@@ -87,10 +28,27 @@ function SectionLabel({
 }) {
   return (
     <p
-      className={`mb-6 text-xs font-medium tracking-[0.2em] uppercase ${light ? "text-white/30" : "text-graphite/50"}`}
+      className={`mb-6 text-xs font-medium tracking-[0.2em] uppercase ${light ? "text-black/30" : "text-graphite/50"}`}
     >
       {children}
     </p>
+  );
+}
+
+function FieldLabel({
+  htmlFor,
+  children,
+}: {
+  htmlFor: string;
+  children: React.ReactNode;
+}) {
+  return (
+    <label
+      htmlFor={htmlFor}
+      className="text-graphite/50 mb-2 block font-mono text-xs tracking-widest uppercase"
+    >
+      {children}
+    </label>
   );
 }
 
@@ -98,14 +56,16 @@ function SectionLabel({
 
 export default function ContactPage() {
   const [visible, setVisible] = useState(false);
-  const [formData, setFormData] = useState({
+  const [formData, setFormData] = useState<FormData>({
     name: "",
     email: "",
-    message: "",
     subject: "",
+    message: "",
   });
-  const [submitted, setSubmitted] = useState(false);
-  const [activeCard, setActiveCard] = useState<string | null>(null);
+  const [formState, setFormState] = useState<FormState>({
+    status: "idle",
+    errorMessage: "",
+  });
 
   useEffect(() => {
     const t = setTimeout(() => setVisible(true), 80);
@@ -113,33 +73,44 @@ export default function ContactPage() {
   }, []);
 
   const handleChange = (
-    e: React.ChangeEvent<
-      HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
-    >,
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
   ) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
+    setFormData((prev) => ({ ...prev, [e.target.name]: e.target.value }));
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    console.log("Form submitted:", formData);
-    setSubmitted(true);
-    setTimeout(() => {
-      setSubmitted(false);
-      setFormData({ name: "", email: "", subject: "", message: "" });
-    }, 4000);
-  };
+    setFormState({ status: "loading", errorMessage: "" });
 
-  const handleCardClick = (path: InquiryPath) => {
-    if (path.isForm) {
-      setFormData((prev) => ({ ...prev, inquiryType: path.id }));
-      setActiveCard(path.id);
-      // Scroll to form
-      document
-        .getElementById("contact-form")
-        ?.scrollIntoView({ behavior: "smooth" });
+    try {
+      const res = await fetch("/api/contact", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(formData),
+      });
+
+      const data = await res.json();
+
+      if (!res.ok) {
+        setFormState({
+          status: "error",
+          errorMessage: data.error || "Something went wrong. Please try again.",
+        });
+        return;
+      }
+
+      setFormState({ status: "success", errorMessage: "" });
+      setFormData({ name: "", email: "", subject: "", message: "" });
+    } catch {
+      setFormState({
+        status: "error",
+        errorMessage:
+          "Could not send your message. Please check your connection and try again.",
+      });
     }
   };
+
+  const isLoading = formState.status === "loading";
 
   return (
     <div className="text-charcoal bg-white">
@@ -147,7 +118,9 @@ export default function ContactPage() {
       <section className="border-b border-black/8 pt-40 pb-24 md:pt-52 md:pb-32">
         <div className="container mx-auto px-6 md:px-12 lg:px-20">
           <div
-            className={`max-w-4xl transition-all duration-1000 ${visible ? "translate-y-0 opacity-100" : "translate-y-8 opacity-0"}`}
+            className={`max-w-4xl transition-all duration-1000 ${
+              visible ? "translate-y-0 opacity-100" : "translate-y-8 opacity-0"
+            }`}
           >
             <p className="text-graphite/40 mb-8 font-mono text-xs tracking-[0.2em] uppercase">
               Contact
@@ -160,7 +133,11 @@ export default function ContactPage() {
               <span className="text-warmth">together.</span>
             </h1>
             <p
-              className={`text-graphite max-w-lg text-xl leading-relaxed transition-all delay-200 duration-1000 ${visible ? "translate-y-0 opacity-100" : "translate-y-6 opacity-0"}`}
+              className={`text-graphite max-w-lg text-xl leading-relaxed transition-all delay-200 duration-1000 ${
+                visible
+                  ? "translate-y-0 opacity-100"
+                  : "translate-y-6 opacity-0"
+              }`}
             >
               We&apos;re a small team. When you reach out, a real person reads
               it. Tell us what&apos;s on your mind.
@@ -169,17 +146,19 @@ export default function ContactPage() {
 
           {/* Contact anchors */}
           <div
-            className={`mt-16 flex flex-col gap-8 transition-all delay-300 duration-1000 sm:flex-row sm:gap-16 ${visible ? "translate-y-0 opacity-100" : "translate-y-6 opacity-0"}`}
+            className={`mt-16 flex flex-col gap-8 transition-all delay-300 duration-1000 sm:flex-row sm:gap-16 ${
+              visible ? "translate-y-0 opacity-100" : "translate-y-6 opacity-0"
+            }`}
           >
             <div>
               <p className="text-graphite/40 mb-2 font-mono text-[10px] tracking-widest uppercase">
                 Email
               </p>
               <a
-                href="mailto:hello@onebitestreet.com"
+                href="mailto:onebitestr@gmail.com"
                 className="text-charcoal hover:text-warmth font-medium transition-colors"
               >
-                hello@onebitestreet.com
+                onebitestr@gmail.com
               </a>
             </div>
             <div>
@@ -205,18 +184,9 @@ export default function ContactPage() {
         </div>
       </section>
 
-      {/* ── 3. FORM ──────────────────────────────────────────────────────────── */}
-      <section
-        id="contact-form"
-        className="border-t border-black/8 py-24 md:py-32"
-      >
+      {/* ── 2. FORM ──────────────────────────────────────────────────────────── */}
+      <section id="contact-form" className="py-24 md:py-32">
         <div className="container mx-auto px-6 md:px-12 lg:px-20">
-          {/*
-            Designer note: Two-column layout.
-            Left: form label + reassurance copy.
-            Right: the form itself.
-            On mobile, stacks vertically.
-          */}
           <div className="grid gap-16 md:grid-cols-5 md:gap-24">
             {/* Left — copy */}
             <div className="md:col-span-2">
@@ -259,48 +229,33 @@ export default function ContactPage() {
 
             {/* Right — form */}
             <div className="md:col-span-3">
-              {submitted ? (
+              {formState.status === "success" ? (
+                /* ── Success state ── */
                 <div className="flex h-full flex-col items-start justify-center py-12">
                   <p className="mb-6 text-5xl">✓</p>
                   <h3 className="font-display text-charcoal mb-4 text-3xl">
                     Message received.
                   </h3>
-                  <p className="text-graphite max-w-sm text-base leading-relaxed">
+                  <p className="text-graphite mb-8 max-w-sm text-base leading-relaxed">
                     Thanks for reaching out. We&apos;ll read it properly and get
                     back to you soon. In the meantime — welcome to the table.
                   </p>
+                  <button
+                    onClick={() =>
+                      setFormState({ status: "idle", errorMessage: "" })
+                    }
+                    className="text-warmth hover:text-earth text-sm font-medium transition-colors"
+                  >
+                    ← Send another message
+                  </button>
                 </div>
               ) : (
+                /* ── Form ── */
                 <form onSubmit={handleSubmit} className="space-y-6">
-                  {/* Inquiry type */}
-                  <div>
-                    <label
-                      htmlFor="inquiryType"
-                      className="text-graphite/50 mb-2 block font-mono text-xs tracking-widest uppercase"
-                    >
-                      What&apos;s this about? *
-                    </label>
-                    <input
-                      type="text"
-                      id="subject"
-                      name="subject"
-                      value={formData.subject}
-                      onChange={handleChange}
-                      required
-                      placeholder="Subject"
-                      className="text-charcoal focus:border-warmth focus:ring-warmth w-full border border-black/15 bg-white px-5 py-3.5 text-sm transition-colors placeholder:text-black/25 focus:ring-1 focus:outline-none"
-                    />
-                  </div>
-
-                  {/* Name + Email row */}
+                  {/* Name + Email */}
                   <div className="grid gap-4 sm:grid-cols-2">
                     <div>
-                      <label
-                        htmlFor="name"
-                        className="text-graphite/50 mb-2 block font-mono text-xs tracking-widest uppercase"
-                      >
-                        Your Name *
-                      </label>
+                      <FieldLabel htmlFor="name">Your Name *</FieldLabel>
                       <input
                         type="text"
                         id="name"
@@ -308,17 +263,13 @@ export default function ContactPage() {
                         value={formData.name}
                         onChange={handleChange}
                         required
+                        disabled={isLoading}
                         placeholder="Your name"
-                        className="text-charcoal focus:border-warmth focus:ring-warmth w-full border border-black/15 bg-white px-5 py-3.5 text-sm transition-colors placeholder:text-black/25 focus:ring-1 focus:outline-none"
+                        className="text-charcoal focus:border-warmth focus:ring-warmth w-full border border-black/15 bg-white px-5 py-3.5 text-sm transition-colors placeholder:text-black/25 focus:ring-1 focus:outline-none disabled:opacity-50"
                       />
                     </div>
                     <div>
-                      <label
-                        htmlFor="email"
-                        className="text-graphite/50 mb-2 block font-mono text-xs tracking-widest uppercase"
-                      >
-                        Email Address *
-                      </label>
+                      <FieldLabel htmlFor="email">Email Address *</FieldLabel>
                       <input
                         type="email"
                         id="email"
@@ -326,31 +277,51 @@ export default function ContactPage() {
                         value={formData.email}
                         onChange={handleChange}
                         required
+                        disabled={isLoading}
                         placeholder="your@email.com"
-                        className="text-charcoal focus:border-warmth focus:ring-warmth w-full border border-black/15 bg-white px-5 py-3.5 text-sm transition-colors placeholder:text-black/25 focus:ring-1 focus:outline-none"
+                        className="text-charcoal focus:border-warmth focus:ring-warmth w-full border border-black/15 bg-white px-5 py-3.5 text-sm transition-colors placeholder:text-black/25 focus:ring-1 focus:outline-none disabled:opacity-50"
                       />
                     </div>
                   </div>
 
+                  {/* Subject */}
+                  <div>
+                    <FieldLabel htmlFor="subject">Subject *</FieldLabel>
+                    <input
+                      type="text"
+                      id="subject"
+                      name="subject"
+                      value={formData.subject}
+                      onChange={handleChange}
+                      required
+                      disabled={isLoading}
+                      placeholder="What's this about?"
+                      className="text-charcoal focus:border-warmth focus:ring-warmth w-full border border-black/15 bg-white px-5 py-3.5 text-sm transition-colors placeholder:text-black/25 focus:ring-1 focus:outline-none disabled:opacity-50"
+                    />
+                  </div>
+
                   {/* Message */}
                   <div>
-                    <label
-                      htmlFor="message"
-                      className="text-graphite/50 mb-2 block font-mono text-xs tracking-widest uppercase"
-                    >
-                      Your Message *
-                    </label>
+                    <FieldLabel htmlFor="message">Your Message *</FieldLabel>
                     <textarea
                       id="message"
                       name="message"
                       value={formData.message}
                       onChange={handleChange}
                       required
+                      disabled={isLoading}
                       rows={7}
                       placeholder="Tell us what's on your mind. The more context, the better we can help."
-                      className="text-charcoal focus:border-warmth focus:ring-warmth w-full resize-none border border-black/15 bg-white px-5 py-3.5 text-sm transition-colors placeholder:text-black/25 focus:ring-1 focus:outline-none"
+                      className="text-charcoal focus:border-warmth focus:ring-warmth w-full resize-none border border-black/15 bg-white px-5 py-3.5 text-sm transition-colors placeholder:text-black/25 focus:ring-1 focus:outline-none disabled:opacity-50"
                     />
                   </div>
+
+                  {/* Error message */}
+                  {formState.status === "error" && (
+                    <p className="text-rust text-sm">
+                      {formState.errorMessage}
+                    </p>
+                  )}
 
                   {/* Submit */}
                   <div className="flex items-center justify-between pt-2">
@@ -359,10 +330,22 @@ export default function ContactPage() {
                     </p>
                     <button
                       type="submit"
-                      className="bg-warmth hover:bg-earth text-charcoal inline-flex items-center gap-3 px-8 py-4 text-sm font-medium transition-colors"
+                      disabled={isLoading}
+                      className="bg-warmth hover:bg-earth inline-flex items-center gap-3 px-8 py-4 text-sm font-medium text-black transition-colors disabled:cursor-not-allowed disabled:opacity-60"
                     >
-                      Send message
-                      <span className="text-charcoal/70">→</span>
+                      {isLoading ? (
+                        <>
+                          Sending
+                          <span className="inline-block animate-pulse">
+                            ...
+                          </span>
+                        </>
+                      ) : (
+                        <>
+                          Send message
+                          <span className="text-black/70">→</span>
+                        </>
+                      )}
                     </button>
                   </div>
                 </form>
@@ -372,11 +355,10 @@ export default function ContactPage() {
         </div>
       </section>
 
-      {/* ── 4. SOCIAL + LOCATION ────────────────────────────────────────────── */}
-      <section className="bg-charcoal border-t border-white/5 py-16 text-black/25 md:py-24">
+      {/* ── 3. SOCIAL + LOCATION ────────────────────────────────────────────── */}
+      <section className="bg-charcoal border-t border-white/5 py-16 text-black md:py-24">
         <div className="container mx-auto px-6 md:px-12 lg:px-20">
           <div className="grid gap-12 sm:grid-cols-2 md:grid-cols-3">
-            {/* Follow */}
             <div>
               <p className="mb-4 font-mono text-[10px] tracking-widest text-black/30 uppercase">
                 Follow Along
@@ -404,8 +386,6 @@ export default function ContactPage() {
                 </a>
               </div>
             </div>
-
-            {/* Location */}
             <div>
               <p className="mb-4 font-mono text-[10px] tracking-widest text-black/30 uppercase">
                 Where We Are
@@ -418,8 +398,6 @@ export default function ContactPage() {
                 </span>
               </p>
             </div>
-
-            {/* The Table CTA */}
             <div>
               <p className="mb-4 font-mono text-[10px] tracking-widest text-black/30 uppercase">
                 Stay in the Loop
