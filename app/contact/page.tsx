@@ -101,8 +101,8 @@ export default function ContactPage() {
   const [formData, setFormData] = useState({
     name: "",
     email: "",
-    inquiryType: "general",
     message: "",
+    subject: "",
   });
   const [submitted, setSubmitted] = useState(false);
   const [activeCard, setActiveCard] = useState<string | null>(null);
@@ -126,7 +126,7 @@ export default function ContactPage() {
     setSubmitted(true);
     setTimeout(() => {
       setSubmitted(false);
-      setFormData({ name: "", email: "", inquiryType: "general", message: "" });
+      setFormData({ name: "", email: "", subject: "", message: "" });
     }, 4000);
   };
 
@@ -201,81 +201,6 @@ export default function ContactPage() {
               </p>
               <p className="text-charcoal font-medium">[City, Country — TBC]</p>
             </div>
-          </div>
-        </div>
-      </section>
-
-      {/* ── 2. INQUIRY PATHS ────────────────────────────────────────────────── */}
-      <section className="bg-cream/30 py-24 md:py-32">
-        <div className="container mx-auto px-6 md:px-12 lg:px-20">
-          <div className="mb-12">
-            <SectionLabel>What Brings You Here?</SectionLabel>
-            <h2 className="font-heading text-charcoal text-2xl md:text-3xl">
-              Choose what fits best.
-            </h2>
-            <p className="text-graphite mt-2 text-sm">
-              Clicking a card pre-fills the form below.
-            </p>
-          </div>
-
-          {/*
-            Designer note: 2×3 grid of inquiry path cards.
-            Each has an emoji, title, and one-liner.
-            Active card gets a warmth-colored left border.
-            Hover lifts slightly with a warm border.
-          */}
-          <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-            {INQUIRY_PATHS.map((path) =>
-              path.isForm ? (
-                <button
-                  key={path.id}
-                  onClick={() => handleCardClick(path)}
-                  className={`group relative overflow-hidden border bg-white p-6 text-left transition-all duration-200 md:p-8 ${
-                    activeCard === path.id
-                      ? "border-warmth shadow-md"
-                      : "hover:border-warmth/50 border-black/8 hover:shadow-sm"
-                  }`}
-                >
-                  <div
-                    className={`bg-warmth absolute top-0 bottom-0 left-0 w-1 origin-bottom transition-transform duration-200 ${activeCard === path.id ? "scale-y-100" : "scale-y-0 group-hover:scale-y-100"}`}
-                  />
-                  <p className="mb-4 text-2xl">{path.emoji}</p>
-                  <h3
-                    className="font-heading text-charcoal mb-2 text-base"
-                    dangerouslySetInnerHTML={{ __html: path.title }}
-                  />
-                  <p
-                    className="text-graphite text-sm leading-relaxed"
-                    dangerouslySetInnerHTML={{ __html: path.description }}
-                  />
-                  {activeCard === path.id && (
-                    <p className="text-warmth mt-4 font-mono text-[10px] tracking-widest uppercase">
-                      Selected ✓
-                    </p>
-                  )}
-                </button>
-              ) : (
-                <Link
-                  key={path.id}
-                  href={path.href!}
-                  className="group hover:border-warmth/50 relative overflow-hidden border border-black/8 bg-white p-6 text-left transition-all duration-200 hover:shadow-sm md:p-8"
-                >
-                  <div className="bg-warmth absolute top-0 bottom-0 left-0 w-1 origin-bottom scale-y-0 transition-transform duration-200 group-hover:scale-y-100" />
-                  <p className="mb-4 text-2xl">{path.emoji}</p>
-                  <h3
-                    className="font-heading text-charcoal mb-2 text-base"
-                    dangerouslySetInnerHTML={{ __html: path.title }}
-                  />
-                  <p
-                    className="text-graphite text-sm leading-relaxed"
-                    dangerouslySetInnerHTML={{ __html: path.description }}
-                  />
-                  <p className="text-warmth/70 group-hover:text-warmth mt-4 font-mono text-[10px] tracking-widest uppercase transition-colors">
-                    Learn more →
-                  </p>
-                </Link>
-              ),
-            )}
           </div>
         </div>
       </section>
@@ -355,20 +280,16 @@ export default function ContactPage() {
                     >
                       What&apos;s this about? *
                     </label>
-                    <select
-                      id="inquiryType"
-                      name="inquiryType"
-                      value={formData.inquiryType}
+                    <input
+                      type="text"
+                      id="subject"
+                      name="subject"
+                      value={formData.subject}
                       onChange={handleChange}
                       required
-                      className="text-charcoal focus:border-warmth focus:ring-warmth w-full appearance-none border border-black/15 bg-white px-5 py-3.5 text-sm transition-colors focus:ring-1 focus:outline-none"
-                    >
-                      {INQUIRY_OPTIONS.map((opt) => (
-                        <option key={opt.value} value={opt.value}>
-                          {opt.label}
-                        </option>
-                      ))}
-                    </select>
+                      placeholder="Subject"
+                      className="text-charcoal focus:border-warmth focus:ring-warmth w-full border border-black/15 bg-white px-5 py-3.5 text-sm transition-colors placeholder:text-black/25 focus:ring-1 focus:outline-none"
+                    />
                   </div>
 
                   {/* Name + Email row */}
