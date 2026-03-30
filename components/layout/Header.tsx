@@ -1,104 +1,84 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import Link from "next/link";
 
+const NAV_LINKS = [
+  { name: "About", href: "/about" },
+  { name: "Ventures", href: "/ventures" },
+  { name: "Projects", href: "/projects" },
+];
+
 export default function Header() {
-  const [isScrolled, setIsScrolled] = useState(false);
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-
-  useEffect(() => {
-    const handleScroll = () => {
-      setIsScrolled(window.scrollY > 20);
-    };
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
-
-  const navigation = [
-    { name: "About", href: "/about" },
-    { name: "Contact", href: "/contact" },
-  ];
+  const [mobileOpen, setMobileOpen] = useState(false);
 
   return (
-    <header
-      className={`fixed top-0 right-0 left-0 z-50 transition-all duration-300 ${
-        isScrolled ? "bg-white/90 shadow-md backdrop-blur-md" : "bg-transparent"
-      }`}
-    >
-      <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-        <nav className="flex items-center justify-between py-6">
-          <Link
-            href="/"
-            className="font-heading text-text-primary hover:text-primary text-2xl font-bold transition-colors"
-          >
-            One Bite Street
-          </Link>
+    <header className="w-full bg-[#F8F6F2]">
+      <div className="container mx-auto flex items-center justify-between px-8 py-6 md:px-16">
+        {/* Logo */}
+        <Link
+          href="/"
+          className="font-sans text-[13px] font-medium tracking-[0.18em] text-[#1C2E24] uppercase transition-opacity hover:opacity-60"
+        >
+          One Bite Street
+        </Link>
 
-          {/* Desktop Navigation */}
-          <ul className="hidden items-center gap-8 md:flex">
-            {navigation.map((item) => (
-              <li key={item.name}>
-                <Link
-                  href={item.href}
-                  className="text-text-secondary hover:text-primary text-sm font-medium transition-colors"
-                >
-                  {item.name}
-                </Link>
-              </li>
-            ))}
-          </ul>
-
-          {/* Mobile Menu Button */}
-          <button
-            className="text-text-primary md:hidden"
-            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-            aria-label="Toggle menu"
-          >
-            <svg
-              className="h-6 w-6"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
+        {/* Desktop nav */}
+        <nav className="hidden items-center gap-12 md:flex">
+          {NAV_LINKS.map((link) => (
+            <Link
+              key={link.name}
+              href={link.href}
+              className="font-sans text-[11px] font-light tracking-[0.16em] text-[#1C2E24]/50 uppercase transition-colors duration-200 hover:text-[#1C2E24]"
             >
-              {mobileMenuOpen ? (
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M6 18L18 6M6 6l12 12"
-                />
-              ) : (
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M4 6h16M4 12h16M4 18h16"
-                />
-              )}
-            </svg>
-          </button>
+              {link.name}
+            </Link>
+          ))}
+          <Link
+            href="/contact"
+            className="font-sans text-[11px] font-medium tracking-[0.16em] text-[#FF3D6B] uppercase transition-opacity hover:opacity-60"
+          >
+            Contact
+          </Link>
         </nav>
 
-        {/* Mobile Menu */}
-        {mobileMenuOpen && (
-          <div className="pb-6 md:hidden">
-            <ul className="flex flex-col gap-4">
-              {navigation.map((item) => (
-                <li key={item.name}>
-                  <Link
-                    href={item.href}
-                    className="text-text-secondary hover:text-primary block text-base font-medium transition-colors"
-                    onClick={() => setMobileMenuOpen(false)}
-                  >
-                    {item.name}
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </div>
-        )}
+        {/* Mobile hamburger */}
+        <button
+          className="flex flex-col items-end gap-[6px] md:hidden"
+          onClick={() => setMobileOpen(!mobileOpen)}
+          aria-label="Toggle menu"
+        >
+          <span
+            className={`block h-px bg-[#1C2E24] transition-all duration-300 ${mobileOpen ? "w-5 translate-y-[7px] rotate-45" : "w-5"}`}
+          />
+          <span
+            className={`block h-px bg-[#1C2E24] transition-all duration-300 ${mobileOpen ? "w-0 opacity-0" : "w-3.5"}`}
+          />
+          <span
+            className={`block h-px bg-[#1C2E24] transition-all duration-300 ${mobileOpen ? "w-5 -translate-y-[7px] -rotate-45" : "w-5"}`}
+          />
+        </button>
       </div>
+
+      {/* Mobile menu */}
+      {mobileOpen && (
+        <div className="border-t border-[#1C2E24]/10 px-8 py-8 md:hidden">
+          <nav className="flex flex-col gap-7">
+            {[...NAV_LINKS, { name: "Contact", href: "/contact" }].map(
+              (link) => (
+                <Link
+                  key={link.name}
+                  href={link.href}
+                  onClick={() => setMobileOpen(false)}
+                  className="font-sans text-[13px] font-light tracking-[0.14em] text-[#1C2E24]/60 uppercase transition-colors hover:text-[#1C2E24]"
+                >
+                  {link.name}
+                </Link>
+              ),
+            )}
+          </nav>
+        </div>
+      )}
     </header>
   );
 }

@@ -1,20 +1,65 @@
 @import "tailwindcss";
 
-/* One Bite Street - Global Styles */
+/* ─── One Bite Street — Design Tokens ──────────────────────────────────────── */
+
+:root {
+  /* Brand */
+  --color-pink: #d4687a; /* warm pink — primary headline */
+  --color-pink-vivid: #ff3d6b; /* vivid pink — accent / emphasis */
+  --color-pink-light: #f0a0b0; /* soft pink — italic / secondary */
+  --color-green: #1c2e24; /* deep forest green — overlays, dark sections */
+  --color-green-mid: #2e4a38; /* mid forest green — hover states, borders */
+  --color-green-muted: #4a6655; /* muted green — secondary text on dark */
+
+  /* Neutrals */
+  --color-white: #ffffff;
+  --color-off-white: #f8f6f2; /* warm off-white — page background */
+  --color-black: #111111; /* near-black — dark sections */
+  --color-text: #1a1a1a; /* primary body text */
+  --color-text-muted: #555555; /* secondary body text */
+  --color-border: #e8e4de; /* subtle borders */
+  --color-surface: #f2efe9; /* card / section surfaces */
+}
+
+/* ─── Font Families ─────────────────────────────────────────────────────────── */
+
+:root {
+  --font-anton: var(--font-anton), sans-serif;
+  --font-display: var(--font-playfair), serif;
+  --font-sans: var(--font-dm-sans), sans-serif;
+}
+
+/* ─── Base Reset ────────────────────────────────────────────────────────────── */
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
 
 html {
   scroll-behavior: smooth;
-  font-family:
-    -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen", "Ubuntu",
-    "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
+  font-size: 16px;
+  -webkit-text-size-adjust: 100%;
 }
 
 body {
-  background: #ffffff;
-  color: #2c3e50;
+  background-color: var(--color-white);
+  color: var(--color-text);
+  font-family:
+    var(--font-dm-sans),
+    "DM Sans",
+    -apple-system,
+    BlinkMacSystemFont,
+    sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  line-height: 1.6;
 }
+
+/* ─── Typography ────────────────────────────────────────────────────────────── */
 
 h1,
 h2,
@@ -22,68 +67,80 @@ h3,
 h4,
 h5,
 h6 {
-  font-family: "Georgia", "Times New Roman", serif;
-  font-weight: 700;
-  letter-spacing: -0.025em;
-  color: #2c3e50;
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+  color: var(--color-text);
 }
 
-h1 {
-  font-size: 3rem;
-}
-
-h2 {
-  font-size: 2.25rem;
-}
-
-h3 {
-  font-size: 1.5rem;
-}
-
-h4 {
-  font-size: 1.25rem;
+p {
+  color: var(--color-text-muted);
+  line-height: 1.75;
 }
 
 a {
+  color: inherit;
+  text-decoration: none;
   transition:
-    opacity 200ms,
-    color 200ms;
+    color 200ms ease,
+    opacity 200ms ease;
 }
 
 button {
-  transition: all 200ms;
+  cursor: pointer;
+  transition: all 200ms ease;
 }
 
-@media (min-width: 768px) {
-  h1 {
-    font-size: 3.75rem;
-  }
-
-  h2 {
-    font-size: 3rem;
-  }
-
-  h3 {
-    font-size: 1.875rem;
-  }
-
-  h4 {
-    font-size: 1.5rem;
-  }
+img,
+video {
+  max-width: 100%;
+  display: block;
 }
 
-@media (min-width: 1024px) {
-  h1 {
-    font-size: 4.5rem;
-  }
+/* ─── Font Utilities ────────────────────────────────────────────────────────── */
+
+.font-anton {
+  font-family: var(--font-anton), "Anton", sans-serif;
+}
+.font-display {
+  font-family: var(--font-display), "Playfair Display", serif;
+}
+.font-sans {
+  font-family: var(--font-sans), "DM Sans", sans-serif;
 }
 
-/* Text balance utility */
-.text-balance {
-  text-wrap: balance;
+/* ─── Color Utilities ───────────────────────────────────────────────────────── */
+
+.text-pink {
+  color: var(--color-pink);
+}
+.text-pink-vivid {
+  color: var(--color-pink-vivid);
+}
+.text-pink-light {
+  color: var(--color-pink-light);
+}
+.text-green {
+  color: var(--color-green);
+}
+.text-muted {
+  color: var(--color-text-muted);
 }
 
-/* Container utility */
+.bg-black-section {
+  background-color: var(--color-black);
+}
+.bg-green-section {
+  background-color: var(--color-green);
+}
+.bg-surface {
+  background-color: var(--color-surface);
+}
+.bg-off-white {
+  background-color: var(--color-off-white);
+}
+
+/* ─── Container ─────────────────────────────────────────────────────────────── */
+
 .container {
   margin-left: auto;
   margin-right: auto;
@@ -106,43 +163,36 @@ button {
   }
 }
 
-/* Custom scrollbar */
-.custom-scrollbar::-webkit-scrollbar {
-  width: 8px;
-}
+/* ─── Scrollbar ─────────────────────────────────────────────────────────────── */
 
-.custom-scrollbar::-webkit-scrollbar-track {
-  background: rgba(0, 0, 0, 0.05);
+::-webkit-scrollbar {
+  width: 6px;
 }
-
-.custom-scrollbar::-webkit-scrollbar-thumb {
+::-webkit-scrollbar-track {
+  background: rgba(0, 0, 0, 0.04);
+}
+::-webkit-scrollbar-thumb {
+  background: rgba(0, 0, 0, 0.16);
   border-radius: 9999px;
-  background: rgba(0, 0, 0, 0.2);
+}
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(0, 0, 0, 0.26);
 }
 
-.custom-scrollbar::-webkit-scrollbar-thumb:hover {
-  background: rgba(0, 0, 0, 0.3);
+/* ─── Focus & Selection ─────────────────────────────────────────────────────── */
+
+:focus-visible {
+  outline: 2px solid var(--color-pink-vivid);
+  outline-offset: 3px;
 }
 
-/* Ticker scroll */
-@keyframes ticker {
-  0% {
-    transform: translateX(0);
-  }
-  100% {
-    transform: translateX(-50%);
-  }
+::selection {
+  background-color: var(--color-pink);
+  color: #fff;
 }
 
-.animate-ticker {
-  animation: ticker 28s linear infinite;
-}
+/* ─── Animations ────────────────────────────────────────────────────────────── */
 
-.animate-ticker:hover {
-  animation-play-state: paused;
-}
-
-/* Scroll line animation in hero */
 @keyframes scrollLine {
   0% {
     transform: translateY(-100%);
@@ -151,7 +201,53 @@ button {
     transform: translateY(300%);
   }
 }
-
 .animate-scrollLine {
-  animation: scrollLine 1.8s ease-in-out infinite;
+  animation: scrollLine 2s ease-in-out infinite;
+}
+
+@keyframes ticker {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+.animate-ticker {
+  animation: ticker 28s linear infinite;
+}
+.animate-ticker:hover {
+  animation-play-state: paused;
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(24px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+.animate-fade-in-up {
+  animation: fadeInUp 0.7s ease-out forwards;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+.animate-fade-in {
+  animation: fadeIn 0.6s ease-out forwards;
+}
+
+/* ─── Text Utilities ────────────────────────────────────────────────────────── */
+
+.text-balance {
+  text-wrap: balance;
 }
