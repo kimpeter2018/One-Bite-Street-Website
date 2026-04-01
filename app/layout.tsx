@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import { Anton, DM_Sans, Playfair_Display } from "next/font/google";
 import "./globals.css";
-import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
 
 const anton = Anton({
@@ -53,7 +52,6 @@ export default function RootLayout({
       className={`${anton.variable} ${dmSans.variable} ${playfair.variable}`}
     >
       <body className="font-sans antialiased">
-        <Header />
         <main>{children}</main>
         <Footer />
       </body>

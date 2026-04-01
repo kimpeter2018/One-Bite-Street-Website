@@ -1,84 +1,1442 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useState, useEffect, useRef } from "react";
 import Image from "next/image";
-import CompanyValue from "@/components/sections/Companyvalue";
 
-export default function HomePage() {
-  const [visible, setVisible] = useState(false);
+// ─── Palette ──────────────────────────────────────────────────────────────────
+// Primary: #FF3D6B (vivid pink), #D4687A (warm pink), #F0A0B0 (soft pink)
+// Neutrals: #111111 (near black), #FFFFFF, #F8F6F2 (off-white)
+
+// ─── Data ─────────────────────────────────────────────────────────────────────
+
+const NAV_LINKS = [
+  { name: "About", href: "#about" },
+  { name: "Ingredients", href: "#ingredients" },
+  { name: "Team", href: "#team" },
+  { name: "Contact", href: "#contact" },
+];
+
+const INGREDIENTS = [
+  {
+    id: "01",
+    category: "Space Activation",
+    title: "From empty rooms\nto full tables.",
+    desc: "We read a space the way a musician reads a room — and tune it accordingly. Layout, flow, atmosphere. Every square metre working harder.",
+    tag: "F&B Venues · Pop-ups · Residencies",
+  },
+  {
+    id: "02",
+    category: "Culinary Direction",
+    title: "Menu as\nmanifesto.",
+    desc: "What&apos;s on the plate tells people who you are before you say a word. We help you say the right thing — with flavour.",
+    tag: "Concept Dev · Menu Design · Sourcing",
+  },
+  {
+    id: "03",
+    category: "Brand & Media",
+    title: "Seen, felt,\nremembered.",
+    desc: "We build identity systems and media strategies that carry a consistent warmth — across every surface, every platform.",
+    tag: "Identity · Content · Digital",
+  },
+  {
+    id: "04",
+    category: "Community & Events",
+    title: "The crowd\nis the product.",
+    desc: "Festivals, markets, and gatherings that build real loyalty. We programme, produce, and host — from first vendor to last guest.",
+    tag: "Festivals · Markets · Curation",
+  },
+];
+
+const TEAM = [
+  {
+    initials: "HL",
+    name: "Hyojin Lee",
+    role: "Design",
+    note: "Spaces that feel inevitable.",
+  },
+  {
+    initials: "HK",
+    name: "Hyeonmin Kim",
+    role: "Technology",
+    note: "Systems that stay out of the way.",
+  },
+  {
+    initials: "DK",
+    name: "Dani Kang",
+    role: "Culinary",
+    note: "Food as the opening act.",
+  },
+  {
+    initials: "SJ",
+    name: "Shinyoung Jo",
+    role: "Operations",
+    note: "The hum you never notice.",
+  },
+];
+
+const TICKER_ITEMS = [
+  "Food Festivals",
+  "Space Activation",
+  "F&B Consulting",
+  "Brand Direction",
+  "Community Building",
+  "Be Humane",
+  "Culinary Strategy",
+  "Vendor Relations",
+  "Co-working",
+  "Hospitality",
+];
+
+// ─── Tiny components ──────────────────────────────────────────────────────────
+
+function PinkRule({ className = "" }) {
+  return (
+    <span
+      className={`inline-block h-px bg-[#FF3D6B] ${className}`}
+      style={{ width: "2rem" }}
+    />
+  );
+}
+
+function EyebrowLabel({ children, light = false }) {
+  return (
+    <p
+      style={{
+        fontFamily: "'DM Sans', sans-serif",
+        fontSize: "10px",
+        letterSpacing: "0.24em",
+        fontWeight: 500,
+        textTransform: "uppercase",
+        color: light ? "rgba(255,255,255,0.35)" : "#FF3D6B",
+        marginBottom: "1.25rem",
+      }}
+    >
+      {children}
+    </p>
+  );
+}
+
+// ─── Header ───────────────────────────────────────────────────────────────────
+
+function Header() {
+  const [scrolled, setScrolled] = useState(false);
+  const [mobileOpen, setMobileOpen] = useState(false);
 
   useEffect(() => {
-    const t = setTimeout(() => setVisible(true), 80);
+    const onScroll = () => setScrolled(window.scrollY > 40);
+    window.addEventListener("scroll", onScroll);
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
+
+  return (
+    <>
+      <header
+        style={{
+          position: "fixed",
+          top: 0,
+          left: 0,
+          right: 0,
+          zIndex: 100,
+          transition: "background 0.4s ease, border-color 0.4s ease",
+          background: scrolled ? "rgba(17,17,17,0.96)" : "transparent",
+          borderBottom: scrolled
+            ? "1px solid rgba(255,255,255,0.06)"
+            : "1px solid transparent",
+          backdropFilter: scrolled ? "blur(12px)" : "none",
+        }}
+      >
+        <div
+          style={{
+            maxWidth: "1280px",
+            margin: "0 auto",
+            padding: "0 2rem",
+            height: "68px",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "space-between",
+          }}
+        >
+          {/* Logo */}
+          <a
+            href="#"
+            style={{
+              fontFamily: "'Anton', sans-serif",
+              fontSize: "15px",
+              letterSpacing: "0.18em",
+              color: "#ffffff",
+              textDecoration: "none",
+              lineHeight: 1,
+            }}
+          >
+            ONE BITE STREET
+          </a>
+
+          {/* Desktop nav */}
+          <nav
+            style={{
+              display: "flex",
+              alignItems: "center",
+              gap: "2.5rem",
+            }}
+            className="desktop-nav"
+          >
+            {NAV_LINKS.map((l) => (
+              <a
+                key={l.name}
+                href={l.href}
+                style={{
+                  fontFamily: "'DM Sans', sans-serif",
+                  fontSize: "11px",
+                  letterSpacing: "0.16em",
+                  fontWeight: 300,
+                  textTransform: "uppercase",
+                  color: "rgba(255,255,255,0.45)",
+                  textDecoration: "none",
+                  transition: "color 0.2s ease",
+                }}
+                onMouseEnter={(e) => (e.target.style.color = "#fff")}
+                onMouseLeave={(e) =>
+                  (e.target.style.color = "rgba(255,255,255,0.45)")
+                }
+              >
+                {l.name}
+              </a>
+            ))}
+            <a
+              href="#contact"
+              style={{
+                fontFamily: "'DM Sans', sans-serif",
+                fontSize: "11px",
+                letterSpacing: "0.16em",
+                fontWeight: 500,
+                textTransform: "uppercase",
+                color: "#FF3D6B",
+                textDecoration: "none",
+                border: "1px solid rgba(255,61,107,0.35)",
+                padding: "7px 18px",
+                transition: "all 0.2s ease",
+              }}
+              onMouseEnter={(e) => {
+                e.target.style.background = "#FF3D6B";
+                e.target.style.color = "#fff";
+              }}
+              onMouseLeave={(e) => {
+                e.target.style.background = "transparent";
+                e.target.style.color = "#FF3D6B";
+              }}
+            >
+              Let&apos;s talk
+            </a>
+          </nav>
+
+          {/* Mobile hamburger */}
+          <button
+            onClick={() => setMobileOpen(!mobileOpen)}
+            style={{
+              background: "none",
+              border: "none",
+              cursor: "pointer",
+              padding: "8px",
+              display: "none",
+              flexDirection: "column",
+              gap: "5px",
+              alignItems: "flex-end",
+            }}
+            className="mobile-menu-btn"
+            aria-label="Toggle menu"
+          >
+            {[0, 1, 2].map((i) => (
+              <span
+                key={i}
+                style={{
+                  display: "block",
+                  height: "1px",
+                  background: "#fff",
+                  transition: "all 0.3s ease",
+                  width: i === 1 ? (mobileOpen ? "0" : "14px") : "20px",
+                  transform:
+                    mobileOpen && i === 0
+                      ? "translateY(6px) rotate(45deg)"
+                      : mobileOpen && i === 2
+                        ? "translateY(-6px) rotate(-45deg)"
+                        : "none",
+                  opacity: mobileOpen && i === 1 ? 0 : 1,
+                }}
+              />
+            ))}
+          </button>
+        </div>
+      </header>
+
+      {/* Mobile menu */}
+      {mobileOpen && (
+        <div
+          style={{
+            position: "fixed",
+            inset: 0,
+            zIndex: 99,
+            background: "#111",
+            display: "flex",
+            flexDirection: "column",
+            justifyContent: "center",
+            alignItems: "center",
+            gap: "2.5rem",
+          }}
+        >
+          {[...NAV_LINKS, { name: "Let&apos;s talk", href: "#contact" }].map(
+            (l) => (
+              <a
+                key={l.name}
+                href={l.href}
+                onClick={() => setMobileOpen(false)}
+                style={{
+                  fontFamily: "'Anton', sans-serif",
+                  fontSize: "32px",
+                  letterSpacing: "0.08em",
+                  color: l.name === "Let&apos;s talk" ? "#FF3D6B" : "#fff",
+                  textDecoration: "none",
+                }}
+                dangerouslySetInnerHTML={{ __html: l.name }}
+              />
+            ),
+          )}
+        </div>
+      )}
+
+      <style>{`
+        @media (max-width: 768px) {
+          .desktop-nav { display: none !important; }
+          .mobile-menu-btn { display: flex !important; }
+        }
+      `}</style>
+    </>
+  );
+}
+
+// ─── Ticker ───────────────────────────────────────────────────────────────────
+
+function Ticker({ dark = false }) {
+  const items = [...TICKER_ITEMS, ...TICKER_ITEMS, ...TICKER_ITEMS];
+  return (
+    <div
+      style={{
+        overflow: "hidden",
+        borderTop: `1px solid ${dark ? "rgba(255,255,255,0.08)" : "rgba(0,0,0,0.08)"}`,
+        borderBottom: `1px solid ${dark ? "rgba(255,255,255,0.08)" : "rgba(0,0,0,0.08)"}`,
+        padding: "13px 0",
+        background: dark ? "#111" : "#F8F6F2",
+      }}
+    >
+      <div
+        style={{
+          display: "flex",
+          whiteSpace: "nowrap",
+          animation: "ticker 32s linear infinite",
+        }}
+      >
+        {items.map((item, i) => (
+          <span
+            key={i}
+            style={{
+              fontFamily: "'DM Sans', sans-serif",
+              fontSize: "10px",
+              letterSpacing: "0.22em",
+              fontWeight: 400,
+              textTransform: "uppercase",
+              color: dark ? "rgba(255,255,255,0.22)" : "rgba(17,17,17,0.28)",
+              flexShrink: 0,
+              marginRight: "2.5rem",
+              display: "flex",
+              alignItems: "center",
+              gap: "2.5rem",
+            }}
+          >
+            {item}
+            <span style={{ color: "#FF3D6B", fontSize: "18px", lineHeight: 1 }}>
+              ·
+            </span>
+          </span>
+        ))}
+      </div>
+      <style>{`
+        @keyframes ticker { 0% { transform: translateX(0); } 100% { transform: translateX(-33.333%); } }
+        @keyframes scrollLine { 0% { transform: translateY(-100%); } 100% { transform: translateY(300%); } }
+        @keyframes fadeUp { from { opacity: 0; transform: translateY(28px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+      `}</style>
+    </div>
+  );
+}
+
+// ─── Hero ─────────────────────────────────────────────────────────────────────
+
+function Hero() {
+  const [vis, setVis] = useState(false);
+  useEffect(() => {
+    const t = setTimeout(() => setVis(true), 120);
     return () => clearTimeout(t);
   }, []);
 
   return (
-    <div>
-      {/* ── HERO ─────────────────────────────────── */}
-      <section
-        className="relative w-full overflow-hidden"
-        style={{ height: "100vh", minHeight: "600px" }}
+    <section
+      style={{
+        position: "relative",
+        width: "100%",
+        minHeight: "100vh",
+        background: "#111111",
+        display: "flex",
+        flexDirection: "column",
+        justifyContent: "flex-end",
+        overflow: "hidden",
+      }}
+    >
+      {/* Background texture — subtle grain-like grid */}
+      {/* Background photo */}
+      <Image
+        src="/images/tinydesk.jpg"
+        alt="Hero background"
+        fill
+        priority
+        style={{ objectFit: "cover", objectPosition: "center 30%" }}
+      />
+
+      {/* Dark overlay — controls how much the photo shows through */}
+      <div
+        style={{
+          position: "absolute",
+          inset: 0,
+          background: "rgba(17,17,17,0.72)",
+        }}
+      />
+
+      {/* Big typographic bg accent */}
+      <div
+        style={{
+          position: "absolute",
+          top: "50%",
+          left: "50%",
+          transform: "translate(-50%, -52%)",
+          fontFamily: "'Anton', sans-serif",
+          fontSize: "clamp(180px, 28vw, 380px)",
+          lineHeight: 0.85,
+          letterSpacing: "-0.02em",
+          color: "transparent",
+          WebkitTextStroke: "1px rgba(255,61,107,0.06)",
+          whiteSpace: "nowrap",
+          userSelect: "none",
+          pointerEvents: "none",
+          textAlign: "center",
+        }}
       >
-        <Image
-          src="/images/tinydesk.jpg"
-          alt="Tiny Desk"
-          fill
-          priority
-          className="object-cover object-[center_30%]"
-        />
+        OBS
+      </div>
 
-        {/* Dark overlay */}
-        <div className="absolute inset-0 bg-[#0e1a12]/78" />
+      {/* Pink accent circle */}
+      <div
+        style={{
+          position: "absolute",
+          top: "18%",
+          right: "-80px",
+          width: "320px",
+          height: "320px",
+          borderRadius: "50%",
+          background:
+            "radial-gradient(circle, rgba(255,61,107,0.12) 0%, transparent 70%)",
+          pointerEvents: "none",
+        }}
+      />
 
-        {/* Center copy */}
-        <div className="absolute inset-0 z-10 flex flex-col items-center justify-center px-10 text-center">
+      {/* Horizontal rule with dot */}
+      <div
+        style={{
+          position: "absolute",
+          top: "50%",
+          left: "2rem",
+          right: "2rem",
+          height: "1px",
+          background: "rgba(255,255,255,0.04)",
+        }}
+      />
+
+      {/* Main copy */}
+      <div
+        style={{
+          position: "relative",
+          zIndex: 10,
+          padding: "0 2rem 5rem",
+          maxWidth: "1280px",
+          margin: "0 auto",
+          width: "100%",
+        }}
+      >
+        <p
+          style={{
+            fontFamily: "'DM Sans', sans-serif",
+            fontSize: "10px",
+            letterSpacing: "0.3em",
+            fontWeight: 400,
+            textTransform: "uppercase",
+            color: "rgba(255,255,255,0.3)",
+            marginBottom: "2rem",
+            opacity: vis ? 1 : 0,
+            animation: vis ? "fadeIn 0.8s ease forwards" : "none",
+            animationDelay: "0.1s",
+          }}
+        >
+          Hospitality Collective · Est. 2024
+        </p>
+
+        <h1
+          style={{
+            fontFamily: "'Anton', sans-serif",
+            fontSize: "clamp(58px, 11vw, 148px)",
+            lineHeight: 0.88,
+            letterSpacing: "-0.01em",
+            margin: "0 0 2rem",
+            color: "#fff",
+            opacity: vis ? 1 : 0,
+            animation: vis ? "fadeUp 1s ease forwards" : "none",
+            animationDelay: "0.25s",
+          }}
+        >
+          GRAB A SEAT.
+          <br />
+          <span style={{ color: "#FF3D6B" }}>TAKE A BITE.</span>
+        </h1>
+
+        <div
+          style={{
+            display: "flex",
+            flexDirection: "column",
+            gap: "2rem",
+            opacity: vis ? 1 : 0,
+            animation: vis ? "fadeUp 1s ease forwards" : "none",
+            animationDelay: "0.5s",
+          }}
+        >
           <p
-            className={`mb-10 font-sans text-[11px] font-light tracking-[0.38em] text-white/50 uppercase transition-opacity duration-700 ${
-              visible ? "opacity-100" : "opacity-0"
-            }`}
-            style={{ transitionDelay: "200ms" }}
-          >
-            Hospitality Collective
-          </p>
-
-          <h1
-            className={`font-anton max-w-[1100px] leading-[0.92] tracking-[-0.01em] transition-all duration-1000 ${
-              visible ? "translate-y-0 opacity-100" : "translate-y-10 opacity-0"
-            }`}
             style={{
-              fontSize: "clamp(72px, 13vw, 160px)",
-              transitionDelay: "300ms",
+              fontFamily: "'DM Sans', sans-serif",
+              fontSize: "clamp(15px, 1.8vw, 19px)",
+              lineHeight: 1.7,
+              fontWeight: 300,
+              color: "rgba(255,255,255,0.5)",
+              maxWidth: "480px",
             }}
           >
-            <span style={{ color: "#ffffff" }}>GRAB A</span>
-            <br />
-            <span style={{ color: "#ffffff" }}>SEAT AND</span>
-            <br />
-            <span style={{ color: "#FF3D6B" }}>TAKE A BITE.</span>
-          </h1>
-        </div>
+            We build the kind of spaces and experiences people actually come
+            back to. Warm food, warm rooms, real relationships.
+          </p>
 
-        {/* Scroll nudge */}
-        <div
-          className={`absolute right-10 bottom-10 z-10 flex flex-col items-center gap-2 transition-opacity duration-700 ${
-            visible ? "opacity-100" : "opacity-0"
-          }`}
-          style={{ transitionDelay: "1600ms" }}
-        >
-          <span
-            className="mb-2 font-sans text-[9px] tracking-[0.2em] text-white/28 uppercase"
-            style={{ writingMode: "vertical-rl", transform: "rotate(180deg)" }}
-          >
-            Scroll
-          </span>
-          <div className="relative h-12 w-px overflow-hidden bg-white/15">
-            <div className="animate-scrollLine absolute top-0 left-0 h-[40%] w-full bg-[#FF3D6B]" />
+          <div style={{ display: "flex", gap: "1rem", flexWrap: "wrap" }}>
+            <a
+              href="#about"
+              style={{
+                fontFamily: "'DM Sans', sans-serif",
+                fontSize: "11px",
+                letterSpacing: "0.18em",
+                fontWeight: 500,
+                textTransform: "uppercase",
+                background: "#FF3D6B",
+                color: "#fff",
+                padding: "14px 28px",
+                textDecoration: "none",
+                transition: "background 0.2s ease",
+                display: "inline-block",
+              }}
+              onMouseEnter={(e) =>
+                (e.target.style.background = "rgba(255,61,107,0.85)")
+              }
+              onMouseLeave={(e) => (e.target.style.background = "#FF3D6B")}
+            >
+              Our Story
+            </a>
+            <a
+              href="#contact"
+              style={{
+                fontFamily: "'DM Sans', sans-serif",
+                fontSize: "11px",
+                letterSpacing: "0.18em",
+                fontWeight: 400,
+                textTransform: "uppercase",
+                border: "1px solid rgba(255,255,255,0.2)",
+                color: "rgba(255,255,255,0.6)",
+                padding: "14px 28px",
+                textDecoration: "none",
+                transition: "all 0.2s ease",
+                display: "inline-block",
+              }}
+              onMouseEnter={(e) => {
+                e.target.style.borderColor = "rgba(255,255,255,0.5)";
+                e.target.style.color = "#fff";
+              }}
+              onMouseLeave={(e) => {
+                e.target.style.borderColor = "rgba(255,255,255,0.2)";
+                e.target.style.color = "rgba(255,255,255,0.6)";
+              }}
+            >
+              Work with us
+            </a>
           </div>
         </div>
-      </section>
+      </div>
 
-      {/* ── COMPANY VALUE ─────────────────────────── */}
+      {/* Scroll indicator */}
+      <div
+        style={{
+          position: "absolute",
+          right: "2rem",
+          bottom: "2.5rem",
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+          gap: "8px",
+          opacity: vis ? 1 : 0,
+          animation: vis ? "fadeIn 1s ease forwards" : "none",
+          animationDelay: "1.4s",
+        }}
+      >
+        <span
+          style={{
+            fontFamily: "'DM Sans', sans-serif",
+            fontSize: "8px",
+            letterSpacing: "0.2em",
+            textTransform: "uppercase",
+            color: "rgba(255,255,255,0.2)",
+            writingMode: "vertical-rl",
+            transform: "rotate(180deg)",
+          }}
+        >
+          Scroll
+        </span>
+        <div
+          style={{
+            width: "1px",
+            height: "48px",
+            background: "rgba(255,255,255,0.12)",
+            position: "relative",
+            overflow: "hidden",
+          }}
+        >
+          <div
+            style={{
+              position: "absolute",
+              top: 0,
+              left: 0,
+              width: "100%",
+              height: "40%",
+              background: "#FF3D6B",
+              animation: "scrollLine 2.2s ease-in-out infinite",
+            }}
+          />
+        </div>
+      </div>
+    </section>
+  );
+}
+
+// ─── About / Values ───────────────────────────────────────────────────────────
+
+function CompanyValue() {
+  const VALUES = [
+    {
+      n: "01",
+      tag: "Mutual Growth",
+      title: "We rise\ntogether.",
+      body: "Real success is never solo. We build with our vendors, our customers, our neighbours — not above them. When the people around us win, that&apos;s when we know we&apos;ve actually done something worth doing.",
+    },
+    {
+      n: "02",
+      tag: "Continuous Relationship",
+      title: "Beyond the\ntransaction.",
+      body: "A deal ends. A relationship doesn&apos;t. We&apos;re not here to close and move on — we&apos;re here to stay, check in, and grow with you. Money is a byproduct. Trust is the point.",
+    },
+    {
+      n: "03",
+      tag: "Human Above All",
+      title: "Human\nabove everything.",
+      body: "The world chases frameworks and the next big method. We go the other way — plain, warm, honest. The most sophisticated thing a business can do is be genuinely human.",
+    },
+  ];
+
+  return (
+    <section
+      id="about"
+      style={{ background: "#F8F6F2", width: "100%", position: "relative" }}
+    >
+      {/* Statement block */}
+      <div
+        style={{
+          borderBottom: "1px solid rgba(17,17,17,0.08)",
+          padding: "7rem 2rem",
+        }}
+      >
+        <div style={{ maxWidth: "1280px", margin: "0 auto" }}>
+          <EyebrowLabel>What we stand for</EyebrowLabel>
+          <h2
+            style={{
+              fontFamily: "'Anton', sans-serif",
+              fontSize: "clamp(38px, 6vw, 84px)",
+              lineHeight: 0.92,
+              letterSpacing: "-0.01em",
+              color: "#111",
+              maxWidth: "860px",
+              margin: "0 0 2rem",
+            }}
+          >
+            WE DON&apos;T JUST SOLVE PROBLEMS.{" "}
+            <span style={{ color: "#D4687A" }}>WE SIT DOWN WITH YOU.</span>
+          </h2>
+          <p
+            style={{
+              fontFamily: "'DM Sans', sans-serif",
+              fontSize: "16px",
+              lineHeight: 1.85,
+              fontWeight: 300,
+              color: "rgba(17,17,17,0.45)",
+              maxWidth: "540px",
+            }}
+          >
+            Most businesses fix what&apos;s visible. We go deeper — into the
+            rhythms, the pressures, the people — and build something that works
+            from the inside out. Not a quick fix. A foundation.
+          </p>
+        </div>
+      </div>
+
+      {/* Three values */}
+      <div
+        style={{
+          maxWidth: "1280px",
+          margin: "0 auto",
+          padding: "5rem 2rem",
+          display: "grid",
+          gridTemplateColumns: "repeat(auto-fit, minmax(260px, 1fr))",
+          gap: "0",
+        }}
+      >
+        {VALUES.map((v, i) => (
+          <div
+            key={v.n}
+            style={{
+              padding: i === 0 ? "0 3rem 0 0" : "0 3rem",
+              borderLeft: i > 0 ? "1px solid rgba(17,17,17,0.1)" : "none",
+            }}
+          >
+            {/* number + tag */}
+            <div
+              style={{
+                display: "flex",
+                alignItems: "center",
+                gap: "12px",
+                marginBottom: "2rem",
+              }}
+            >
+              <span
+                style={{
+                  fontFamily: "'DM Sans', sans-serif",
+                  fontSize: "10px",
+                  letterSpacing: "0.2em",
+                  fontWeight: 300,
+                  color: "rgba(17,17,17,0.18)",
+                }}
+              >
+                {v.n}
+              </span>
+              <span
+                style={{
+                  display: "block",
+                  width: "24px",
+                  height: "1px",
+                  background: "rgba(255,61,107,0.4)",
+                }}
+              />
+              <span
+                style={{
+                  fontFamily: "'DM Sans', sans-serif",
+                  fontSize: "9px",
+                  letterSpacing: "0.18em",
+                  fontWeight: 500,
+                  textTransform: "uppercase",
+                  color: "#FF3D6B",
+                }}
+              >
+                {v.tag}
+              </span>
+            </div>
+
+            <h3
+              style={{
+                fontFamily: "'Anton', sans-serif",
+                fontSize: "clamp(26px, 2.8vw, 40px)",
+                lineHeight: 0.92,
+                color: "#111",
+                marginBottom: "1.25rem",
+                whiteSpace: "pre-line",
+              }}
+            >
+              {v.title}
+            </h3>
+            <p
+              style={{
+                fontFamily: "'DM Sans', sans-serif",
+                fontSize: "14px",
+                lineHeight: 1.85,
+                fontWeight: 300,
+                color: "rgba(17,17,17,0.5)",
+              }}
+              dangerouslySetInnerHTML={{ __html: v.body }}
+            />
+          </div>
+        ))}
+      </div>
+
+      <style>{`
+        @media (max-width: 768px) {
+          #about .values-grid > div { border-left: none !important; border-top: 1px solid rgba(17,17,17,0.1); padding: 2.5rem 0 !important; }
+          #about .values-grid > div:first-child { border-top: none; }
+        }
+      `}</style>
+    </section>
+  );
+}
+
+// ─── Key Ingredients ──────────────────────────────────────────────────────────
+
+function Ingredients() {
+  const [hovered, setHovered] = useState(null);
+
+  return (
+    <section
+      id="ingredients"
+      style={{ background: "#111", padding: "6rem 0", position: "relative" }}
+    >
+      <div
+        style={{
+          position: "absolute",
+          inset: 0,
+          opacity: 0.025,
+          backgroundImage:
+            "linear-gradient(rgba(255,255,255,1) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,1) 1px, transparent 1px)",
+          backgroundSize: "48px 48px",
+          pointerEvents: "none",
+        }}
+      />
+
+      <div
+        style={{
+          maxWidth: "1280px",
+          margin: "0 auto",
+          padding: "0 2rem",
+          position: "relative",
+          zIndex: 2,
+        }}
+      >
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "space-between",
+            alignItems: "flex-end",
+            marginBottom: "4rem",
+            flexWrap: "wrap",
+            gap: "1.5rem",
+          }}
+        >
+          <div>
+            <EyebrowLabel light>Our Services</EyebrowLabel>
+            <h2
+              style={{
+                fontFamily: "'Anton', sans-serif",
+                fontSize: "clamp(36px, 5vw, 72px)",
+                lineHeight: 0.9,
+                color: "#fff",
+                margin: 0,
+              }}
+            >
+              KEY
+              <br />
+              <span style={{ color: "#FF3D6B" }}>INGREDIENTS</span>
+            </h2>
+          </div>
+          <p
+            style={{
+              fontFamily: "'DM Sans', sans-serif",
+              fontSize: "14px",
+              fontWeight: 300,
+              lineHeight: 1.75,
+              color: "rgba(255,255,255,0.35)",
+              maxWidth: "320px",
+            }}
+          >
+            Every great dish starts with the right elements. Here&apos;s what we
+            bring to the table.
+          </p>
+        </div>
+
+        {/* Cards */}
+        <div
+          style={{
+            display: "grid",
+            gridTemplateColumns: "repeat(auto-fit, minmax(260px, 1fr))",
+            gap: "1px",
+            background: "rgba(255,255,255,0.06)",
+            border: "1px solid rgba(255,255,255,0.06)",
+          }}
+        >
+          {INGREDIENTS.map((ing, i) => (
+            <div
+              key={ing.id}
+              onMouseEnter={() => setHovered(i)}
+              onMouseLeave={() => setHovered(null)}
+              style={{
+                padding: "2.5rem 2rem",
+                background: hovered === i ? "rgba(255,61,107,0.05)" : "#111",
+                cursor: "default",
+                transition: "background 0.3s ease",
+                position: "relative",
+                overflow: "hidden",
+              }}
+            >
+              {/* Accent line on hover */}
+              <div
+                style={{
+                  position: "absolute",
+                  top: 0,
+                  left: 0,
+                  width: "2px",
+                  height: hovered === i ? "100%" : "0%",
+                  background: "#FF3D6B",
+                  transition: "height 0.35s ease",
+                }}
+              />
+
+              <div
+                style={{
+                  display: "flex",
+                  justifyContent: "space-between",
+                  alignItems: "flex-start",
+                  marginBottom: "2.5rem",
+                }}
+              >
+                <span
+                  style={{
+                    fontFamily: "'Anton', sans-serif",
+                    fontSize: "11px",
+                    letterSpacing: "0.2em",
+                    color: "rgba(255,255,255,0.12)",
+                  }}
+                >
+                  {ing.id}
+                </span>
+                <span
+                  style={{
+                    fontFamily: "'DM Sans', sans-serif",
+                    fontSize: "9px",
+                    letterSpacing: "0.18em",
+                    fontWeight: 500,
+                    textTransform: "uppercase",
+                    color: "#FF3D6B",
+                    textAlign: "right",
+                    maxWidth: "140px",
+                    lineHeight: 1.6,
+                  }}
+                >
+                  {ing.category}
+                </span>
+              </div>
+
+              <h3
+                style={{
+                  fontFamily: "'Anton', sans-serif",
+                  fontSize: "clamp(22px, 2.4vw, 30px)",
+                  lineHeight: 0.95,
+                  color: "#fff",
+                  marginBottom: "1.25rem",
+                  whiteSpace: "pre-line",
+                  letterSpacing: "-0.01em",
+                }}
+              >
+                {ing.title}
+              </h3>
+              <p
+                style={{
+                  fontFamily: "'DM Sans', sans-serif",
+                  fontSize: "13px",
+                  lineHeight: 1.8,
+                  fontWeight: 300,
+                  color: "rgba(255,255,255,0.4)",
+                  marginBottom: "1.75rem",
+                }}
+                dangerouslySetInnerHTML={{ __html: ing.desc }}
+              />
+              <span
+                style={{
+                  fontFamily: "'DM Sans', sans-serif",
+                  fontSize: "9px",
+                  letterSpacing: "0.14em",
+                  fontWeight: 400,
+                  color: "rgba(255,255,255,0.2)",
+                  textTransform: "uppercase",
+                  borderTop: "1px solid rgba(255,255,255,0.06)",
+                  paddingTop: "1rem",
+                  display: "block",
+                }}
+              >
+                {ing.tag}
+              </span>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+// ─── Team ─────────────────────────────────────────────────────────────────────
+
+function Team() {
+  return (
+    <section
+      id="team"
+      style={{ background: "#F8F6F2", padding: "7rem 0", width: "100%" }}
+    >
+      <div style={{ maxWidth: "1280px", margin: "0 auto", padding: "0 2rem" }}>
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "space-between",
+            alignItems: "flex-end",
+            marginBottom: "4.5rem",
+            flexWrap: "wrap",
+            gap: "1.5rem",
+          }}
+        >
+          <div>
+            <EyebrowLabel>The People</EyebrowLabel>
+            <h2
+              style={{
+                fontFamily: "'Anton', sans-serif",
+                fontSize: "clamp(36px, 5.5vw, 78px)",
+                lineHeight: 0.9,
+                color: "#111",
+                margin: 0,
+              }}
+            >
+              WHO WE ARE
+            </h2>
+          </div>
+          <p
+            style={{
+              fontFamily: "'DM Sans', sans-serif",
+              fontSize: "14px",
+              fontWeight: 300,
+              lineHeight: 1.75,
+              color: "rgba(17,17,17,0.4)",
+              maxWidth: "340px",
+            }}
+          >
+            Small team. Deep focus. Everyone here is someone who genuinely cares
+            about what ends up on your plate — literally and figuratively.
+          </p>
+        </div>
+
+        {/* Team grid */}
+        <div
+          style={{
+            display: "grid",
+            gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))",
+            gap: "2px",
+          }}
+        >
+          {TEAM.map((member, i) => (
+            <div
+              key={member.name}
+              style={{
+                background: "#fff",
+                padding: "2.5rem 2rem",
+                position: "relative",
+                borderBottom: i < TEAM.length - 1 ? "none" : "none",
+              }}
+            >
+              {/* Avatar — initials-based */}
+              <div
+                style={{
+                  width: "64px",
+                  height: "64px",
+                  borderRadius: "50%",
+                  background: "#111",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  marginBottom: "1.75rem",
+                  position: "relative",
+                  overflow: "hidden",
+                }}
+              >
+                {/* subtle pink ring on top half */}
+                <div
+                  style={{
+                    position: "absolute",
+                    top: 0,
+                    left: 0,
+                    right: 0,
+                    height: "50%",
+                    background: "rgba(255,61,107,0.15)",
+                  }}
+                />
+                <span
+                  style={{
+                    fontFamily: "'Anton', sans-serif",
+                    fontSize: "16px",
+                    letterSpacing: "0.04em",
+                    color: "#fff",
+                    position: "relative",
+                    zIndex: 1,
+                  }}
+                >
+                  {member.initials}
+                </span>
+              </div>
+
+              <p
+                style={{
+                  fontFamily: "'DM Sans', sans-serif",
+                  fontSize: "9px",
+                  letterSpacing: "0.2em",
+                  fontWeight: 500,
+                  textTransform: "uppercase",
+                  color: "#FF3D6B",
+                  marginBottom: "6px",
+                }}
+              >
+                {member.role}
+              </p>
+              <h3
+                style={{
+                  fontFamily: "'Anton', sans-serif",
+                  fontSize: "22px",
+                  letterSpacing: "0.01em",
+                  color: "#111",
+                  marginBottom: "1rem",
+                  lineHeight: 1,
+                }}
+              >
+                {member.name}
+              </h3>
+              <p
+                style={{
+                  fontFamily: "'DM Sans', sans-serif",
+                  fontSize: "13px",
+                  lineHeight: 1.7,
+                  fontWeight: 300,
+                  color: "rgba(17,17,17,0.45)",
+                  fontStyle: "italic",
+                }}
+              >
+                &ldquo;{member.note}&rdquo;
+              </p>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+// ─── Contact CTA ──────────────────────────────────────────────────────────────
+
+function ContactCTA() {
+  return (
+    <section
+      id="contact"
+      style={{
+        background: "#111",
+        padding: "8rem 2rem",
+        position: "relative",
+        overflow: "hidden",
+        textAlign: "center",
+      }}
+    >
+      {/* Radial glow */}
+      <div
+        style={{
+          position: "absolute",
+          top: "50%",
+          left: "50%",
+          transform: "translate(-50%, -50%)",
+          width: "600px",
+          height: "600px",
+          borderRadius: "50%",
+          background:
+            "radial-gradient(circle, rgba(255,61,107,0.1) 0%, transparent 68%)",
+          pointerEvents: "none",
+        }}
+      />
+
+      <div
+        style={{
+          position: "relative",
+          zIndex: 2,
+          maxWidth: "760px",
+          margin: "0 auto",
+        }}
+      >
+        <EyebrowLabel light>Get in Touch</EyebrowLabel>
+        <h2
+          style={{
+            fontFamily: "'Anton', sans-serif",
+            fontSize: "clamp(46px, 8vw, 110px)",
+            lineHeight: 0.88,
+            color: "#fff",
+            marginBottom: "2rem",
+            letterSpacing: "-0.01em",
+          }}
+        >
+          LET&apos;S MAKE
+          <br />
+          <span style={{ color: "#FF3D6B" }}>SOMETHING.</span>
+        </h2>
+
+        <p
+          style={{
+            fontFamily: "'DM Sans', sans-serif",
+            fontSize: "16px",
+            lineHeight: 1.75,
+            fontWeight: 300,
+            color: "rgba(255,255,255,0.4)",
+            marginBottom: "3rem",
+            maxWidth: "420px",
+            margin: "0 auto 3rem",
+          }}
+        >
+          We&apos;re a small team. When you reach out, a real person reads it —
+          and writes back.
+        </p>
+
+        <div
+          style={{
+            display: "flex",
+            gap: "1rem",
+            justifyContent: "center",
+            flexWrap: "wrap",
+          }}
+        >
+          <a
+            href="mailto:onebitestr@gmail.com"
+            style={{
+              fontFamily: "'DM Sans', sans-serif",
+              fontSize: "11px",
+              letterSpacing: "0.18em",
+              fontWeight: 500,
+              textTransform: "uppercase",
+              background: "#FF3D6B",
+              color: "#fff",
+              padding: "16px 34px",
+              textDecoration: "none",
+              transition: "background 0.2s ease",
+              display: "inline-block",
+            }}
+            onMouseEnter={(e) =>
+              (e.target.style.background = "rgba(255,61,107,0.82)")
+            }
+            onMouseLeave={(e) => (e.target.style.background = "#FF3D6B")}
+          >
+            Send a message
+          </a>
+          <a
+            href="https://instagram.com/onebitestr"
+            target="_blank"
+            rel="noopener noreferrer"
+            style={{
+              fontFamily: "'DM Sans', sans-serif",
+              fontSize: "11px",
+              letterSpacing: "0.18em",
+              fontWeight: 400,
+              textTransform: "uppercase",
+              border: "1px solid rgba(255,255,255,0.18)",
+              color: "rgba(255,255,255,0.55)",
+              padding: "16px 34px",
+              textDecoration: "none",
+              transition: "all 0.2s ease",
+              display: "inline-block",
+            }}
+            onMouseEnter={(e) => {
+              e.target.style.borderColor = "rgba(255,255,255,0.4)";
+              e.target.style.color = "#fff";
+            }}
+            onMouseLeave={(e) => {
+              e.target.style.borderColor = "rgba(255,255,255,0.18)";
+              e.target.style.color = "rgba(255,255,255,0.55)";
+            }}
+          >
+            @onebitestr
+          </a>
+        </div>
+
+        {/* Contact details */}
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "center",
+            gap: "3rem",
+            marginTop: "4rem",
+            flexWrap: "wrap",
+          }}
+        >
+          {[
+            {
+              label: "Email",
+              value: "onebitestr@gmail.com",
+              href: "mailto:onebitestr@gmail.com",
+            },
+            {
+              label: "Instagram",
+              value: "@onebitestr",
+              href: "https://instagram.com/onebitestr",
+            },
+          ].map((item) => (
+            <div key={item.label} style={{ textAlign: "center" }}>
+              <p
+                style={{
+                  fontFamily: "'DM Sans', sans-serif",
+                  fontSize: "9px",
+                  letterSpacing: "0.22em",
+                  textTransform: "uppercase",
+                  color: "rgba(255,255,255,0.2)",
+                  marginBottom: "6px",
+                }}
+              >
+                {item.label}
+              </p>
+              <a
+                href={item.href}
+                style={{
+                  fontFamily: "'DM Sans', sans-serif",
+                  fontSize: "13px",
+                  fontWeight: 400,
+                  color: "rgba(255,255,255,0.55)",
+                  textDecoration: "none",
+                  transition: "color 0.2s ease",
+                }}
+                onMouseEnter={(e) => (e.target.style.color = "#fff")}
+                onMouseLeave={(e) =>
+                  (e.target.style.color = "rgba(255,255,255,0.55)")
+                }
+              >
+                {item.value}
+              </a>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+// ─── Footer ───────────────────────────────────────────────────────────────────
+
+function Footer() {
+  const year = new Date().getFullYear();
+
+  return (
+    <footer
+      style={{
+        background: "#0d0d0d",
+        borderTop: "1px solid rgba(255,255,255,0.05)",
+        padding: "2.5rem 2rem",
+      }}
+    >
+      <div
+        style={{
+          maxWidth: "1280px",
+          margin: "0 auto",
+          display: "flex",
+          justifyContent: "space-between",
+          alignItems: "center",
+          flexWrap: "wrap",
+          gap: "1rem",
+        }}
+      >
+        <span
+          style={{
+            fontFamily: "'Anton', sans-serif",
+            fontSize: "12px",
+            letterSpacing: "0.18em",
+            color: "rgba(255,255,255,0.2)",
+          }}
+        >
+          ONE BITE STREET
+        </span>
+        <p
+          style={{
+            fontFamily: "'DM Sans', sans-serif",
+            fontSize: "10px",
+            letterSpacing: "0.14em",
+            color: "rgba(255,255,255,0.18)",
+          }}
+        >
+          © {year} All rights reserved.
+        </p>
+        <div style={{ display: "flex", gap: "2rem" }}>
+          {["About", "Work", "Contact"].map((l) => (
+            <a
+              key={l}
+              href={`#${l.toLowerCase()}`}
+              style={{
+                fontFamily: "'DM Sans', sans-serif",
+                fontSize: "10px",
+                letterSpacing: "0.16em",
+                textTransform: "uppercase",
+                color: "rgba(255,255,255,0.2)",
+                textDecoration: "none",
+                transition: "color 0.2s ease",
+              }}
+              onMouseEnter={(e) =>
+                (e.target.style.color = "rgba(255,255,255,0.55)")
+              }
+              onMouseLeave={(e) =>
+                (e.target.style.color = "rgba(255,255,255,0.2)")
+              }
+            >
+              {l}
+            </a>
+          ))}
+        </div>
+      </div>
+    </footer>
+  );
+}
+
+// ─── Root ─────────────────────────────────────────────────────────────────────
+
+export default function OneBiteStreet() {
+  return (
+    <>
+      <style>{`
+        @import url('https://fonts.googleapis.com/css2?family=Anton&family=DM+Sans:ital,wght@0,200;0,300;0,400;0,500;1,300;1,400&display=swap');
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        html { scroll-behavior: smooth; }
+        body { background: #111; }
+        a { cursor: pointer; }
+        @keyframes ticker { 0% { transform: translateX(0); } 100% { transform: translateX(-33.333%); } }
+        @keyframes scrollLine { 0% { transform: translateY(-100%); } 100% { transform: translateY(300%); } }
+        @keyframes fadeUp { from { opacity: 0; transform: translateY(28px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+        @media (max-width: 768px) {
+          .desktop-nav { display: none !important; }
+          .mobile-menu-btn { display: flex !important; }
+        }
+      `}</style>
+
+      <Header />
+      <Hero />
+      <Ticker />
       <CompanyValue />
-    </div>
+      <Ingredients />
+      <Ticker dark />
+      <Team />
+      <ContactCTA />
+      <Footer />
+    </>
   );
 }
