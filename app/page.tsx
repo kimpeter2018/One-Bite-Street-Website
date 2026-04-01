@@ -98,7 +98,13 @@ function PinkRule({ className = "" }) {
   );
 }
 
-function EyebrowLabel({ children, light = false }) {
+function EyebrowLabel({
+  children,
+  light = false,
+}: {
+  children: React.ReactNode;
+  light?: boolean;
+}) {
   return (
     <p
       style={{
@@ -194,9 +200,12 @@ function Header() {
                   textDecoration: "none",
                   transition: "color 0.2s ease",
                 }}
-                onMouseEnter={(e) => (e.target.style.color = "#fff")}
+                onMouseEnter={(e) =>
+                  ((e.target as HTMLElement).style.color = "#fff")
+                }
                 onMouseLeave={(e) =>
-                  (e.target.style.color = "rgba(255,255,255,0.45)")
+                  ((e.target as HTMLElement).style.color =
+                    "rgba(255,255,255,0.45)")
                 }
               >
                 {l.name}
@@ -217,12 +226,12 @@ function Header() {
                 transition: "all 0.2s ease",
               }}
               onMouseEnter={(e) => {
-                e.target.style.background = "#FF3D6B";
-                e.target.style.color = "#fff";
+                (e.target as HTMLElement).style.background = "#FF3D6B";
+                (e.target as HTMLElement).style.color = "#fff";
               }}
               onMouseLeave={(e) => {
-                e.target.style.background = "transparent";
-                e.target.style.color = "#FF3D6B";
+                (e.target as HTMLElement).style.background = "transparent";
+                (e.target as HTMLElement).style.color = "#FF3D6B";
               }}
             >
               Let&apos;s talk
@@ -545,9 +554,12 @@ function Hero() {
                 display: "inline-block",
               }}
               onMouseEnter={(e) =>
-                (e.target.style.background = "rgba(255,61,107,0.85)")
+                ((e.target as HTMLElement).style.background =
+                  "rgba(255,61,107,0.85)")
               }
-              onMouseLeave={(e) => (e.target.style.background = "#FF3D6B")}
+              onMouseLeave={(e) =>
+                ((e.target as HTMLElement).style.background = "#FF3D6B")
+              }
             >
               Our Story
             </a>
@@ -567,12 +579,14 @@ function Hero() {
                 display: "inline-block",
               }}
               onMouseEnter={(e) => {
-                e.target.style.borderColor = "rgba(255,255,255,0.5)";
-                e.target.style.color = "#fff";
+                (e.target as HTMLElement).style.borderColor =
+                  "rgba(255,255,255,0.5)";
+                (e.target as HTMLElement).style.color = "#fff";
               }}
               onMouseLeave={(e) => {
-                e.target.style.borderColor = "rgba(255,255,255,0.2)";
-                e.target.style.color = "rgba(255,255,255,0.6)";
+                (e.target as HTMLElement).style.borderColor =
+                  "rgba(255,255,255,0.2)";
+                (e.target as HTMLElement).style.color = "rgba(255,255,255,0.6)";
               }}
             >
               Work with us
@@ -804,7 +818,7 @@ function CompanyValue() {
 // ─── Key Ingredients ──────────────────────────────────────────────────────────
 
 function Ingredients() {
-  const [hovered, setHovered] = useState(null);
+  const [hovered, setHovered] = useState<number | null>(null);
 
   return (
     <section
@@ -1237,9 +1251,12 @@ function ContactCTA() {
               display: "inline-block",
             }}
             onMouseEnter={(e) =>
-              (e.target.style.background = "rgba(255,61,107,0.82)")
+              ((e.target as HTMLElement).style.background =
+                "rgba(255,61,107,0.82)")
             }
-            onMouseLeave={(e) => (e.target.style.background = "#FF3D6B")}
+            onMouseLeave={(e) =>
+              ((e.target as HTMLElement).style.background = "#FF3D6B")
+            }
           >
             Send a message
           </a>
@@ -1261,12 +1278,14 @@ function ContactCTA() {
               display: "inline-block",
             }}
             onMouseEnter={(e) => {
-              e.target.style.borderColor = "rgba(255,255,255,0.4)";
-              e.target.style.color = "#fff";
+              (e.target as HTMLElement).style.borderColor =
+                "rgba(255,255,255,0.4)";
+              (e.target as HTMLElement).style.color = "#fff";
             }}
             onMouseLeave={(e) => {
-              e.target.style.borderColor = "rgba(255,255,255,0.18)";
-              e.target.style.color = "rgba(255,255,255,0.55)";
+              (e.target as HTMLElement).style.borderColor =
+                "rgba(255,255,255,0.18)";
+              (e.target as HTMLElement).style.color = "rgba(255,255,255,0.55)";
             }}
           >
             @onebitestr
@@ -1318,9 +1337,12 @@ function ContactCTA() {
                   textDecoration: "none",
                   transition: "color 0.2s ease",
                 }}
-                onMouseEnter={(e) => (e.target.style.color = "#fff")}
+                onMouseEnter={(e) =>
+                  ((e.target as HTMLElement).style.color = "#fff")
+                }
                 onMouseLeave={(e) =>
-                  (e.target.style.color = "rgba(255,255,255,0.55)")
+                  ((e.target as HTMLElement).style.color =
+                    "rgba(255,255,255,0.55)")
                 }
               >
                 {item.value}
@@ -1392,10 +1414,12 @@ function Footer() {
                 transition: "color 0.2s ease",
               }}
               onMouseEnter={(e) =>
-                (e.target.style.color = "rgba(255,255,255,0.55)")
+                ((e.target as HTMLElement).style.color =
+                  "rgba(255,255,255,0.55)")
               }
               onMouseLeave={(e) =>
-                (e.target.style.color = "rgba(255,255,255,0.2)")
+                ((e.target as HTMLElement).style.color =
+                  "rgba(255,255,255,0.2)")
               }
             >
               {l}
