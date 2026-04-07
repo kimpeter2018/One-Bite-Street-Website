@@ -123,6 +123,11 @@ function EyebrowLabel({
 }
 
 // ─── Header ───────────────────────────────────────────────────────────────────
+// Replace the Header function in app/page.tsx with this version.
+// Changes:
+//   - Removed all NAV_LINKS items from desktop nav
+//   - Added an "OHAE" text link next to the "Let&apos;s talk" button
+//   - Simplified mobile menu to show only OHAE + Let&apos;s talk
 
 function Header() {
   const [scrolled, setScrolled] = useState(false);
@@ -166,7 +171,7 @@ function Header() {
           <a
             href="#"
             style={{
-              fontFamily: "'Anton', sans-serif",
+              fontFamily: "&apos;Anton&apos;, sans-serif",
               fontSize: "15px",
               letterSpacing: "0.18em",
               color: "#ffffff",
@@ -177,44 +182,44 @@ function Header() {
             ONE BITE STREET
           </a>
 
-          {/* Desktop nav */}
+          {/* Desktop nav — OHAE link + Let&apos;s talk CTA */}
           <nav
             style={{
               display: "flex",
               alignItems: "center",
-              gap: "2.5rem",
+              gap: "2rem",
             }}
             className="desktop-nav"
           >
-            {NAV_LINKS.map((l) => (
-              <a
-                key={l.name}
-                href={l.href}
-                style={{
-                  fontFamily: "'DM Sans', sans-serif",
-                  fontSize: "11px",
-                  letterSpacing: "0.16em",
-                  fontWeight: 300,
-                  textTransform: "uppercase",
-                  color: "rgba(255,255,255,0.45)",
-                  textDecoration: "none",
-                  transition: "color 0.2s ease",
-                }}
-                onMouseEnter={(e) =>
-                  ((e.target as HTMLElement).style.color = "#fff")
-                }
-                onMouseLeave={(e) =>
-                  ((e.target as HTMLElement).style.color =
-                    "rgba(255,255,255,0.45)")
-                }
-              >
-                {l.name}
-              </a>
-            ))}
+            {/* OHAE link */}
+            <a
+              href="/ohae"
+              style={{
+                fontFamily: "&apos;DM Sans&apos;, sans-serif",
+                fontSize: "11px",
+                letterSpacing: "0.16em",
+                fontWeight: 300,
+                textTransform: "uppercase",
+                color: "rgba(255,255,255,0.45)",
+                textDecoration: "none",
+                transition: "color 0.2s ease",
+              }}
+              onMouseEnter={(e) =>
+                ((e.target as HTMLElement).style.color = "#fff")
+              }
+              onMouseLeave={(e) =>
+                ((e.target as HTMLElement).style.color =
+                  "rgba(255,255,255,0.45)")
+              }
+            >
+              OHAE
+            </a>
+
+            {/* Let&apos;s talk CTA */}
             <a
               href="#contact"
               style={{
-                fontFamily: "'DM Sans', sans-serif",
+                fontFamily: "&apos;DM Sans&apos;, sans-serif",
                 fontSize: "11px",
                 letterSpacing: "0.16em",
                 fontWeight: 500,
@@ -292,23 +297,32 @@ function Header() {
             gap: "2.5rem",
           }}
         >
-          {[...NAV_LINKS, { name: "Let&apos;s talk", href: "#contact" }].map(
-            (l) => (
-              <a
-                key={l.name}
-                href={l.href}
-                onClick={() => setMobileOpen(false)}
-                style={{
-                  fontFamily: "'Anton', sans-serif",
-                  fontSize: "32px",
-                  letterSpacing: "0.08em",
-                  color: l.name === "Let&apos;s talk" ? "#FF3D6B" : "#fff",
-                  textDecoration: "none",
-                }}
-                dangerouslySetInnerHTML={{ __html: l.name }}
-              />
-            ),
-          )}
+          <a
+            href="/ohae"
+            onClick={() => setMobileOpen(false)}
+            style={{
+              fontFamily: "&apos;Anton&apos;, sans-serif",
+              fontSize: "32px",
+              letterSpacing: "0.08em",
+              color: "#fff",
+              textDecoration: "none",
+            }}
+          >
+            OHAE
+          </a>
+          <a
+            href="#contact"
+            onClick={() => setMobileOpen(false)}
+            style={{
+              fontFamily: "&apos;Anton&apos;, sans-serif",
+              fontSize: "32px",
+              letterSpacing: "0.08em",
+              color: "#FF3D6B",
+              textDecoration: "none",
+            }}
+          >
+            Let&apos;s talk
+          </a>
         </div>
       )}
 
@@ -492,7 +506,7 @@ function Hero() {
             animationDelay: "0.1s",
           }}
         >
-          Hospitality Collective · Est. 2024
+          Hospitality Collective · Est. 2026
         </p>
 
         <h1
