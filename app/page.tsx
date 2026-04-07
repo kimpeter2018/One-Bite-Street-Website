@@ -2,6 +2,7 @@
 
 import { useState, useEffect, useRef } from "react";
 import Image from "next/image";
+import OhaePopup from "@/components/features/OhaePopup";
 
 // ─── Palette ──────────────────────────────────────────────────────────────────
 // Primary: #FF3D6B (vivid pink), #D4687A (warm pink), #F0A0B0 (soft pink)
@@ -1466,6 +1467,7 @@ export default function OneBiteStreet() {
         }
       `}</style>
 
+      <OhaePopup />
       <Header />
       <Hero />
       <Ticker />
