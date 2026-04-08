@@ -54,24 +54,28 @@ const TEAM = [
     name: "Hyojin Lee",
     role: "Design",
     note: "Spaces that feel inevitable.",
+    photo: "/images/hyojin.png",
   },
   {
     initials: "HK",
     name: "Hyeonmin Kim",
     role: "Technology",
     note: "Systems that stay out of the way.",
+    photo: "/images/hyeonmin.png",
   },
   {
     initials: "DK",
     name: "Dani Kang",
     role: "Culinary",
     note: "Food as the opening act.",
+    photo: "/images/dani.png",
   },
   {
     initials: "SJ",
     name: "Shinyoung Jo",
     role: "Operations",
     note: "The hum you never notice.",
+    photo: "/images/shinyoung.png",
   },
 ];
 
@@ -833,13 +837,39 @@ function CompanyValue() {
 // ─── Key Ingredients ──────────────────────────────────────────────────────────
 
 function Ingredients() {
-  const [hovered, setHovered] = useState<number | null>(null);
+  const sectionRef = useRef<HTMLElement>(null);
+
+  useEffect(() => {
+    const isMobile = window.matchMedia("(max-width: 768px)").matches;
+    if (!isMobile) return;
+
+    const cards =
+      sectionRef.current?.querySelectorAll<HTMLDivElement>(".ing-card");
+    if (!cards) return;
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            (entry.target as HTMLDivElement).classList.add("ing-card--active");
+            observer.unobserve(entry.target);
+          }
+        });
+      },
+      { threshold: 0.25 },
+    );
+
+    cards.forEach((card) => observer.observe(card));
+    return () => observer.disconnect();
+  }, []);
 
   return (
     <section
       id="ingredients"
+      ref={sectionRef}
       style={{ background: "#111", padding: "6rem 0", position: "relative" }}
     >
+      {/* Subtle grid bg */}
       <div
         style={{
           position: "absolute",
@@ -861,12 +891,13 @@ function Ingredients() {
           zIndex: 2,
         }}
       >
+        {/* Section header */}
         <div
           style={{
             display: "flex",
             justifyContent: "space-between",
             alignItems: "flex-end",
-            marginBottom: "4rem",
+            marginBottom: "5rem",
             flexWrap: "wrap",
             gap: "1.5rem",
           }}
@@ -902,61 +933,56 @@ function Ingredients() {
           </p>
         </div>
 
-        {/* Cards */}
-        <div
-          style={{
-            display: "grid",
-            gridTemplateColumns: "repeat(auto-fit, minmax(260px, 1fr))",
-            gap: "1px",
-            background: "rgba(255,255,255,0.06)",
-            border: "1px solid rgba(255,255,255,0.06)",
-          }}
-        >
-          {INGREDIENTS.map((ing, i) => (
-            <div
-              key={ing.id}
-              onMouseEnter={() => setHovered(i)}
-              onMouseLeave={() => setHovered(null)}
-              style={{
-                padding: "2.5rem 2rem",
-                background: hovered === i ? "rgba(255,61,107,0.05)" : "#111",
-                cursor: "default",
-                transition: "background 0.3s ease",
-                position: "relative",
-                overflow: "hidden",
-              }}
-            >
-              {/* Accent line on hover */}
+        {/* Zigzag cards */}
+        <div style={{ display: "flex", flexDirection: "column", gap: "32px" }}>
+          {INGREDIENTS.map((ing, i) => {
+            const isRight = i % 2 !== 0;
+            return (
               <div
+                key={ing.id}
+                className="ing-card"
                 style={{
-                  position: "absolute",
-                  top: 0,
-                  left: 0,
-                  width: "2px",
-                  height: hovered === i ? "100%" : "0%",
-                  background: "#FF3D6B",
-                  transition: "height 0.35s ease",
-                }}
-              />
-
-              <div
-                style={{
-                  display: "flex",
-                  justifyContent: "space-between",
-                  alignItems: "flex-start",
-                  marginBottom: "2.5rem",
+                  width: "62%",
+                  marginLeft: isRight ? "auto" : "0",
+                  marginRight: isRight ? "0" : "auto",
+                  padding: "2.5rem 2.5rem 2.5rem 2.8rem",
+                  background: "#111",
+                  position: "relative",
+                  overflow: "hidden",
+                  border: "1px solid rgba(255,255,255,0.06)",
+                  cursor: "default",
+                  transition: "background 0.3s ease, border-color 0.3s ease",
                 }}
               >
+                {/* Accent bar — left edge */}
+                <div
+                  className="ing-accent"
+                  style={{
+                    position: "absolute",
+                    top: 0,
+                    left: 0,
+                    width: "3px",
+                    height: "0%",
+                    background: "#FF3D6B",
+                    transition: "height 0.4s ease",
+                  }}
+                />
+
+                {/* Number */}
                 <span
                   style={{
                     fontFamily: "'Anton', sans-serif",
                     fontSize: "11px",
                     letterSpacing: "0.2em",
                     color: "rgba(255,255,255,0.12)",
+                    display: "block",
+                    marginBottom: "1.25rem",
                   }}
                 >
                   {ing.id}
                 </span>
+
+                {/* Category */}
                 <span
                   style={{
                     fontFamily: "'DM Sans', sans-serif",
@@ -965,58 +991,91 @@ function Ingredients() {
                     fontWeight: 500,
                     textTransform: "uppercase",
                     color: "#FF3D6B",
-                    textAlign: "right",
-                    maxWidth: "140px",
-                    lineHeight: 1.6,
+                    display: "block",
+                    marginBottom: "10px",
                   }}
                 >
                   {ing.category}
                 </span>
-              </div>
 
-              <h3
-                style={{
-                  fontFamily: "'Anton', sans-serif",
-                  fontSize: "clamp(22px, 2.4vw, 30px)",
-                  lineHeight: 0.95,
-                  color: "#fff",
-                  marginBottom: "1.25rem",
-                  whiteSpace: "pre-line",
-                  letterSpacing: "-0.01em",
-                }}
-              >
-                {ing.title}
-              </h3>
-              <p
-                style={{
-                  fontFamily: "'DM Sans', sans-serif",
-                  fontSize: "13px",
-                  lineHeight: 1.8,
-                  fontWeight: 300,
-                  color: "rgba(255,255,255,0.4)",
-                  marginBottom: "1.75rem",
-                }}
-                dangerouslySetInnerHTML={{ __html: ing.desc }}
-              />
-              <span
-                style={{
-                  fontFamily: "'DM Sans', sans-serif",
-                  fontSize: "9px",
-                  letterSpacing: "0.14em",
-                  fontWeight: 400,
-                  color: "rgba(255,255,255,0.2)",
-                  textTransform: "uppercase",
-                  borderTop: "1px solid rgba(255,255,255,0.06)",
-                  paddingTop: "1rem",
-                  display: "block",
-                }}
-              >
-                {ing.tag}
-              </span>
-            </div>
-          ))}
+                {/* Title */}
+                <h3
+                  style={{
+                    fontFamily: "'Anton', sans-serif",
+                    fontSize: "clamp(22px, 2.4vw, 32px)",
+                    lineHeight: 0.95,
+                    color: "#fff",
+                    whiteSpace: "pre-line",
+                    letterSpacing: "-0.01em",
+                    margin: "0 0 1.25rem",
+                  }}
+                >
+                  {ing.title}
+                </h3>
+
+                {/* Description */}
+                <p
+                  style={{
+                    fontFamily: "'DM Sans', sans-serif",
+                    fontSize: "14px",
+                    lineHeight: 1.8,
+                    fontWeight: 300,
+                    color: "rgba(255,255,255,0.4)",
+                    marginBottom: "1rem",
+                  }}
+                  dangerouslySetInnerHTML={{ __html: ing.desc }}
+                />
+
+                {/* Tags */}
+                <span
+                  style={{
+                    fontFamily: "'DM Sans', sans-serif",
+                    fontSize: "9px",
+                    letterSpacing: "0.14em",
+                    fontWeight: 400,
+                    color: "rgba(255,255,255,0.18)",
+                    textTransform: "uppercase",
+                    borderTop: "1px solid rgba(255,255,255,0.06)",
+                    paddingTop: "1rem",
+                    display: "block",
+                  }}
+                >
+                  {ing.tag}
+                </span>
+              </div>
+            );
+          })}
         </div>
       </div>
+
+      <style>{`
+        /* ── Desktop: hover triggers animation ── */
+        @media (min-width: 769px) {
+          .ing-card:hover {
+            background: rgba(255,61,107,0.04) !important;
+            border-color: rgba(255,61,107,0.2) !important;
+          }
+          .ing-card:hover .ing-accent {
+            height: 100% !important;
+          }
+        }
+
+        /* ── Mobile: scroll triggers animation ── */
+        @media (max-width: 768px) {
+          .ing-card {
+            width: 100% !important;
+            margin-left: 0 !important;
+            margin-right: 0 !important;
+          }
+          .ing-card--active {
+            background: rgba(255,61,107,0.04) !important;
+            border-color: rgba(255,61,107,0.2) !important;
+          }
+          .ing-card--active .ing-accent {
+            height: 100% !important;
+          }
+        }
+      `}</style>
     </section>
   );
 }
@@ -1069,64 +1128,60 @@ function Team() {
           </p>
         </div>
 
-        {/* Team grid */}
+        {/* Team card grid */}
         <div
           style={{
             display: "grid",
-            gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))",
-            gap: "2px",
+            gridTemplateColumns: "repeat(4, 1fr)",
+            gap: "24px",
           }}
         >
           {TEAM.map((member, i) => (
             <div
               key={member.name}
               style={{
-                background: "#fff",
-                padding: "2.5rem 2rem",
-                position: "relative",
-                borderBottom: i < TEAM.length - 1 ? "none" : "none",
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "center",
+                textAlign: "center",
+                marginTop: i % 2 !== 0 ? "48px" : "0",
               }}
             >
-              {/* Avatar — initials-based */}
+              {/* Photo card */}
               <div
                 style={{
-                  width: "64px",
-                  height: "64px",
-                  borderRadius: "50%",
-                  background: "#111",
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                  marginBottom: "1.75rem",
-                  position: "relative",
+                  width: "100%",
+                  aspectRatio: "3 / 4",
                   overflow: "hidden",
+                  marginBottom: "1.25rem",
+                  background: "#e8e4de",
                 }}
               >
-                {/* subtle pink ring on top half */}
-                <div
+                <Image
+                  src={member.photo}
+                  alt={member.name}
+                  width={400}
+                  height={533}
                   style={{
-                    position: "absolute",
-                    top: 0,
-                    left: 0,
-                    right: 0,
-                    height: "50%",
-                    background: "rgba(255,61,107,0.15)",
+                    width: "100%",
+                    height: "100%",
+                    objectFit: "cover",
+                    objectPosition: "center top",
+                    display: "block",
+                    transition: "transform 0.5s ease",
                   }}
+                  onMouseEnter={(e) =>
+                    ((e.currentTarget as HTMLImageElement).style.transform =
+                      "scale(1.04)")
+                  }
+                  onMouseLeave={(e) =>
+                    ((e.currentTarget as HTMLImageElement).style.transform =
+                      "scale(1)")
+                  }
                 />
-                <span
-                  style={{
-                    fontFamily: "'Anton', sans-serif",
-                    fontSize: "16px",
-                    letterSpacing: "0.04em",
-                    color: "#fff",
-                    position: "relative",
-                    zIndex: 1,
-                  }}
-                >
-                  {member.initials}
-                </span>
               </div>
 
+              {/* Text */}
               <p
                 style={{
                   fontFamily: "'DM Sans', sans-serif",
@@ -1135,7 +1190,7 @@ function Team() {
                   fontWeight: 500,
                   textTransform: "uppercase",
                   color: "#FF3D6B",
-                  marginBottom: "6px",
+                  marginBottom: "4px",
                 }}
               >
                 {member.role}
@@ -1143,10 +1198,10 @@ function Team() {
               <h3
                 style={{
                   fontFamily: "'Anton', sans-serif",
-                  fontSize: "22px",
+                  fontSize: "20px",
                   letterSpacing: "0.01em",
                   color: "#111",
-                  marginBottom: "1rem",
+                  marginBottom: "8px",
                   lineHeight: 1,
                 }}
               >
@@ -1167,6 +1222,15 @@ function Team() {
             </div>
           ))}
         </div>
+
+        <style>{`
+          @media (max-width: 900px) {
+            #team .team-grid { grid-template-columns: repeat(2, 1fr) !important; }
+          }
+          @media (max-width: 520px) {
+            #team .team-grid { grid-template-columns: 1fr 1fr !important; gap: 12px !important; }
+          }
+        `}</style>
       </div>
     </section>
   );

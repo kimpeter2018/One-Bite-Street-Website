@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import { Anton, DM_Sans, Playfair_Display } from "next/font/google";
 import "./globals.css";
-import Footer from "@/components/layout/Footer";
 
 const anton = Anton({
   weight: "400",
