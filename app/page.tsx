@@ -197,7 +197,7 @@ function Header() {
               href="/ohae"
               style={{
                 fontFamily: "&apos;DM Sans&apos;, sans-serif",
-                fontSize: "11px",
+                fontSize: "16px",
                 letterSpacing: "0.16em",
                 fontWeight: 300,
                 textTransform: "uppercase",
@@ -213,7 +213,7 @@ function Header() {
                   "rgba(255,255,255,0.45)")
               }
             >
-              OHAE
+              OH·AE
             </a>
 
             {/* Let&apos;s talk CTA */}
@@ -1415,7 +1415,7 @@ function Footer() {
           © {year} All rights reserved.
         </p>
         <div style={{ display: "flex", gap: "2rem" }}>
-          {["About", "Work", "Contact"].map((l) => (
+          {["About", "Contact"].map((l) => (
             <a
               key={l}
               href={`#${l.toLowerCase()}`}

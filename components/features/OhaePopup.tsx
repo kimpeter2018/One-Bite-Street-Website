@@ -2,13 +2,13 @@
 
 import { useState, useEffect } from "react";
 import Link from "next/link";
+import Image from "next/image";
 
 export default function OhaePopup() {
   const [visible, setVisible] = useState(false);
   const [dismissed, setDismissed] = useState(false);
 
   useEffect(() => {
-    // Small delay so it feels intentional, not jarring
     const t = setTimeout(() => setVisible(true), 1200);
     return () => clearTimeout(t);
   }, []);
@@ -24,159 +24,187 @@ export default function OhaePopup() {
           position: "fixed",
           inset: 0,
           zIndex: 200,
-          background: "rgba(17,17,17,0.55)",
-          backdropFilter: "blur(4px)",
+          background: "rgba(17,17,17,0.6)",
           opacity: visible ? 1 : 0,
-          transition: "opacity 0.5s ease",
+          transition: "opacity 0.4s ease",
           pointerEvents: visible ? "auto" : "none",
         }}
       />
 
-      {/* Modal card */}
+      {/* Card */}
       <div
+        role="dialog"
+        aria-modal="true"
+        aria-label="Introducing Caf&eacute; OHAE"
         style={{
           position: "fixed",
-          bottom: "50%",
+          top: "50%",
           left: "50%",
           transform: visible
-            ? "translate(-50%, 50%) scale(1)"
-            : "translate(-50%, 50%) scale(0.92)",
+            ? "translate(-50%, -50%) scale(1)"
+            : "translate(-50%, -50%) scale(0.94)",
           zIndex: 201,
           opacity: visible ? 1 : 0,
           transition:
-            "transform 0.5s cubic-bezier(0.34,1.56,0.64,1), opacity 0.4s ease",
-          width: "min(480px, 92vw)",
-          background: "#FAFFF7",
-          border: "2px solid #6DBF5A",
-          borderRadius: "20px",
+            "transform 0.45s cubic-bezier(0.34,1.4,0.64,1), opacity 0.35s ease",
+          width: "min(540px, 94vw)",
+          background: "#ffffff",
+          borderRadius: "16px",
           overflow: "hidden",
+          boxShadow: "0 0 0 1px rgba(0,0,0,0.08), 0 24px 48px rgba(0,0,0,0.22)",
         }}
       >
-        {/* Green top strip */}
-        <div
-          className="flex items-center justify-between px-5 py-3"
-          style={{ background: "#2A6120" }}
+        {/* ── Close button ─────────────────────────────────── */}
+        <button
+          onClick={() => setDismissed(true)}
+          aria-label="Close"
+          style={{
+            position: "absolute",
+            top: "14px",
+            right: "14px",
+            zIndex: 10,
+            width: "32px",
+            height: "32px",
+            borderRadius: "50%",
+            background: "rgba(0,0,0,0.42)",
+            border: "none",
+            cursor: "pointer",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            color: "#fff",
+            fontSize: "15px",
+            lineHeight: "1",
+            transition: "background 0.2s",
+          }}
+          onMouseEnter={(e) =>
+            ((e.currentTarget as HTMLButtonElement).style.background =
+              "rgba(0,0,0,0.65)")
+          }
+          onMouseLeave={(e) =>
+            ((e.currentTarget as HTMLButtonElement).style.background =
+              "rgba(0,0,0,0.42)")
+          }
         >
-          <span
+          &#x2715;
+        </button>
+
+        {/* ── Photo — full width ───────────────────────────── */}
+        <Image
+          src="/images/ohae-popup.jpg"
+          alt="OHAE pop-up booth at food festival"
+          width={540}
+          height={320}
+          style={{
+            width: "100%",
+            height: "320px",
+            objectFit: "contain",
+            display: "block",
+          }}
+          priority
+        />
+
+        {/* ── Dark green intro band ────────────────────────── */}
+        <div
+          style={{
+            background: "#2A6120",
+            padding: "22px 28px 20px",
+            position: "relative",
+          }}
+        >
+          {/* Logo — 64px square in the top-right corner */}
+          <Image
+            src="/images/ohae-logo.png"
+            alt="OH·AE logo"
+            width={64}
+            height={64}
             style={{
-              fontFamily: "&apos;Anton&apos;, sans-serif",
-              fontSize: "13px",
+              position: "absolute",
+              top: "18px",
+              right: "22px",
+              borderRadius: "8px",
+              objectFit: "cover",
+            }}
+          />
+
+          <p
+            style={{
+              fontFamily: "monospace",
+              fontSize: "10px",
+              fontWeight: 700,
               letterSpacing: "0.22em",
+              textTransform: "uppercase",
+              color: "rgba(240,255,232,0.55)",
+              margin: "0 0 10px",
+            }}
+          >
+            New from One Bite Street
+          </p>
+
+          <p
+            style={{
+              fontFamily: "'DM Sans', sans-serif",
+              fontSize: "19px",
+              fontWeight: 500,
               color: "#F0FFE8",
+              lineHeight: "1.35",
+              margin: "0 80px 0 0",
             }}
           >
-            CAFÉ OHAE
-          </span>
-          <button
-            onClick={() => setDismissed(true)}
-            aria-label="Close"
-            style={{
-              background: "none",
-              border: "none",
-              cursor: "pointer",
-              color: "rgba(240,255,232,0.45)",
-              fontSize: "18px",
-              lineHeight: 1,
-              padding: "2px 4px",
-              transition: "color 0.2s",
-            }}
-            onMouseEnter={(e) =>
-              ((e.target as HTMLElement).style.color = "#F0FFE8")
-            }
-            onMouseLeave={(e) =>
-              ((e.target as HTMLElement).style.color = "rgba(240,255,232,0.45)")
-            }
-          >
-            ✕
-          </button>
+            We just launched our first caf&eacute; brand &mdash;{" "}
+            <strong style={{ fontWeight: 700 }}>OH&middot;AE</strong>. Check it
+            out.
+          </p>
         </div>
 
-        {/* Body */}
-        <div className="px-7 py-8 text-center">
-          {/* Big kitschy OHAE */}
-          <p
-            style={{
-              fontFamily: "&apos;Anton&apos;, sans-serif",
-              fontSize: "72px",
-              lineHeight: 0.88,
-              color: "#2A6120",
-              marginBottom: "4px",
-            }}
-          >
-            OHAE
-          </p>
-          <p
-            className="mb-6 font-mono text-xs tracking-widest"
-            style={{ color: "#FF7A45" }}
-          >
-            おはえ
-          </p>
-
-          {/* Pill badge */}
-          <div
-            className="mx-auto mb-6 inline-block rounded-full px-4 py-1.5 font-mono text-[10px] font-bold tracking-widest"
-            style={{ background: "#FF7A45", color: "#FFF5F0" }}
-          >
-            OUR MATCHA CAFÉ BRAND ✿
-          </div>
-
-          <p
-            className="mx-auto mb-8 max-w-xs leading-relaxed"
-            style={{
-              fontFamily: "&apos;DM Sans&apos;, sans-serif",
-              fontSize: "14px",
-              color: "#3D6B32",
-              fontWeight: 300,
-            }}
-          >
-            We&apos;re opening a matcha café later this year. Check out the
-            brand, see our pop-ups, and stay in the loop.
-          </p>
-
-          {/* CTAs */}
-          <div className="flex flex-col gap-3">
-            <Link
-              href="/ohae"
-              onClick={() => setDismissed(true)}
-              className="inline-flex items-center justify-center gap-2 py-3 font-mono text-xs font-bold tracking-widest transition-all hover:opacity-80"
-              style={{
-                background: "#2A6120",
-                color: "#F0FFE8",
-                borderRadius: "9999px",
-              }}
-            >
-              DISCOVER CAFÉ OHAE →
-            </Link>
-            <button
-              onClick={() => setDismissed(true)}
-              className="font-mono text-[10px] tracking-widest transition-opacity hover:opacity-100"
-              style={{
-                background: "none",
-                border: "none",
-                cursor: "pointer",
-                color: "#6DBF5A",
-                opacity: 0.6,
-              }}
-            >
-              stay on this page
-            </button>
-          </div>
-        </div>
-
-        {/* Green bottom squiggle strip */}
+        {/* ── Button row ───────────────────────────────────── */}
         <div
-          className="flex items-center justify-center gap-3 py-2"
-          style={{ background: "#D4F0C8" }}
+          style={{
+            padding: "20px 28px 26px",
+            background: "#2A6120",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+          }}
         >
-          {["MATCHA", "✿", "OHAE", "✿", "2025", "✿", "MATCHA"].map((w, i) => (
-            <span
-              key={i}
-              className="font-mono text-[9px] font-bold tracking-widest"
-              style={{ color: "#2A6120" }}
-            >
-              {w}
-            </span>
-          ))}
+          <style>{`
+            .ohae-text-btn {
+              position: relative;
+              background: none;
+              border: none;
+              cursor: pointer;
+              font-family: monospace;
+              font-size: 12px;
+              font-weight: 700;
+              letter-spacing: 0.18em;
+              text-transform: uppercase;
+              color: #F0FFE8;
+              text-decoration: none;
+              padding: 4px 0;
+              display: inline-block;
+            }
+            .ohae-text-btn::after {
+              content: '';
+              position: absolute;
+              left: 0;
+              bottom: 0;
+              width: 0%;
+              height: 1.5px;
+              background: #F0FFE8;
+              transition: width 0.3s ease;
+            }
+            .ohae-text-btn:hover::after {
+              width: 100%;
+            }
+          `}</style>
+
+          <Link
+            href="/ohae"
+            onClick={() => setDismissed(true)}
+            className="ohae-text-btn"
+          >
+            Check out OH&middot;AE &rarr;
+          </Link>
         </div>
       </div>
     </>

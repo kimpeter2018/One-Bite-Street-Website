@@ -53,7 +53,6 @@ export default function RootLayout({
     >
       <body className="font-sans antialiased">
         <main>{children}</main>
-        <Footer />
       </body>
     </html>
   );
