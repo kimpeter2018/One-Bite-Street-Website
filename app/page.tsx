@@ -421,11 +421,11 @@ function Hero() {
       {/* Background texture — subtle grain-like grid */}
       {/* Background photo */}
       <Image
-        src="/images/tinydesk.jpg"
+        src="/images/room2.jpg"
         alt="Hero background"
         fill
         priority
-        style={{ objectFit: "cover", objectPosition: "center 30%" }}
+        style={{ objectFit: "cover", objectPosition: "center 60%" }}
       />
 
       {/* Dark overlay — controls how much the photo shows through */}
@@ -838,29 +838,60 @@ function CompanyValue() {
 
 function Ingredients() {
   const sectionRef = useRef<HTMLElement>(null);
+  const cardRefs = useRef<(HTMLDivElement | null)[]>([]);
 
   useEffect(() => {
     const isMobile = window.matchMedia("(max-width: 768px)").matches;
     if (!isMobile) return;
 
-    const cards =
-      sectionRef.current?.querySelectorAll<HTMLDivElement>(".ing-card");
-    if (!cards) return;
+    const activate = (index: number) => {
+      cardRefs.current.forEach((card, i) => {
+        if (!card) return;
+        if (i === index) {
+          card.classList.add("ing-card--active");
+        } else {
+          card.classList.remove("ing-card--active");
+        }
+      });
+    };
 
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            (entry.target as HTMLDivElement).classList.add("ing-card--active");
-            observer.unobserve(entry.target);
+    const deactivateAll = () => {
+      cardRefs.current.forEach((card) => {
+        card?.classList.remove("ing-card--active");
+      });
+    };
+
+    const onScroll = () => {
+      const centerY = window.innerHeight / 2;
+      let closestIndex = -1;
+      let closestDist = Infinity;
+
+      cardRefs.current.forEach((card, i) => {
+        if (!card) return;
+        const rect = card.getBoundingClientRect();
+        const cardCenter = rect.top + rect.height / 2;
+        const dist = Math.abs(cardCenter - centerY);
+
+        // Only consider cards within the viewport
+        if (rect.top < window.innerHeight && rect.bottom > 0) {
+          if (dist < closestDist) {
+            closestDist = dist;
+            closestIndex = i;
           }
-        });
-      },
-      { threshold: 0.25 },
-    );
+        }
+      });
 
-    cards.forEach((card) => observer.observe(card));
-    return () => observer.disconnect();
+      // Only highlight if closest card center is within 40% of viewport height from screen center
+      if (closestIndex !== -1 && closestDist < window.innerHeight * 0.4) {
+        activate(closestIndex);
+      } else {
+        deactivateAll();
+      }
+    };
+
+    window.addEventListener("scroll", onScroll, { passive: true });
+    onScroll();
+    return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
   return (
@@ -940,9 +971,12 @@ function Ingredients() {
             return (
               <div
                 key={ing.id}
+                ref={(el) => {
+                  cardRefs.current[i] = el;
+                }}
                 className="ing-card"
                 style={{
-                  width: "62%",
+                  width: "80%",
                   marginLeft: isRight ? "auto" : "0",
                   marginRight: isRight ? "0" : "auto",
                   padding: "2.5rem 2.5rem 2.5rem 2.8rem",
@@ -951,7 +985,7 @@ function Ingredients() {
                   overflow: "hidden",
                   border: "1px solid rgba(255,255,255,0.06)",
                   cursor: "default",
-                  transition: "background 0.3s ease, border-color 0.3s ease",
+                  transition: "background 0.35s ease, border-color 0.35s ease",
                 }}
               >
                 {/* Accent bar — left edge */}
@@ -1060,7 +1094,7 @@ function Ingredients() {
           }
         }
 
-        /* ── Mobile: scroll triggers animation ── */
+        /* ── Mobile: JS dynamically adds/removes .ing-card--active ── */
         @media (max-width: 768px) {
           .ing-card {
             width: 100% !important;

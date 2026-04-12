@@ -3,6 +3,11 @@
 import { useState, useEffect } from "react";
 import Link from "next/link";
 
+// Background: #2a6120 (dark forest green)
+// Header:     #1C2E24  //#2a6120(brighter green)
+// Primary:    #fb933d (orange)
+// Text:       #F5F4FF (off-white)
+
 function Photo({
   caption,
   style = {},
@@ -13,7 +18,7 @@ function Photo({
   return (
     <div
       style={{
-        background: "#1a2faa",
+        background: "#1a2e1c",
         display: "flex",
         flexDirection: "column",
         alignItems: "center",
@@ -80,7 +85,7 @@ function BlurredMap() {
         width: "100%",
         height: "320px",
         overflow: "hidden",
-        background: "#1a2faa",
+        background: "#1a2e1c",
       }}
     >
       <svg
@@ -95,7 +100,7 @@ function BlurredMap() {
           transform: "scale(1.08)",
         }}
       >
-        <rect width="600" height="320" fill="#1a2faa" />
+        <rect width="600" height="320" fill="#1e3620" />
         {[40, 85, 125, 170, 210, 255, 295].map((y) => (
           <rect
             key={y}
@@ -149,7 +154,7 @@ function BlurredMap() {
           width="120"
           height="120"
           rx="4"
-          fill="rgba(245,244,255,0.05)"
+          fill="rgba(255,255,255,0.03)"
         />
       </svg>
       <div
@@ -157,7 +162,7 @@ function BlurredMap() {
           position: "absolute",
           inset: 0,
           background:
-            "radial-gradient(ellipse at center, rgba(33,58,211,0.15) 0%, rgba(33,58,211,0.65) 100%)",
+            "radial-gradient(ellipse at center, rgba(28,46,36,0.15) 0%, rgba(28,46,36,0.7) 100%)",
         }}
       />
       <div
@@ -188,7 +193,7 @@ function BlurredMap() {
           <span
             style={{
               transform: "rotate(45deg)",
-              fontFamily: "&apos;Anton&apos;, sans-serif",
+              fontFamily: "'Anton', sans-serif",
               fontSize: "10px",
               color: "#fff",
               letterSpacing: "0.04em",
@@ -199,7 +204,7 @@ function BlurredMap() {
         </div>
         <div
           style={{
-            background: "rgba(33,58,211,0.88)",
+            background: "rgba(28,46,36,0.9)",
             color: "rgba(255,255,255,0.9)",
             fontFamily: "monospace",
             fontSize: "11px",
@@ -243,14 +248,18 @@ export default function OhaePage() {
   }, []);
 
   return (
-    <div style={{ background: "#213ad3", color: "#F5F4FF" }}>
+    <div style={{ background: "#2a6120", color: "#F5F4FF" }}>
       <style>{`
         @keyframes fadeUp { from { opacity:0; transform:translateY(20px); } to { opacity:1; transform:translateY(0); } }
         .ohae-two-col { display:grid; grid-template-columns:1fr 1fr; gap:4px; }
-        @media(max-width:680px) { .ohae-two-col { grid-template-columns:1fr !important; } }
+        .ohae-about { display:grid; grid-template-columns:1fr 2fr; gap:64px; align-items:start; }
+        @media(max-width:680px) {
+          .ohae-two-col { grid-template-columns:1fr !important; }
+          .ohae-about { grid-template-columns:1fr !important; gap:32px !important; }
+        }
       `}</style>
 
-      {/* ── NAV ────────────────────────────────────────────────────────── */}
+      {/* ── NAV ──────────────────────────────────────────────────────────── */}
       <header
         style={{
           position: "fixed",
@@ -258,9 +267,8 @@ export default function OhaePage() {
           left: 0,
           right: 0,
           zIndex: 100,
-          background: "rgba(33,58,211,0.92)",
-          backdropFilter: "blur(12px)",
-          borderBottom: "1px solid rgba(255,255,255,0.06)",
+          background: "#1C2E24", //#2a6120
+          borderBottom: "1px solid rgba(255,255,255,0.08)",
           display: "flex",
           alignItems: "center",
           justifyContent: "space-between",
@@ -271,25 +279,25 @@ export default function OhaePage() {
         <Link
           href="/"
           style={{
-            fontFamily: "&apos;Anton&apos;,sans-serif",
+            fontFamily: "'Anton', sans-serif",
             fontSize: "11px",
             letterSpacing: "0.2em",
-            color: "rgba(255,255,255,0.3)",
+            color: "rgba(255,255,255,0.45)",
             textDecoration: "none",
             transition: "color 0.2s",
           }}
           onMouseEnter={(e) =>
-            (e.currentTarget.style.color = "rgba(255,255,255,0.8)")
+            (e.currentTarget.style.color = "rgba(255,255,255,0.9)")
           }
           onMouseLeave={(e) =>
-            (e.currentTarget.style.color = "rgba(255,255,255,0.3)")
+            (e.currentTarget.style.color = "rgba(255,255,255,0.45)")
           }
         >
           ← ONE BITE STREET
         </Link>
         <span
           style={{
-            fontFamily: "&apos;Anton&apos;,sans-serif",
+            fontFamily: "'Anton', sans-serif",
             fontSize: "13px",
             letterSpacing: "0.22em",
             color: "#fb933d",
@@ -300,27 +308,27 @@ export default function OhaePage() {
         <a
           href="#location"
           style={{
-            fontFamily: "&apos;DM Sans&apos;,sans-serif",
+            fontFamily: "'DM Sans', sans-serif",
             fontSize: "10px",
             letterSpacing: "0.16em",
             fontWeight: 500,
             textTransform: "uppercase",
-            color: "rgba(255,255,255,0.3)",
+            color: "rgba(255,255,255,0.45)",
             textDecoration: "none",
             transition: "color 0.2s",
           }}
           onMouseEnter={(e) =>
-            (e.currentTarget.style.color = "rgba(255,255,255,0.8)")
+            (e.currentTarget.style.color = "rgba(255,255,255,0.9)")
           }
           onMouseLeave={(e) =>
-            (e.currentTarget.style.color = "rgba(255,255,255,0.3)")
+            (e.currentTarget.style.color = "rgba(255,255,255,0.45)")
           }
         >
           Find us
         </a>
       </header>
 
-      {/* ── HERO TEXT ──────────────────────────────────────────────────── */}
+      {/* ── HERO TEXT ────────────────────────────────────────────────────── */}
       <section
         style={{
           maxWidth: "1100px",
@@ -341,11 +349,11 @@ export default function OhaePage() {
             animation: vis ? "fadeUp 0.8s ease forwards" : "none",
           }}
         >
-          Opening 2025 &nbsp;·&nbsp; Marburg, DE
+          Opening 2025 · Marburg, DE
         </p>
         <h1
           style={{
-            fontFamily: "&apos;Anton&apos;,sans-serif",
+            fontFamily: "'Anton', sans-serif",
             fontSize: "clamp(72px,14vw,172px)",
             lineHeight: 0.88,
             letterSpacing: "-0.01em",
@@ -361,7 +369,7 @@ export default function OhaePage() {
         </h1>
         <p
           style={{
-            fontFamily: "&apos;DM Sans&apos;,sans-serif",
+            fontFamily: "'DM Sans', sans-serif",
             fontSize: "clamp(16px,1.8vw,21px)",
             lineHeight: 1.75,
             fontWeight: 300,
@@ -377,22 +385,13 @@ export default function OhaePage() {
         </p>
       </section>
 
-      {/* ── FOUR-PHOTO LAYOUT ──────────────────────────────────────────── */}
-      {/*
-        Photo 1 (top-left, tall): Festival booth — wide shot
-        Photo 2 (top-right, tall): Serving at the booth — candid
-        Photo 3 (bottom-left): Menu item A
-        Photo 4 (bottom-right): Menu item B
-
-        Replace each <Photo> with a Next.js <Image> when ready.
-        Recommended sizes: photos 1+2 → 700×560px, photos 3+4 → 700×420px
-      */}
+      {/* ── FOUR PHOTOS ──────────────────────────────────────────────────── */}
       <div style={{ maxWidth: "1100px", margin: "0 auto", padding: "0 2rem" }}>
-        {/* Row 1 — booth photos, tall */}
+        {/* Row 1 — booth photos */}
         <div className="ohae-two-col">
           {/*
             <Image src="/images/ohae-booth-wide.jpg" alt="OH·AE booth at food festival"
-              width={700} height={560} style={{ width:"100%", height:"clamp(280px,48vw,560px)", objectFit:"cover", display:"block" }} />
+              width={700} height={560} style={{ width: "100%", height: "clamp(280px,48vw,560px)", objectFit: "cover", display: "block" }} />
           */}
           <Photo
             caption="Festival booth — wide shot"
@@ -400,7 +399,7 @@ export default function OhaePage() {
           />
           {/*
             <Image src="/images/ohae-serving.jpg" alt="Serving at the OH·AE booth"
-              width={700} height={560} style={{ width:"100%", height:"clamp(280px,48vw,560px)", objectFit:"cover", display:"block", marginTop:"clamp(20px,4vw,48px)" }} />
+              width={700} height={560} style={{ width: "100%", height: "clamp(280px,48vw,560px)", objectFit: "cover", display: "block", marginTop: "clamp(20px,4vw,48px)" }} />
           */}
           <Photo
             caption="Serving at the booth — candid"
@@ -411,7 +410,7 @@ export default function OhaePage() {
           />
         </div>
 
-        {/* Divider label */}
+        {/* Divider */}
         <div
           style={{
             display: "flex",
@@ -442,11 +441,11 @@ export default function OhaePage() {
           />
         </div>
 
-        {/* Row 2 — menu photos, shorter */}
-        <div className="ohae-two-col" style={{ marginBottom: "0" }}>
+        {/* Row 2 — menu photos */}
+        <div className="ohae-two-col">
           {/*
             <Image src="/images/ohae-menu-1.jpg" alt="OH·AE menu item"
-              width={700} height={420} style={{ width:"100%", height:"clamp(220px,36vw,440px)", objectFit:"cover", display:"block" }} />
+              width={700} height={420} style={{ width: "100%", height: "clamp(220px,36vw,440px)", objectFit: "cover", display: "block" }} />
           */}
           <Photo
             caption="Menu item — food or drink, close-up"
@@ -454,36 +453,31 @@ export default function OhaePage() {
           />
           {/*
             <Image src="/images/ohae-menu-2.jpg" alt="OH·AE menu item"
-              width={700} height={420} style={{ width:"100%", height:"clamp(220px,36vw,440px)", objectFit:"cover", display:"block" }} />
+              width={700} height={420} style={{ width: "100%", height: "clamp(220px,36vw,440px)", objectFit: "cover", display: "block" }} />
           */}
           <Photo
-            caption="Menu item — matcha flavoured dish"
+            caption="Menu item — food or drink"
             style={{ height: "clamp(220px,36vw,440px)" }}
           />
         </div>
       </div>
 
-      {/* ── ARTICLE TEXT ───────────────────────────────────────────────── */}
+      {/* ── ARTICLE TEXT ─────────────────────────────────────────────────── */}
       <article
         style={{ maxWidth: "1100px", margin: "0 auto", padding: "0 2rem" }}
       >
-        {/* About block */}
+        {/* About */}
         <section
+          className="ohae-about"
           style={{
             padding: "96px 0 80px",
             borderTop: "1px solid rgba(255,255,255,0.06)",
             marginTop: "80px",
-            display: "grid",
-            gridTemplateColumns: "1fr 2fr",
-            gap: "64px",
-            alignItems: "start",
           }}
-          className="ohae-about"
         >
-          <style>{`.ohae-about { grid-template-columns:1fr 2fr; } @media(max-width:680px){.ohae-about{grid-template-columns:1fr!important;}}`}</style>
           <h2
             style={{
-              fontFamily: "&apos;Anton&apos;,sans-serif",
+              fontFamily: "'Anton', sans-serif",
               fontSize: "clamp(36px,5vw,58px)",
               lineHeight: 0.92,
               color: "#F5F4FF",
@@ -499,7 +493,7 @@ export default function OhaePage() {
           >
             <p
               style={{
-                fontFamily: "&apos;DM Sans&apos;,sans-serif",
+                fontFamily: "'DM Sans', sans-serif",
                 fontSize: "16px",
                 lineHeight: 1.85,
                 fontWeight: 300,
@@ -513,7 +507,7 @@ export default function OhaePage() {
             </p>
             <p
               style={{
-                fontFamily: "&apos;DM Sans&apos;,sans-serif",
+                fontFamily: "'DM Sans', sans-serif",
                 fontSize: "16px",
                 lineHeight: 1.85,
                 fontWeight: 300,
@@ -529,7 +523,7 @@ export default function OhaePage() {
             </p>
             <p
               style={{
-                fontFamily: "&apos;DM Sans&apos;,sans-serif",
+                fontFamily: "'DM Sans', sans-serif",
                 fontSize: "16px",
                 lineHeight: 1.85,
                 fontWeight: 300,
@@ -554,10 +548,10 @@ export default function OhaePage() {
         >
           <p
             style={{
-              fontFamily: "&apos;Anton&apos;,sans-serif",
+              fontFamily: "'Anton', sans-serif",
               fontSize: "clamp(22px,3vw,36px)",
               lineHeight: 1.1,
-              color: "rgba(245,244,255,0.65)",
+              color: "rgba(245,244,255,0.6)",
               margin: 0,
             }}
           >
@@ -593,7 +587,7 @@ export default function OhaePage() {
               </p>
               <h2
                 style={{
-                  fontFamily: "&apos;Anton&apos;,sans-serif",
+                  fontFamily: "'Anton', sans-serif",
                   fontSize: "clamp(36px,5vw,58px)",
                   lineHeight: 0.92,
                   color: "#F5F4FF",
@@ -607,7 +601,7 @@ export default function OhaePage() {
             </div>
             <p
               style={{
-                fontFamily: "&apos;DM Sans&apos;,sans-serif",
+                fontFamily: "'DM Sans', sans-serif",
                 fontSize: "14px",
                 lineHeight: 1.8,
                 fontWeight: 300,
@@ -637,7 +631,7 @@ export default function OhaePage() {
               target="_blank"
               rel="noopener noreferrer"
               style={{
-                fontFamily: "&apos;DM Sans&apos;,sans-serif",
+                fontFamily: "'DM Sans', sans-serif",
                 fontSize: "11px",
                 letterSpacing: "0.18em",
                 fontWeight: 500,
@@ -667,13 +661,13 @@ export default function OhaePage() {
         </section>
       </article>
 
-      {/* ── FOOTER ─────────────────────────────────────────────────────── */}
+      {/* ── FOOTER ───────────────────────────────────────────────────────── */}
       <footer
         style={{
           borderTop: "1px solid rgba(255,255,255,0.06)",
           maxWidth: "1100px",
           margin: "0 auto",
-          padding: "2rem 2rem",
+          padding: "2rem",
           display: "flex",
           alignItems: "center",
           justifyContent: "space-between",
@@ -683,7 +677,7 @@ export default function OhaePage() {
       >
         <span
           style={{
-            fontFamily: "&apos;Anton&apos;,sans-serif",
+            fontFamily: "'Anton', sans-serif",
             fontSize: "11px",
             letterSpacing: "0.2em",
             color: "rgba(255,255,255,0.18)",
