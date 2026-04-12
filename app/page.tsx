@@ -976,7 +976,7 @@ function Ingredients() {
                 }}
                 className="ing-card"
                 style={{
-                  width: "80%",
+                  width: "90%",
                   marginLeft: isRight ? "auto" : "0",
                   marginRight: isRight ? "0" : "auto",
                   padding: "2.5rem 2.5rem 2.5rem 2.8rem",

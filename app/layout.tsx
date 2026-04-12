@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Anton, DM_Sans, Playfair_Display } from "next/font/google";
 import "./globals.css";
+import CookieBanner from "@/components/features/CookieBanner";
 
 const anton = Anton({
   weight: "400",
@@ -52,6 +53,13 @@ export default function RootLayout({
     >
       <body className="font-sans antialiased">
         <main>{children}</main>
+        {/*
+          CookieBanner lives in the root layout so it mounts once and
+          stays mounted for the entire session regardless of which page
+          the user is on. It reads localStorage on mount — if consent
+          has already been saved it renders nothing at all.
+        */}
+        <CookieBanner />
       </body>
     </html>
   );

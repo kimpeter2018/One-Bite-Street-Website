@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import Link from "next/link";
 
 // ─── Service topics ────────────────────────────────────────────────────────────
 
@@ -384,7 +385,7 @@ export default function ContactPage() {
           borderBottom: "1px solid rgba(255,255,255,0.06)",
         }}
       >
-        <a
+        <Link
           href="/"
           style={{
             fontFamily: "'Anton', sans-serif",
@@ -406,7 +407,7 @@ export default function ContactPage() {
           }
         >
           ← ONE BITE STREET
-        </a>
+        </Link>
       </div>
 
       {/* ── Hero ──────────────────────────────────────────────────────────── */}
@@ -435,6 +436,7 @@ export default function ContactPage() {
               lineHeight: 0.88,
               letterSpacing: "-0.01em",
               marginBottom: "2rem",
+              color: "#fff",
             }}
           >
             LET&apos;S MAKE
@@ -1035,7 +1037,7 @@ export default function ContactPage() {
                     placeholder={
                       selectedService
                         ? `Tell us about your ${selectedService.label.toLowerCase()} situation — context helps us help you better.`
-                        : "Tell us what&apos;s on your mind. The more context, the better we can help."
+                        : "Tell us what's on your mind. The more context, the better we can help."
                     }
                   />
                 </div>

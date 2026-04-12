@@ -4,22 +4,36 @@ import { useState, useEffect } from "react";
 import Link from "next/link";
 import Image from "next/image";
 
+const OHAE_SEEN_KEY = "obs_ohae_seen";
+
 export default function OhaePopup() {
   const [visible, setVisible] = useState(false);
-  const [dismissed, setDismissed] = useState(false);
+  const [dismissed, setDismissed] = useState(() => {
+    if (typeof window === "undefined") return false;
+    return !!localStorage.getItem(OHAE_SEEN_KEY);
+  });
 
   useEffect(() => {
+    if (dismissed) return;
     const t = setTimeout(() => setVisible(true), 1200);
     return () => clearTimeout(t);
-  }, []);
+  }, [dismissed]);
+
+  const dismiss = () => {
+    localStorage.setItem(OHAE_SEEN_KEY, "1");
+    setDismissed(true);
+    setVisible(false);
+  };
 
   if (dismissed) return null;
+
+  const topOffset = "50%";
 
   return (
     <>
       {/* Backdrop */}
       <div
-        onClick={() => setDismissed(true)}
+        onClick={dismiss}
         style={{
           position: "fixed",
           inset: 0,
@@ -35,10 +49,10 @@ export default function OhaePopup() {
       <div
         role="dialog"
         aria-modal="true"
-        aria-label="Introducing Caf&eacute; OHAE"
+        aria-label="Introducing Café OHAE"
         style={{
           position: "fixed",
-          top: "50%",
+          top: topOffset,
           left: "50%",
           transform: visible
             ? "translate(-50%, -50%) scale(1)"
@@ -46,7 +60,7 @@ export default function OhaePopup() {
           zIndex: 201,
           opacity: visible ? 1 : 0,
           transition:
-            "transform 0.45s cubic-bezier(0.34,1.4,0.64,1), opacity 0.35s ease",
+            "top 0.4s ease, transform 0.45s cubic-bezier(0.34,1.4,0.64,1), opacity 0.35s ease",
           width: "min(540px, 94vw)",
           background: "#ffffff",
           borderRadius: "16px",
@@ -54,9 +68,9 @@ export default function OhaePopup() {
           boxShadow: "0 0 0 1px rgba(0,0,0,0.08), 0 24px 48px rgba(0,0,0,0.22)",
         }}
       >
-        {/* ── Close button ─────────────────────────────────── */}
+        {/* Close button */}
         <button
-          onClick={() => setDismissed(true)}
+          onClick={dismiss}
           aria-label="Close"
           style={{
             position: "absolute",
@@ -78,18 +92,16 @@ export default function OhaePopup() {
             transition: "background 0.2s",
           }}
           onMouseEnter={(e) =>
-            ((e.currentTarget as HTMLButtonElement).style.background =
-              "rgba(0,0,0,0.65)")
+            (e.currentTarget.style.background = "rgba(0,0,0,0.65)")
           }
           onMouseLeave={(e) =>
-            ((e.currentTarget as HTMLButtonElement).style.background =
-              "rgba(0,0,0,0.42)")
+            (e.currentTarget.style.background = "rgba(0,0,0,0.42)")
           }
         >
           &#x2715;
         </button>
 
-        {/* ── Photo — full width ───────────────────────────── */}
+        {/* Photo */}
         <Image
           src="/images/ohae-popup.jpg"
           alt="OHAE pop-up booth at food festival"
@@ -104,7 +116,7 @@ export default function OhaePopup() {
           priority
         />
 
-        {/* ── Dark green intro band ────────────────────────── */}
+        {/* Green intro band */}
         <div
           style={{
             background: "#2A6120",
@@ -112,7 +124,6 @@ export default function OhaePopup() {
             position: "relative",
           }}
         >
-          {/* Logo — 64px square in the top-right corner */}
           <Image
             src="/images/ohae-logo.png"
             alt="OH·AE logo"
@@ -126,7 +137,6 @@ export default function OhaePopup() {
               objectFit: "cover",
             }}
           />
-
           <p
             style={{
               fontFamily: "monospace",
@@ -140,7 +150,6 @@ export default function OhaePopup() {
           >
             New from One Bite Street
           </p>
-
           <p
             style={{
               fontFamily: "'DM Sans', sans-serif",
@@ -151,13 +160,12 @@ export default function OhaePopup() {
               margin: "0 80px 0 0",
             }}
           >
-            We just launched our first caf&eacute; brand &mdash;{" "}
-            <strong style={{ fontWeight: 700 }}>OH&middot;AE</strong>. Check it
-            out.
+            We just launched our first café brand &mdash;{" "}
+            <strong style={{ fontWeight: 700 }}>OH·AE</strong>. Check it out.
           </p>
         </div>
 
-        {/* ── Button row ───────────────────────────────────── */}
+        {/* Button row */}
         <div
           style={{
             padding: "20px 28px 26px",
@@ -167,43 +175,37 @@ export default function OhaePopup() {
             justifyContent: "center",
           }}
         >
-          <style>{`
-            .ohae-text-btn {
-              position: relative;
-              background: none;
-              border: none;
-              cursor: pointer;
-              font-family: monospace;
-              font-size: 12px;
-              font-weight: 700;
-              letter-spacing: 0.18em;
-              text-transform: uppercase;
-              color: #F0FFE8;
-              text-decoration: none;
-              padding: 4px 0;
-              display: inline-block;
-            }
-            .ohae-text-btn::after {
-              content: '';
-              position: absolute;
-              left: 0;
-              bottom: 0;
-              width: 0%;
-              height: 1.5px;
-              background: #F0FFE8;
-              transition: width 0.3s ease;
-            }
-            .ohae-text-btn:hover::after {
-              width: 100%;
-            }
-          `}</style>
-
           <Link
             href="/ohae"
-            onClick={() => setDismissed(true)}
-            className="ohae-text-btn"
+            onClick={dismiss}
+            style={{
+              display: "inline-block",
+              fontFamily: "monospace",
+              fontSize: "12px",
+              fontWeight: 700,
+              letterSpacing: "0.18em",
+              textTransform: "uppercase",
+              color: "#F0FFE8",
+              textDecoration: "none",
+              padding: "10px 28px",
+              border: "1.5px solid rgba(240,255,232,0.4)",
+              borderRadius: "9999px",
+              background: "#2A6120",
+              transition:
+                "background 0.25s ease, border-color 0.25s ease, color 0.25s ease",
+            }}
+            onMouseEnter={(e) => {
+              e.currentTarget.style.background = "#fb933d";
+              e.currentTarget.style.borderColor = "#fb933d";
+              e.currentTarget.style.color = "#fff";
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.background = "#2A6120";
+              e.currentTarget.style.borderColor = "rgba(240,255,232,0.4)";
+              e.currentTarget.style.color = "#F0FFE8";
+            }}
           >
-            Check out OH&middot;AE &rarr;
+            Check out OH·AE →
           </Link>
         </div>
       </div>
