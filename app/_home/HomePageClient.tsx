@@ -166,19 +166,19 @@ function Header() {
           }}
         >
           {/* Logo */}
-          <a
-            href="#"
-            style={{
-              fontFamily: "'Anton', sans-serif",
-              fontSize: "15px",
-              letterSpacing: "0.18em",
-              color: "#ffffff",
-              textDecoration: "none",
-              lineHeight: 1,
-            }}
-          >
-            ONE BITE STREET
-          </a>
+          <div style={{ marginLeft: "-3rem" }}>
+            <Image
+              src="/images/logo.png"
+              alt="One Bite Street"
+              width={300}
+              height={70}
+              style={{
+                height: "auto",
+                width: "auto",
+              }}
+              priority
+            />
+          </div>
 
           {/* Desktop nav — OHAE link + Let's talk CTA */}
           <nav
