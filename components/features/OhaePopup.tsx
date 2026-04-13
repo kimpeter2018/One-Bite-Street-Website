@@ -8,13 +8,14 @@ const OHAE_SEEN_KEY = "obs_ohae_seen";
 
 export default function OhaePopup() {
   const [visible, setVisible] = useState(false);
-  const [dismissed, setDismissed] = useState(() => {
-    if (typeof window === "undefined") return false;
-    return !!localStorage.getItem(OHAE_SEEN_KEY);
-  });
+  const [dismissed, setDismissed] = useState(
+    typeof window !== "undefined" && !!localStorage.getItem(OHAE_SEEN_KEY),
+  );
 
   useEffect(() => {
-    if (dismissed) return;
+    if (dismissed) {
+      return;
+    }
     const t = setTimeout(() => setVisible(true), 1200);
     return () => clearTimeout(t);
   }, [dismissed]);

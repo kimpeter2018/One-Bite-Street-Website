@@ -627,7 +627,7 @@ export default function OhaePage() {
             }}
           >
             <a
-              href="https://instagram.com/onebitestr"
+              href="https://instagram.com/ohae_cafe"
               target="_blank"
               rel="noopener noreferrer"
               style={{
@@ -655,7 +655,7 @@ export default function OhaePage() {
                 color: "rgba(255,255,255,0.18)",
               }}
             >
-              @onebitestr
+              @ohae_cafe
             </span>
           </div>
         </section>

@@ -22,7 +22,7 @@ const INGREDIENTS = [
     id: "02",
     category: "Culinary Direction",
     title: "Menu as\nmanifesto.",
-    desc: "What&apos;s on the plate tells people who you are before you say a word. We help you say the right thing — with flavour.",
+    desc: "What's on the plate tells people who you are before you say a word. We help you say the right thing — with flavour.",
     tag: "Concept Dev · Menu Design · Sourcing",
   },
   {
@@ -124,8 +124,8 @@ function EyebrowLabel({
 // Replace the Header function in app/page.tsx with this version.
 // Changes:
 //   - Removed all NAV_LINKS items from desktop nav
-//   - Added an "OHAE" text link next to the "Let&apos;s talk" button
-//   - Simplified mobile menu to show only OHAE + Let&apos;s talk
+//   - Added an "OHAE" text link next to the "Let's talk" button
+//   - Simplified mobile menu to show only OHAE + Let's talk
 
 function Header() {
   const [scrolled, setScrolled] = useState(false);
@@ -169,7 +169,7 @@ function Header() {
           <a
             href="#"
             style={{
-              fontFamily: "&apos;Anton&apos;, sans-serif",
+              fontFamily: "'Anton', sans-serif",
               fontSize: "15px",
               letterSpacing: "0.18em",
               color: "#ffffff",
@@ -180,7 +180,7 @@ function Header() {
             ONE BITE STREET
           </a>
 
-          {/* Desktop nav — OHAE link + Let&apos;s talk CTA */}
+          {/* Desktop nav — OHAE link + Let's talk CTA */}
           <nav
             style={{
               display: "flex",
@@ -193,7 +193,7 @@ function Header() {
             <a
               href="/ohae"
               style={{
-                fontFamily: "&apos;DM Sans&apos;, sans-serif",
+                fontFamily: "'DM Sans', sans-serif",
                 fontSize: "16px",
                 letterSpacing: "0.16em",
                 fontWeight: 300,
@@ -213,11 +213,11 @@ function Header() {
               OH·AE
             </a>
 
-            {/* Let&apos;s talk CTA */}
+            {/* Let's talk CTA */}
             <a
-              href="#contact"
+              href="contact"
               style={{
-                fontFamily: "&apos;DM Sans&apos;, sans-serif",
+                fontFamily: "'DM Sans', sans-serif",
                 fontSize: "11px",
                 letterSpacing: "0.16em",
                 fontWeight: 500,
@@ -299,7 +299,7 @@ function Header() {
             href="/ohae"
             onClick={() => setMobileOpen(false)}
             style={{
-              fontFamily: "&apos;Anton&apos;, sans-serif",
+              fontFamily: "'Anton', sans-serif",
               fontSize: "32px",
               letterSpacing: "0.08em",
               color: "#fff",
@@ -309,10 +309,10 @@ function Header() {
             OHAE
           </a>
           <a
-            href="#contact"
+            href="contact"
             onClick={() => setMobileOpen(false)}
             style={{
-              fontFamily: "&apos;Anton&apos;, sans-serif",
+              fontFamily: "'Anton', sans-serif",
               fontSize: "32px",
               letterSpacing: "0.08em",
               color: "#FF3D6B",
@@ -500,8 +500,7 @@ function Hero() {
             color: "rgba(255,255,255,0.3)",
             marginBottom: "2rem",
             opacity: vis ? 1 : 0,
-            animation: vis ? "fadeIn 0.8s ease forwards" : "none",
-            animationDelay: "0.1s",
+            animation: vis ? "fadeIn 0.8s ease 0.1s forwards" : "none",
           }}
         >
           Hospitality Collective · Est. 2026
@@ -516,13 +515,12 @@ function Hero() {
             margin: "0 0 2rem",
             color: "#fff",
             opacity: vis ? 1 : 0,
-            animation: vis ? "fadeUp 1s ease forwards" : "none",
-            animationDelay: "0.25s",
+            animation: vis ? "fadeUp 1s ease 0.25s forwards" : "none",
           }}
         >
-          GRAB A SEAT.
+          GRAB A SEAT
           <br />
-          <span style={{ color: "#FF3D6B" }}>TAKE A BITE.</span>
+          <span style={{ color: "#FF3D6B" }}>TAKE A BITE</span>
         </h1>
 
         <div
@@ -531,8 +529,7 @@ function Hero() {
             flexDirection: "column",
             gap: "2rem",
             opacity: vis ? 1 : 0,
-            animation: vis ? "fadeUp 1s ease forwards" : "none",
-            animationDelay: "0.5s",
+            animation: vis ? "fadeUp 1s ease 0.5s forwards" : "none",
           }}
         >
           <p
@@ -576,7 +573,7 @@ function Hero() {
               Our Story
             </a>
             <a
-              href="#contact"
+              href="contact"
               style={{
                 fontFamily: "'DM Sans', sans-serif",
                 fontSize: "11px",
@@ -618,8 +615,7 @@ function Hero() {
           alignItems: "center",
           gap: "8px",
           opacity: vis ? 1 : 0,
-          animation: vis ? "fadeIn 1s ease forwards" : "none",
-          animationDelay: "1.4s",
+          animation: vis ? "fadeIn 1s ease 1.4s forwards" : "none",
         }}
       >
         <span
@@ -669,13 +665,13 @@ function CompanyValue() {
       n: "01",
       tag: "Mutual Growth",
       title: "We rise\ntogether.",
-      body: "Real success is never solo. We build with our vendors, our customers, our neighbours — not above them. When the people around us win, that&apos;s when we know we&apos;ve actually done something worth doing.",
+      body: "Real success is never solo. We build with our vendors, our customers, our neighbours — not above them. When the people around us win, that's when we know we've actually done something worth doing.",
     },
     {
       n: "02",
       tag: "Continuous Relationship",
       title: "Beyond the\ntransaction.",
-      body: "A deal ends. A relationship doesn&apos;t. We&apos;re not here to close and move on — we&apos;re here to stay, check in, and grow with you. Money is a byproduct. Trust is the point.",
+      body: "A deal ends. A relationship doesn't. We're not here to close and move on — we're here to stay, check in, and grow with you. Money is a byproduct. Trust is the point.",
     },
     {
       n: "03",
@@ -1342,7 +1338,7 @@ function ContactCTA() {
           }}
         >
           <a
-            href="mailto:onebitestr@gmail.com"
+            href="contact"
             style={{
               fontFamily: "'DM Sans', sans-serif",
               fontSize: "11px",
@@ -1367,7 +1363,7 @@ function ContactCTA() {
             Send a message
           </a>
           <a
-            href="https://instagram.com/onebitestr"
+            // href="https://instagram.com/onebitestr"
             target="_blank"
             rel="noopener noreferrer"
             style={{
@@ -1394,7 +1390,7 @@ function ContactCTA() {
               (e.target as HTMLElement).style.color = "rgba(255,255,255,0.55)";
             }}
           >
-            @onebitestr
+            @onebitestr (TBA)
           </a>
         </div>
 
@@ -1416,8 +1412,9 @@ function ContactCTA() {
             },
             {
               label: "Instagram",
-              value: "@onebitestr",
-              href: "https://instagram.com/onebitestr",
+              // value: "@onebitestr",
+              value: "@onebitestr (TBA)",
+              // href: "https://instagram.com/onebitestr",
             },
           ].map((item) => (
             <div key={item.label} style={{ textAlign: "center" }}>
