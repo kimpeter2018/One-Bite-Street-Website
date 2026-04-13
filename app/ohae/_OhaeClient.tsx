@@ -2,80 +2,12 @@
 
 import { useState, useEffect } from "react";
 import Link from "next/link";
+import Image from "next/image";
 
 // Background: #2a6120 (dark forest green)
-// Header:     #1C2E24  //#2a6120(brighter green)
+// Header:     #1C2E24
 // Primary:    #fb933d (orange)
 // Text:       #F5F4FF (off-white)
-
-function Photo({
-  caption,
-  style = {},
-}: {
-  caption: string;
-  style?: React.CSSProperties;
-}) {
-  return (
-    <div
-      style={{
-        background: "#1a2e1c",
-        display: "flex",
-        flexDirection: "column",
-        alignItems: "center",
-        justifyContent: "center",
-        position: "relative",
-        overflow: "hidden",
-        ...style,
-      }}
-    >
-      <div
-        style={{
-          position: "absolute",
-          inset: 0,
-          opacity: 0.05,
-          backgroundImage:
-            "linear-gradient(rgba(255,255,255,1) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,1) 1px, transparent 1px)",
-          backgroundSize: "32px 32px",
-        }}
-      />
-      <svg
-        style={{ position: "relative", zIndex: 1, marginBottom: "10px" }}
-        width="26"
-        height="26"
-        viewBox="0 0 24 24"
-        fill="none"
-        stroke="rgba(255,255,255,0.18)"
-        strokeWidth="1.2"
-      >
-        <path
-          strokeLinecap="round"
-          strokeLinejoin="round"
-          d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z"
-        />
-        <path
-          strokeLinecap="round"
-          strokeLinejoin="round"
-          d="M15 13a3 3 0 11-6 0 3 3 0 016 0z"
-        />
-      </svg>
-      <p
-        style={{
-          position: "relative",
-          zIndex: 1,
-          fontFamily: "monospace",
-          fontSize: "10px",
-          color: "rgba(255,255,255,0.18)",
-          textAlign: "center",
-          padding: "0 20px",
-          lineHeight: "1.6",
-          margin: 0,
-        }}
-      >
-        {caption}
-      </p>
-    </div>
-  );
-}
 
 function BlurredMap() {
   return (
@@ -148,14 +80,6 @@ function BlurredMap() {
             fill="rgba(255,255,255,0.04)"
           />
         ))}
-        <rect
-          x="420"
-          y="165"
-          width="120"
-          height="120"
-          rx="4"
-          fill="rgba(255,255,255,0.03)"
-        />
       </svg>
       <div
         style={{
@@ -170,7 +94,7 @@ function BlurredMap() {
           position: "absolute",
           top: "50%",
           left: "50%",
-          transform: "translate(-50%, -60%)",
+          transform: "translate(-50%,-60%)",
           display: "flex",
           flexDirection: "column",
           alignItems: "center",
@@ -251,11 +175,12 @@ export default function OhaePage() {
     <div style={{ background: "#2a6120", color: "#F5F4FF" }}>
       <style>{`
         @keyframes fadeUp { from { opacity:0; transform:translateY(20px); } to { opacity:1; transform:translateY(0); } }
-        .ohae-two-col { display:grid; grid-template-columns:1fr 1fr; gap:4px; }
         .ohae-about { display:grid; grid-template-columns:1fr 2fr; gap:64px; align-items:start; }
+        .menu-grid { display:grid; grid-template-columns:1fr 1fr; gap:2px; align-items:start; }
+        .menu-card-inner { display:flex; flex-direction:column; gap:0; }
         @media(max-width:680px) {
-          .ohae-two-col { grid-template-columns:1fr !important; }
           .ohae-about { grid-template-columns:1fr !important; gap:32px !important; }
+          .menu-grid { grid-template-columns:1fr !important; }
         }
       `}</style>
 
@@ -267,7 +192,7 @@ export default function OhaePage() {
           left: 0,
           right: 0,
           zIndex: 100,
-          background: "#1C2E24", //#2a6120
+          background: "#1C2E24",
           borderBottom: "1px solid rgba(255,255,255,0.08)",
           display: "flex",
           alignItems: "center",
@@ -385,38 +310,17 @@ export default function OhaePage() {
         </p>
       </section>
 
-      {/* ── FOUR PHOTOS ──────────────────────────────────────────────────── */}
-      <div style={{ maxWidth: "1100px", margin: "0 auto", padding: "0 2rem" }}>
-        {/* Row 1 — booth photos */}
-        <div className="ohae-two-col">
-          {/*
-            <Image src="/images/ohae-booth-wide.jpg" alt="OH·AE booth at food festival"
-              width={700} height={560} style={{ width: "100%", height: "clamp(280px,48vw,560px)", objectFit: "cover", display: "block" }} />
-          */}
-          <Photo
-            caption="Festival booth — wide shot"
-            style={{ height: "clamp(280px,48vw,560px)" }}
-          />
-          {/*
-            <Image src="/images/ohae-serving.jpg" alt="Serving at the OH·AE booth"
-              width={700} height={560} style={{ width: "100%", height: "clamp(280px,48vw,560px)", objectFit: "cover", display: "block", marginTop: "clamp(20px,4vw,48px)" }} />
-          */}
-          <Photo
-            caption="Serving at the booth — candid"
-            style={{
-              height: "clamp(280px,48vw,560px)",
-              marginTop: "clamp(20px,4vw,48px)",
-            }}
-          />
-        </div>
-
-        {/* Divider */}
+      {/* ── MENU ─────────────────────────────────────────────────────────── */}
+      <article
+        style={{ maxWidth: "1100px", margin: "0 auto", padding: "0 2rem" }}
+      >
+        {/* Section label */}
         <div
           style={{
             display: "flex",
             alignItems: "center",
             gap: "1.5rem",
-            margin: "4rem 0 2.5rem",
+            marginBottom: "3rem",
           }}
         >
           <span
@@ -441,32 +345,240 @@ export default function OhaePage() {
           />
         </div>
 
-        {/* Row 2 — menu photos */}
-        <div className="ohae-two-col">
-          {/*
-            <Image src="/images/ohae-menu-1.jpg" alt="OH·AE menu item"
-              width={700} height={420} style={{ width: "100%", height: "clamp(220px,36vw,440px)", objectFit: "cover", display: "block" }} />
-          */}
-          <Photo
-            caption="Menu item — food or drink, close-up"
-            style={{ height: "clamp(220px,36vw,440px)" }}
-          />
-          {/*
-            <Image src="/images/ohae-menu-2.jpg" alt="OH·AE menu item"
-              width={700} height={420} style={{ width: "100%", height: "clamp(220px,36vw,440px)", objectFit: "cover", display: "block" }} />
-          */}
-          <Photo
-            caption="Menu item — food or drink"
-            style={{ height: "clamp(220px,36vw,440px)" }}
-          />
+        {/* Intro line */}
+        <div style={{ marginBottom: "4rem" }}>
+          <h2
+            style={{
+              fontFamily: "'Anton', sans-serif",
+              fontSize: "clamp(32px,5vw,58px)",
+              lineHeight: 0.92,
+              color: "#F5F4FF",
+              marginBottom: "1.25rem",
+            }}
+          >
+            THE CRO-CONE.
+          </h2>
+          <p
+            style={{
+              fontFamily: "'DM Sans', sans-serif",
+              fontSize: "16px",
+              lineHeight: 1.85,
+              fontWeight: 300,
+              color: "rgba(245,244,255,0.55)",
+              maxWidth: "560px",
+              margin: 0,
+            }}
+          >
+            A croissant twisted into a cone, filled to the brim with matcha
+            cream. The kind of thing that looks too good to eat — so you eat it
+            fast before anyone sees you hesitate.
+          </p>
         </div>
-      </div>
 
-      {/* ── ARTICLE TEXT ─────────────────────────────────────────────────── */}
-      <article
-        style={{ maxWidth: "1100px", margin: "0 auto", padding: "0 2rem" }}
-      >
-        {/* About */}
+        {/* Menu card grid */}
+        <div className="menu-grid">
+          {/* ── Card 1: Plain Matcha ─────────────────────────────────────── */}
+          <div className="menu-card-inner">
+            {/* Poster image — full width, natural portrait ratio */}
+            <div
+              style={{
+                width: "100%",
+                overflow: "hidden",
+                position: "relative",
+              }}
+            >
+              <Image
+                src="/images/plain_matcha.jpg"
+                alt="Matcha Cro-Cone with Oreo crumbles"
+                width={950}
+                height={1267}
+                style={{ width: "100%", height: "auto", display: "block" }}
+                priority
+              />
+            </div>
+            {/* Copy block */}
+            <div style={{ background: "#1C2E24", padding: "2rem 2rem 2.5rem" }}>
+              <p
+                style={{
+                  fontFamily: "monospace",
+                  fontSize: "9px",
+                  letterSpacing: "0.22em",
+                  fontWeight: 700,
+                  textTransform: "uppercase",
+                  color: "rgba(255,255,255,0.3)",
+                  marginBottom: "0.75rem",
+                }}
+              >
+                01 — Original
+              </p>
+              <h3
+                style={{
+                  fontFamily: "'Anton', sans-serif",
+                  fontSize: "clamp(24px,3vw,36px)",
+                  lineHeight: 0.92,
+                  color: "#F5F4FF",
+                  marginBottom: "1rem",
+                }}
+              >
+                MATCHA
+                <br />
+                <span style={{ color: "#fb933d" }}>CRO-CONE</span>
+              </h3>
+              <p
+                style={{
+                  fontFamily: "'DM Sans', sans-serif",
+                  fontSize: "14px",
+                  lineHeight: 1.85,
+                  fontWeight: 300,
+                  color: "rgba(245,244,255,0.5)",
+                  marginBottom: "1.25rem",
+                }}
+              >
+                Flaky croissant cone packed with silky matcha cream and finished
+                with crushed Oreo for that hit of dark crunch. Classic. No
+                notes.
+              </p>
+              <div style={{ display: "flex", flexWrap: "wrap", gap: "8px" }}>
+                {["Croissant cone", "Matcha cream", "Oreo crumble"].map(
+                  (tag) => (
+                    <span
+                      key={tag}
+                      style={{
+                        fontFamily: "monospace",
+                        fontSize: "9px",
+                        letterSpacing: "0.14em",
+                        textTransform: "uppercase",
+                        color: "rgba(255,255,255,0.25)",
+                        border: "1px solid rgba(255,255,255,0.1)",
+                        padding: "4px 10px",
+                      }}
+                    >
+                      {tag}
+                    </span>
+                  ),
+                )}
+              </div>
+            </div>
+          </div>
+
+          {/* ── Card 2: Strawberry Matcha ────────────────────────────────── */}
+          <div
+            className="menu-card-inner"
+            style={{ marginTop: "clamp(40px,6vw,80px)" }}
+          >
+            {/* Poster image */}
+            <div
+              style={{
+                width: "100%",
+                overflow: "hidden",
+                position: "relative",
+              }}
+            >
+              <Image
+                src="/images/strawberry_matcha.jpg"
+                alt="Strawberry Matcha Cro-Cone"
+                width={950}
+                height={1267}
+                style={{ width: "100%", height: "auto", display: "block" }}
+              />
+            </div>
+            {/* Copy block */}
+            <div style={{ background: "#1C2E24", padding: "2rem 2rem 2.5rem" }}>
+              <p
+                style={{
+                  fontFamily: "monospace",
+                  fontSize: "9px",
+                  letterSpacing: "0.22em",
+                  fontWeight: 700,
+                  textTransform: "uppercase",
+                  color: "rgba(255,255,255,0.3)",
+                  marginBottom: "0.75rem",
+                }}
+              >
+                02 — Seasonal
+              </p>
+              <h3
+                style={{
+                  fontFamily: "'Anton', sans-serif",
+                  fontSize: "clamp(24px,3vw,36px)",
+                  lineHeight: 0.92,
+                  color: "#F5F4FF",
+                  marginBottom: "1rem",
+                }}
+              >
+                STRAWBERRY
+                <br />
+                <span style={{ color: "#fb933d" }}>CRO-CONE</span>
+              </h3>
+              <p
+                style={{
+                  fontFamily: "'DM Sans', sans-serif",
+                  fontSize: "14px",
+                  lineHeight: 1.85,
+                  fontWeight: 300,
+                  color: "rgba(245,244,255,0.5)",
+                  marginBottom: "1.25rem",
+                }}
+              >
+                Same croissant cone. Same matcha cream. Then fresh strawberries
+                folded in and piled on top — tart, juicy, unreasonably pretty.
+                The one people photograph before they eat.
+              </p>
+              <div style={{ display: "flex", flexWrap: "wrap", gap: "8px" }}>
+                {["Croissant cone", "Matcha cream", "Fresh strawberry"].map(
+                  (tag) => (
+                    <span
+                      key={tag}
+                      style={{
+                        fontFamily: "monospace",
+                        fontSize: "9px",
+                        letterSpacing: "0.14em",
+                        textTransform: "uppercase",
+                        color: "rgba(255,255,255,0.25)",
+                        border: "1px solid rgba(255,255,255,0.1)",
+                        padding: "4px 10px",
+                      }}
+                    >
+                      {tag}
+                    </span>
+                  ),
+                )}
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Hype sign-off line */}
+        <div
+          style={{
+            margin: "5rem 0 0",
+            paddingTop: "3rem",
+            borderTop: "1px solid rgba(255,255,255,0.06)",
+          }}
+        >
+          <blockquote
+            style={{
+              margin: 0,
+              padding: "0 0 0 2rem",
+              borderLeft: "3px solid #fb933d",
+            }}
+          >
+            <p
+              style={{
+                fontFamily: "'Anton', sans-serif",
+                fontSize: "clamp(20px,2.8vw,32px)",
+                lineHeight: 1.1,
+                color: "rgba(245,244,255,0.55)",
+                margin: 0,
+              }}
+            >
+              &ldquo;We couldn&apos;t decide between a croissant and an ice
+              cream. So we made both.&rdquo;
+            </p>
+          </blockquote>
+        </div>
+
+        {/* ── ABOUT ─────────────────────────────────────────────────────── */}
         <section
           className="ohae-about"
           style={{
@@ -501,9 +613,10 @@ export default function OhaePage() {
                 margin: 0,
               }}
             >
-              OH·AE started as a corner of a food festival that people kept
-              coming back to. Not just for the food — but because something
-              about it felt unhurried. Like nobody was going to rush you out.
+              OH·AE is just getting started. This week marks our first festival,
+              where we&apos;re introducing something authentic, fun, and new. We
+              want it to be more than just food — a space that feels unhurried,
+              where people can take their time. And of course, it tastes good.
             </p>
             <p
               style={{
@@ -515,11 +628,10 @@ export default function OhaePage() {
                 margin: 0,
               }}
             >
-              So we&apos;re building that feeling into a proper café. The menu
-              will have matcha-flavoured things, because we like matcha. But
-              it&apos;s not a matcha café — it&apos;s just a good café. The kind
-              of place where the music is right and the seat is comfortable and
-              nobody&apos;s counting how long you&apos;ve been there.
+              We&apos;re hoping to open a proper café — one built on simple
+              things done well: good food, good coffee, and a genuinely
+              comfortable atmosphere. Our goal is to create your favourite
+              corner in Marburg — a place to relax, slow down, and just be.
             </p>
             <p
               style={{
@@ -559,7 +671,7 @@ export default function OhaePage() {
           </p>
         </blockquote>
 
-        {/* Location */}
+        {/* ── LOCATION ──────────────────────────────────────────────────── */}
         <section id="location" style={{ paddingBottom: "96px" }}>
           <div
             style={{
