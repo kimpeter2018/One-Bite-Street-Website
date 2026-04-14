@@ -193,6 +193,12 @@ export default function RootLayout({
         <meta name="theme-color" content="#111111" />
         <meta name="msapplication-TileColor" content="#111111" />
 
+        {/* ── Google Search Console verification */}
+        <meta
+          name="google-site-verification"
+          content="BXglJYGOvgRtkMRSrU53rAiJhgR_TRhbBBB3fTNus9E"
+        />
+
         {/* ── JSON-LD structured data */}
         <script
           type="application/ld+json"
