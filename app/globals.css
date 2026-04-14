@@ -2,6 +2,12 @@
 
 /* ─── One Bite Street — Design Tokens ──────────────────────────────────────── */
 
+html,
+body {
+  overflow-x: hidden;
+  max-width: 100%;
+}
+
 :root {
   /* Brand */
   --color-pink: #d4687a; /* warm pink — primary headline */
