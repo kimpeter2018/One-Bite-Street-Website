@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 
-const BASE_URL =
-  process.env.NEXT_PUBLIC_SITE_URL || "https://onebitestreet.com";
+const BASE_URL = process.env.NEXT_PUBLIC_SITE_URL || "https://onebitestr.com";
 
 export const SITE_CONFIG = {
   name: "One Bite Street",

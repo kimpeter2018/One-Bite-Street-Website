@@ -26,7 +26,7 @@ const nextConfig = {
   // Add environment variables if needed
   env: {
     NEXT_PUBLIC_SITE_URL:
-      process.env.NEXT_PUBLIC_SITE_URL || "https://culinarycollective.com",
+      process.env.NEXT_PUBLIC_SITE_URL || "https://onebitestr.com",
     // Add Supabase keys when ready
     // NEXT_PUBLIC_SUPABASE_URL: process.env.NEXT_PUBLIC_SUPABASE_URL,
     // NEXT_PUBLIC_SUPABASE_ANON_KEY: process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY,
