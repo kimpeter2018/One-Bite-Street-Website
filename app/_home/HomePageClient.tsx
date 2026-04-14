@@ -414,7 +414,7 @@ function Hero() {
       {/* Background texture — subtle grain-like grid */}
       {/* Background photo */}
       <Image
-        src="/images/room2.jpg"
+        src="/images/room.jpg"
         alt="Hero background"
         fill
         priority
