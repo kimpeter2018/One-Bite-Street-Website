@@ -20,7 +20,7 @@ export async function POST(req: NextRequest) {
       from: "One Bite Street <hello@send.onebitestr.com>",
       to: process.env.CONTACT_TO_EMAIL!,
       replyTo: email,
-      subject: `[One Bite Street] ${subject}`,
+      subject: `[Message from ${name}] ${subject}`,
       text: [
         `Name:    ${name}`,
         `Email:   ${email}`,
