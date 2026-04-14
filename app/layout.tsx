@@ -30,7 +30,7 @@ export const metadata: Metadata = {
     template: "%s | One Bite Street",
   },
   description:
-    "A hospitality collective building human-first food festivals, café concepts, and F&B experiences. We create spaces and events people actually come back to.",
+    "A hospitality collective building human-first food festivals, café concepts, and F&B experiences in Germany. We create spaces and events people actually come back to.",
   keywords: [
     "hospitality collective",
     "food festivals",
@@ -60,14 +60,14 @@ export const metadata: Metadata = {
   openGraph: {
     title: "One Bite Street | Grab a Seat. Take a Bite.",
     description:
-      "A hospitality collective building human-first food festivals, café concepts, and F&B experiences in Germany.",
+      "A hospitality collective building human-first food festivals, café concepts, and F&B experiences in Germany. We create spaces people come back to.",
     url: SITE_CONFIG.url,
     siteName: "One Bite Street",
     locale: "en_US",
     type: "website",
     images: [
       {
-        url: "/og-default.jpg",
+        url: `${SITE_CONFIG.url}/og-default.jpg`, // ← absolute URL
         width: 1200,
         height: 630,
         alt: "One Bite Street — Grab a Seat. Take a Bite.",
@@ -83,7 +83,7 @@ export const metadata: Metadata = {
       "A hospitality collective building human-first food festivals, café concepts, and F&B experiences.",
     site: "@onebitestr",
     creator: "@onebitestr",
-    images: ["/og-default.jpg"],
+    images: [`${SITE_CONFIG.url}/og-default.jpg`],
   },
 
   // ── Robots ────────────────────────────────────────────────────────────────
@@ -139,7 +139,7 @@ const organizationSchema = {
   url: SITE_CONFIG.url,
   logo: `${SITE_CONFIG.url}/logo.png`,
   description:
-    "A hospitality collective building human-first food festivals, café concepts, and F&B experiences.",
+    "A hospitality collective building human-first food festivals, café concepts, and F&B experiences in Germany. We create spaces people come back to.",
   email: SITE_CONFIG.email,
   sameAs: [
     "https://instagram.com/onebitestr",
@@ -159,7 +159,7 @@ const websiteSchema = {
   name: "One Bite Street",
   url: SITE_CONFIG.url,
   description:
-    "A hospitality collective building human-first food festivals, café concepts, and F&B experiences.",
+    "A hospitality collective building human-first food festivals, café concepts, and F&B experiences in Germany. We create spaces people come back to.",
   potentialAction: {
     "@type": "SearchAction",
     target: {

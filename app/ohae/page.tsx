@@ -62,7 +62,7 @@ const ohaeSchema = {
     addressLocality: "Marburg",
     addressCountry: "DE",
   },
-  openingDate: "2025",
+  openingDate: "2026",
   sameAs: ["https://instagram.com/onebitestr"],
   servesCuisine: ["Coffee", "Café food", "Matcha"],
   priceRange: "$$",

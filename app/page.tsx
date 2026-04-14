@@ -29,7 +29,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: "One Bite Street | Grab a Seat. Take a Bite.",
     description:
-      "A hospitality collective building human-first food festivals, café concepts, and F&B experiences in Germany.",
+      "A hospitality collective building human-first food festivals, café concepts, and F&B experiences in Germany. We create spaces people come back to.",
     url: SITE_CONFIG.url,
     images: [
       { url: "/og-home.jpg", width: 1200, height: 630, alt: "One Bite Street" },
