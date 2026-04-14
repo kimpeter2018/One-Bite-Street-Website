@@ -4,7 +4,7 @@ const BASE_URL = process.env.NEXT_PUBLIC_SITE_URL || "https://onebitestr.com";
 
 export const SITE_CONFIG = {
   name: "One Bite Street",
-  shortName: "OBS",
+  shortName: "OBST",
   description:
     "A hospitality collective building human-first food festivals, café concepts, and F&B experiences. We create spaces and events people actually come back to.",
   url: BASE_URL,

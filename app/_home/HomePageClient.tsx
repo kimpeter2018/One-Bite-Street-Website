@@ -400,6 +400,7 @@ function Hero() {
 
   return (
     <section
+      className="hero-section"
       style={{
         position: "relative",
         width: "100%",
@@ -653,6 +654,17 @@ function Hero() {
           />
         </div>
       </div>
+      <style>{`
+        @media (max-width: 768px) {
+          .hero-section {
+            justify-content: center !important;
+          }
+
+          .hero-content {
+            padding-bottom: 2rem !important; 
+          }
+        }
+      `}</style>
     </section>
   );
 }
@@ -1153,6 +1165,7 @@ function Team() {
 
         {/* Team card grid */}
         <div
+          className="team-grid"
           style={{
             display: "grid",
             gridTemplateColumns: "repeat(4, 1fr)",
@@ -1251,7 +1264,7 @@ function Team() {
             #team .team-grid { grid-template-columns: repeat(2, 1fr) !important; }
           }
           @media (max-width: 520px) {
-            #team .team-grid { grid-template-columns: 1fr 1fr !important; gap: 12px !important; }
+            #team .team-grid { grid-template-columns: 1fr !important;  gap: 16px !important; }
           }
         `}</style>
       </div>
