@@ -5,20 +5,13 @@ import Image from "next/image";
 import Link from "next/link";
 
 export interface SiteHeaderProps {
-  /** Accent colour for the "Let's talk" CTA border/text (default: #FF3D6B) */
   accentColor?: string;
-  /** Background colour of the header when scrolled (default: rgba(17,17,17,0.96)) */
   scrolledBg?: string;
-  /** Extra nav links rendered between the logo and the CTA */
   extraLinks?: Array<{ label: string; href: string }>;
-  /** Override the CTA href (default: /contact) */
   ctaHref?: string;
-  /** Override the CTA label (default: "Let's talk") */
   ctaLabel?: string;
-  /** Back-link rendered instead of the logo area (e.g. on sub-pages) */
   backHref?: string;
   backLabel?: string;
-  /** Right-side tag shown next to the hamburger on desktop (e.g. "OH·AE") */
   brandTag?: string;
   brandTagColor?: string;
 }
@@ -34,27 +27,49 @@ export default function SiteHeader({
   brandTag,
   brandTagColor,
 }: SiteHeaderProps) {
+  // Both initialised to false — matches server render exactly.
+  // They only change after mount (post-hydration), so no mismatch.
   const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 40);
-    window.addEventListener("scroll", onScroll);
+    // Correct the value immediately in case the page loaded already scrolled
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
+
+  // Lock body scroll while mobile menu is open
+  useEffect(() => {
+    document.body.style.overflow = mobileOpen ? "hidden" : "";
+    return () => {
+      document.body.style.overflow = "";
+    };
+  }, [mobileOpen]);
 
   const closeMobile = () => setMobileOpen(false);
 
   return (
     <>
+      {/* ── Header bar ─────────────────────────────────────────────────────
+          suppressHydrationWarning is placed on the <header> element because
+          its `style` prop depends on `scrolled`, which starts as `false` on
+          both server and client but can immediately flip to `true` on the
+          client if the user has already scrolled. React would otherwise throw
+          a hydration warning for the style difference on first paint.
+          This is safe: the content/structure never changes, only the style.
+      ─────────────────────────────────────────────────────────────────── */}
       <header
+        suppressHydrationWarning
         style={{
           position: "fixed",
           top: 0,
           left: 0,
           right: 0,
           zIndex: 100,
-          transition: "background 0.4s ease, border-color 0.4s ease",
+          transition:
+            "background 0.4s ease, border-color 0.4s ease, backdrop-filter 0.4s ease",
           background: scrolled ? scrolledBg : "transparent",
           borderBottom: scrolled
             ? "1px solid rgba(255,255,255,0.06)"
@@ -73,7 +88,7 @@ export default function SiteHeader({
             justifyContent: "space-between",
           }}
         >
-          {/* Left: logo OR back link */}
+          {/* Left ── logo or back-link */}
           {backHref ? (
             <Link
               href={backHref}
@@ -113,10 +128,10 @@ export default function SiteHeader({
             </div>
           )}
 
-          {/* Right side — brand tag + extra links + CTA */}
+          {/* Right ── brand tag + extra links + CTA */}
           <nav
-            style={{ display: "flex", alignItems: "center", gap: "2rem" }}
             className="obs-desktop-nav"
+            style={{ display: "flex", alignItems: "center", gap: "2rem" }}
           >
             {brandTag && (
               <span
@@ -186,21 +201,22 @@ export default function SiteHeader({
             </Link>
           </nav>
 
-          {/* Mobile hamburger */}
+          {/* Hamburger (mobile only, shown via CSS) */}
           <button
             onClick={() => setMobileOpen(!mobileOpen)}
+            className="obs-mobile-btn"
+            aria-label={mobileOpen ? "Close menu" : "Open menu"}
+            aria-expanded={mobileOpen}
             style={{
               background: "none",
               border: "none",
               cursor: "pointer",
               padding: "8px",
-              display: "none",
+              display: "none", // overridden to flex on mobile via <style> below
               flexDirection: "column",
               gap: "5px",
               alignItems: "flex-end",
             }}
-            className="obs-mobile-btn"
-            aria-label="Toggle menu"
           >
             {[0, 1, 2].map((i) => (
               <span
@@ -225,52 +241,62 @@ export default function SiteHeader({
         </div>
       </header>
 
-      {/* Mobile overlay */}
-      {mobileOpen && (
-        <div
-          style={{
-            position: "fixed",
-            inset: 0,
-            zIndex: 99,
-            background: "#111",
-            display: "flex",
-            flexDirection: "column",
-            justifyContent: "center",
-            alignItems: "center",
-            gap: "2.5rem",
-          }}
-        >
-          {extraLinks.map((l) => (
-            <Link
-              key={l.href}
-              href={l.href}
-              onClick={closeMobile}
-              style={{
-                fontFamily: "'Anton', sans-serif",
-                fontSize: "32px",
-                letterSpacing: "0.08em",
-                color: "#fff",
-                textDecoration: "none",
-              }}
-            >
-              {l.label}
-            </Link>
-          ))}
+      {/* ── Mobile overlay ─────────────────────────────────────────────────
+          Always present in the DOM — no conditional rendering.
+          Conditional rendering ({mobileOpen && <div>}) would create a DOM
+          node that exists on the client but not on the server, causing a
+          hydration mismatch. Instead we keep the element in the DOM always
+          and toggle visibility via opacity + pointer-events.
+      ─────────────────────────────────────────────────────────────────── */}
+      <div
+        aria-hidden={!mobileOpen}
+        style={{
+          position: "fixed",
+          inset: 0,
+          zIndex: 99,
+          background: "#111",
+          display: "flex",
+          flexDirection: "column",
+          justifyContent: "center",
+          alignItems: "center",
+          gap: "2.5rem",
+          opacity: mobileOpen ? 1 : 0,
+          pointerEvents: mobileOpen ? "auto" : "none",
+          transition: "opacity 0.25s ease",
+        }}
+      >
+        {extraLinks.map((l) => (
           <Link
-            href={ctaHref}
+            key={l.href}
+            href={l.href}
             onClick={closeMobile}
+            tabIndex={mobileOpen ? 0 : -1}
             style={{
               fontFamily: "'Anton', sans-serif",
               fontSize: "32px",
               letterSpacing: "0.08em",
-              color: accentColor,
+              color: "#fff",
               textDecoration: "none",
             }}
           >
-            {ctaLabel}
+            {l.label}
           </Link>
-        </div>
-      )}
+        ))}
+        <Link
+          href={ctaHref}
+          onClick={closeMobile}
+          tabIndex={mobileOpen ? 0 : -1}
+          style={{
+            fontFamily: "'Anton', sans-serif",
+            fontSize: "32px",
+            letterSpacing: "0.08em",
+            color: accentColor,
+            textDecoration: "none",
+          }}
+        >
+          {ctaLabel}
+        </Link>
+      </div>
 
       <style>{`
         @media (max-width: 768px) {
