@@ -2,13 +2,29 @@
 
 import { useState, useEffect, useRef } from "react";
 import Image from "next/image";
+import Link from "next/link";
+import SiteHeader from "@/components/layout/SiteHeader";
+import SiteFooter from "@/components/layout/SiteFooter";
+import Ticker from "@/components/ui/Ticker";
+import { EyebrowLabel, SectionContainer } from "@/components/ui/primitives";
 import OhaePopup from "@/components/features/OhaePopup";
 
-// ─── Palette ──────────────────────────────────────────────────────────────────
-// Primary: #FF3D6B (vivid pink), #D4687A (warm pink), #F0A0B0 (soft pink)
-// Neutrals: #111111 (near black), #FFFFFF, #F8F6F2 (off-white)
+// ─── Constants ────────────────────────────────────────────────────────────────
 
-// ─── Data ─────────────────────────────────────────────────────────────────────
+const ACCENT = "#FF3D6B";
+
+const TICKER_ITEMS = [
+  "Food Festivals",
+  "Space Activation",
+  "F&B Consulting",
+  "Brand Direction",
+  "Community Building",
+  "Be Humane",
+  "Culinary Strategy",
+  "Vendor Relations",
+  "Co-working",
+  "Hospitality",
+];
 
 const INGREDIENTS = [
   {
@@ -43,28 +59,24 @@ const INGREDIENTS = [
 
 const TEAM = [
   {
-    initials: "HL",
     name: "Hyojin Lee",
     role: "Design",
     note: "Spaces that feel inevitable.",
     photo: "/images/hyojin.png",
   },
   {
-    initials: "HK",
     name: "Hyeonmin Kim",
     role: "Technology",
     note: "Systems that stay out of the way.",
     photo: "/images/hyeonmin.png",
   },
   {
-    initials: "DK",
     name: "Dani Kang",
     role: "Culinary",
     note: "Food as the opening act.",
     photo: "/images/dani.png",
   },
   {
-    initials: "SJ",
     name: "Shinyoung Jo",
     role: "Operations",
     note: "The hum you never notice.",
@@ -72,322 +84,26 @@ const TEAM = [
   },
 ];
 
-const TICKER_ITEMS = [
-  "Food Festivals",
-  "Space Activation",
-  "F&B Consulting",
-  "Brand Direction",
-  "Community Building",
-  "Be Humane",
-  "Culinary Strategy",
-  "Vendor Relations",
-  "Co-working",
-  "Hospitality",
+const VALUES = [
+  {
+    n: "01",
+    tag: "Mutual Growth",
+    title: "We rise\ntogether.",
+    body: "Real success is never solo. We build with our vendors, our customers, our neighbours — not above them. When the people around us win, that's when we know we've actually done something worth doing.",
+  },
+  {
+    n: "02",
+    tag: "Continuous Relationship",
+    title: "Beyond the\ntransaction.",
+    body: "A deal ends. A relationship doesn't. We're not here to close and move on — we're here to stay, check in, and grow with you. Money is a byproduct. Trust is the point.",
+  },
+  {
+    n: "03",
+    tag: "Human Above All",
+    title: "Human\nabove everything.",
+    body: "The world chases frameworks and the next big method. We go the other way — plain, warm, honest. The most sophisticated thing a business can do is be genuinely human.",
+  },
 ];
-
-// ─── Tiny components ──────────────────────────────────────────────────────────
-
-function PinkRule({ className = "" }) {
-  return (
-    <span
-      className={`inline-block h-px bg-[#FF3D6B] ${className}`}
-      style={{ width: "2rem" }}
-    />
-  );
-}
-
-function EyebrowLabel({
-  children,
-  light = false,
-}: {
-  children: React.ReactNode;
-  light?: boolean;
-}) {
-  return (
-    <p
-      style={{
-        fontFamily: "'DM Sans', sans-serif",
-        fontSize: "10px",
-        letterSpacing: "0.24em",
-        fontWeight: 500,
-        textTransform: "uppercase",
-        color: light ? "rgba(255,255,255,0.35)" : "#FF3D6B",
-        marginBottom: "1.25rem",
-      }}
-    >
-      {children}
-    </p>
-  );
-}
-
-// ─── Header ───────────────────────────────────────────────────────────────────
-// Replace the Header function in app/page.tsx with this version.
-// Changes:
-//   - Removed all NAV_LINKS items from desktop nav
-//   - Added an "OHAE" text link next to the "Let's talk" button
-//   - Simplified mobile menu to show only OHAE + Let's talk
-
-function Header() {
-  const [scrolled, setScrolled] = useState(false);
-  const [mobileOpen, setMobileOpen] = useState(false);
-
-  useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 40);
-    window.addEventListener("scroll", onScroll);
-    return () => window.removeEventListener("scroll", onScroll);
-  }, []);
-
-  return (
-    <>
-      <header
-        style={{
-          position: "fixed",
-          top: 0,
-          left: 0,
-          right: 0,
-          zIndex: 100,
-          transition: "background 0.4s ease, border-color 0.4s ease",
-          background: scrolled ? "rgba(17,17,17,0.96)" : "transparent",
-          borderBottom: scrolled
-            ? "1px solid rgba(255,255,255,0.06)"
-            : "1px solid transparent",
-          backdropFilter: scrolled ? "blur(12px)" : "none",
-        }}
-      >
-        <div
-          style={{
-            maxWidth: "1280px",
-            margin: "0 auto",
-            padding: "0 2rem",
-            height: "68px",
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "space-between",
-          }}
-        >
-          {/* Logo */}
-          <div style={{ marginLeft: "-3rem" }}>
-            <Image
-              src="/images/logo.png"
-              alt="One Bite Street"
-              width={300}
-              height={70}
-              style={{
-                height: "auto",
-                width: "auto",
-              }}
-              priority
-            />
-          </div>
-
-          {/* Desktop nav — OHAE link + Let's talk CTA */}
-          <nav
-            style={{
-              display: "flex",
-              alignItems: "center",
-              gap: "2rem",
-            }}
-            className="desktop-nav"
-          >
-            {/* OHAE link */}
-            <a
-              href="/ohae"
-              style={{
-                fontFamily: "'DM Sans', sans-serif",
-                fontSize: "16px",
-                letterSpacing: "0.16em",
-                fontWeight: 300,
-                textTransform: "uppercase",
-                color: "rgba(255,255,255,0.45)",
-                textDecoration: "none",
-                transition: "color 0.2s ease",
-              }}
-              onMouseEnter={(e) =>
-                ((e.target as HTMLElement).style.color = "#fff")
-              }
-              onMouseLeave={(e) =>
-                ((e.target as HTMLElement).style.color =
-                  "rgba(255,255,255,0.45)")
-              }
-            >
-              OH·AE
-            </a>
-
-            {/* Let's talk CTA */}
-            <a
-              href="contact"
-              style={{
-                fontFamily: "'DM Sans', sans-serif",
-                fontSize: "11px",
-                letterSpacing: "0.16em",
-                fontWeight: 500,
-                textTransform: "uppercase",
-                color: "#FF3D6B",
-                textDecoration: "none",
-                border: "1px solid rgba(255,61,107,0.35)",
-                padding: "7px 18px",
-                transition: "all 0.2s ease",
-              }}
-              onMouseEnter={(e) => {
-                (e.target as HTMLElement).style.background = "#FF3D6B";
-                (e.target as HTMLElement).style.color = "#fff";
-              }}
-              onMouseLeave={(e) => {
-                (e.target as HTMLElement).style.background = "transparent";
-                (e.target as HTMLElement).style.color = "#FF3D6B";
-              }}
-            >
-              Let&apos;s talk
-            </a>
-          </nav>
-
-          {/* Mobile hamburger */}
-          <button
-            onClick={() => setMobileOpen(!mobileOpen)}
-            style={{
-              background: "none",
-              border: "none",
-              cursor: "pointer",
-              padding: "8px",
-              display: "none",
-              flexDirection: "column",
-              gap: "5px",
-              alignItems: "flex-end",
-            }}
-            className="mobile-menu-btn"
-            aria-label="Toggle menu"
-          >
-            {[0, 1, 2].map((i) => (
-              <span
-                key={i}
-                style={{
-                  display: "block",
-                  height: "1px",
-                  background: "#fff",
-                  transition: "all 0.3s ease",
-                  width: i === 1 ? (mobileOpen ? "0" : "14px") : "20px",
-                  transform:
-                    mobileOpen && i === 0
-                      ? "translateY(6px) rotate(45deg)"
-                      : mobileOpen && i === 2
-                        ? "translateY(-6px) rotate(-45deg)"
-                        : "none",
-                  opacity: mobileOpen && i === 1 ? 0 : 1,
-                }}
-              />
-            ))}
-          </button>
-        </div>
-      </header>
-
-      {/* Mobile menu */}
-      {mobileOpen && (
-        <div
-          style={{
-            position: "fixed",
-            inset: 0,
-            zIndex: 99,
-            background: "#111",
-            display: "flex",
-            flexDirection: "column",
-            justifyContent: "center",
-            alignItems: "center",
-            gap: "2.5rem",
-          }}
-        >
-          <a
-            href="/ohae"
-            onClick={() => setMobileOpen(false)}
-            style={{
-              fontFamily: "'Anton', sans-serif",
-              fontSize: "32px",
-              letterSpacing: "0.08em",
-              color: "#fff",
-              textDecoration: "none",
-            }}
-          >
-            OHAE
-          </a>
-          <a
-            href="contact"
-            onClick={() => setMobileOpen(false)}
-            style={{
-              fontFamily: "'Anton', sans-serif",
-              fontSize: "32px",
-              letterSpacing: "0.08em",
-              color: "#FF3D6B",
-              textDecoration: "none",
-            }}
-          >
-            Let&apos;s talk
-          </a>
-        </div>
-      )}
-
-      <style>{`
-        @media (max-width: 768px) {
-          .desktop-nav { display: none !important; }
-          .mobile-menu-btn { display: flex !important; }
-        }
-      `}</style>
-    </>
-  );
-}
-
-// ─── Ticker ───────────────────────────────────────────────────────────────────
-
-function Ticker({ dark = false }) {
-  const items = [...TICKER_ITEMS, ...TICKER_ITEMS, ...TICKER_ITEMS];
-  return (
-    <div
-      style={{
-        overflow: "hidden",
-        borderTop: `1px solid ${dark ? "rgba(255,255,255,0.08)" : "rgba(0,0,0,0.08)"}`,
-        borderBottom: `1px solid ${dark ? "rgba(255,255,255,0.08)" : "rgba(0,0,0,0.08)"}`,
-        padding: "13px 0",
-        background: dark ? "#111" : "#F8F6F2",
-      }}
-    >
-      <div
-        style={{
-          display: "flex",
-          whiteSpace: "nowrap",
-          animation: "ticker 32s linear infinite",
-        }}
-      >
-        {items.map((item, i) => (
-          <span
-            key={i}
-            style={{
-              fontFamily: "'DM Sans', sans-serif",
-              fontSize: "10px",
-              letterSpacing: "0.22em",
-              fontWeight: 400,
-              textTransform: "uppercase",
-              color: dark ? "rgba(255,255,255,0.22)" : "rgba(17,17,17,0.28)",
-              flexShrink: 0,
-              marginRight: "2.5rem",
-              display: "flex",
-              alignItems: "center",
-              gap: "2.5rem",
-            }}
-          >
-            {item}
-            <span style={{ color: "#FF3D6B", fontSize: "18px", lineHeight: 1 }}>
-              ·
-            </span>
-          </span>
-        ))}
-      </div>
-      <style>{`
-        @keyframes ticker { 0% { transform: translateX(0); } 100% { transform: translateX(-33.333%); } }
-        @keyframes scrollLine { 0% { transform: translateY(-100%); } 100% { transform: translateY(300%); } }
-        @keyframes fadeUp { from { opacity: 0; transform: translateY(28px); } to { opacity: 1; transform: translateY(0); } }
-        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
-      `}</style>
-    </div>
-  );
-}
 
 // ─── Hero ─────────────────────────────────────────────────────────────────────
 
@@ -400,7 +116,6 @@ function Hero() {
 
   return (
     <section
-      className="hero-section"
       style={{
         position: "relative",
         width: "100%",
@@ -412,17 +127,16 @@ function Hero() {
         overflow: "hidden",
       }}
     >
-      {/* Background texture — subtle grain-like grid */}
-      {/* Background photo */}
       <Image
-        src="/images/room.jpg"
+        src="/images/44.jpeg"
         alt="Hero background"
         fill
         priority
-        style={{ objectFit: "cover", objectPosition: "center 60%" }}
+        style={{
+          objectFit: "cover",
+          objectPosition: "center 60%",
+        }}
       />
-
-      {/* Dark overlay — controls how much the photo shows through */}
       <div
         style={{
           position: "absolute",
@@ -431,7 +145,7 @@ function Hero() {
         }}
       />
 
-      {/* Big typographic bg accent */}
+      {/* Typographic bg accent */}
       <div
         style={{
           position: "absolute",
@@ -443,7 +157,7 @@ function Hero() {
           lineHeight: 0.85,
           letterSpacing: "-0.02em",
           color: "transparent",
-          WebkitTextStroke: "1px rgba(255,61,107,0.06)",
+          WebkitTextStroke: `1px rgba(255,61,107,0.06)`,
           whiteSpace: "nowrap",
           userSelect: "none",
           pointerEvents: "none",
@@ -453,7 +167,7 @@ function Hero() {
         OBS
       </div>
 
-      {/* Pink accent circle */}
+      {/* Pink radial glow */}
       <div
         style={{
           position: "absolute",
@@ -465,18 +179,6 @@ function Hero() {
           background:
             "radial-gradient(circle, rgba(255,61,107,0.12) 0%, transparent 70%)",
           pointerEvents: "none",
-        }}
-      />
-
-      {/* Horizontal rule with dot */}
-      <div
-        style={{
-          position: "absolute",
-          top: "50%",
-          left: "2rem",
-          right: "2rem",
-          height: "1px",
-          background: "rgba(255,255,255,0.04)",
         }}
       />
 
@@ -501,7 +203,7 @@ function Hero() {
             color: "rgba(255,255,255,0.3)",
             marginBottom: "2rem",
             opacity: vis ? 1 : 0,
-            animation: vis ? "fadeIn 0.8s ease 0.1s forwards" : "none",
+            animation: vis ? "obs-fadeIn 0.8s ease 0.1s forwards" : "none",
           }}
         >
           Hospitality Collective · Est. 2026
@@ -516,12 +218,12 @@ function Hero() {
             margin: "0 0 2rem",
             color: "#fff",
             opacity: vis ? 1 : 0,
-            animation: vis ? "fadeUp 1s ease 0.25s forwards" : "none",
+            animation: vis ? "obs-fadeUp 1s ease 0.25s forwards" : "none",
           }}
         >
           GRAB A SEAT
           <br />
-          <span style={{ color: "#FF3D6B" }}>TAKE A BITE</span>
+          <span style={{ color: ACCENT }}>TAKE A BITE</span>
         </h1>
 
         <div
@@ -530,7 +232,7 @@ function Hero() {
             flexDirection: "column",
             gap: "2rem",
             opacity: vis ? 1 : 0,
-            animation: vis ? "fadeUp 1s ease 0.5s forwards" : "none",
+            animation: vis ? "obs-fadeUp 1s ease 0.5s forwards" : "none",
           }}
         >
           <p
@@ -556,7 +258,7 @@ function Hero() {
                 letterSpacing: "0.18em",
                 fontWeight: 500,
                 textTransform: "uppercase",
-                background: "#FF3D6B",
+                background: ACCENT,
                 color: "#fff",
                 padding: "14px 28px",
                 textDecoration: "none",
@@ -568,13 +270,13 @@ function Hero() {
                   "rgba(255,61,107,0.85)")
               }
               onMouseLeave={(e) =>
-                ((e.target as HTMLElement).style.background = "#FF3D6B")
+                ((e.target as HTMLElement).style.background = ACCENT)
               }
             >
               Our Story
             </a>
-            <a
-              href="contact"
+            <Link
+              href="/contact"
               style={{
                 fontFamily: "'DM Sans', sans-serif",
                 fontSize: "11px",
@@ -589,18 +291,18 @@ function Hero() {
                 display: "inline-block",
               }}
               onMouseEnter={(e) => {
-                (e.target as HTMLElement).style.borderColor =
-                  "rgba(255,255,255,0.5)";
-                (e.target as HTMLElement).style.color = "#fff";
+                const el = e.currentTarget as HTMLAnchorElement;
+                el.style.borderColor = "rgba(255,255,255,0.5)";
+                el.style.color = "#fff";
               }}
               onMouseLeave={(e) => {
-                (e.target as HTMLElement).style.borderColor =
-                  "rgba(255,255,255,0.2)";
-                (e.target as HTMLElement).style.color = "rgba(255,255,255,0.6)";
+                const el = e.currentTarget as HTMLAnchorElement;
+                el.style.borderColor = "rgba(255,255,255,0.2)";
+                el.style.color = "rgba(255,255,255,0.6)";
               }}
             >
               Work with us
-            </a>
+            </Link>
           </div>
         </div>
       </div>
@@ -616,7 +318,7 @@ function Hero() {
           alignItems: "center",
           gap: "8px",
           opacity: vis ? 1 : 0,
-          animation: vis ? "fadeIn 1s ease 1.4s forwards" : "none",
+          animation: vis ? "obs-fadeIn 1s ease 1.4s forwards" : "none",
         }}
       >
         <span
@@ -648,64 +350,29 @@ function Hero() {
               left: 0,
               width: "100%",
               height: "40%",
-              background: "#FF3D6B",
-              animation: "scrollLine 2.2s ease-in-out infinite",
+              background: ACCENT,
+              animation: "obs-scrollLine 2.2s ease-in-out infinite",
             }}
           />
         </div>
       </div>
-      <style>{`
-        @media (max-width: 768px) {
-          .hero-section {
-            justify-content: center !important;
-          }
-
-          .hero-content {
-            padding-bottom: 2rem !important; 
-          }
-        }
-      `}</style>
     </section>
   );
 }
 
 // ─── About / Values ───────────────────────────────────────────────────────────
 
-function CompanyValue() {
-  const VALUES = [
-    {
-      n: "01",
-      tag: "Mutual Growth",
-      title: "We rise\ntogether.",
-      body: "Real success is never solo. We build with our vendors, our customers, our neighbours — not above them. When the people around us win, that's when we know we've actually done something worth doing.",
-    },
-    {
-      n: "02",
-      tag: "Continuous Relationship",
-      title: "Beyond the\ntransaction.",
-      body: "A deal ends. A relationship doesn't. We're not here to close and move on — we're here to stay, check in, and grow with you. Money is a byproduct. Trust is the point.",
-    },
-    {
-      n: "03",
-      tag: "Human Above All",
-      title: "Human\nabove everything.",
-      body: "The world chases frameworks and the next big method. We go the other way — plain, warm, honest. The most sophisticated thing a business can do is be genuinely human.",
-    },
-  ];
-
+function AboutValues() {
   return (
-    <section
-      id="about"
-      style={{ background: "#F8F6F2", width: "100%", position: "relative" }}
-    >
-      {/* Statement block */}
+    <section id="about" style={{ background: "#F8F6F2", width: "100%" }}>
+      {/* Statement */}
       <div
         style={{
           borderBottom: "1px solid rgba(17,17,17,0.08)",
           padding: "7rem 2rem",
         }}
       >
-        <div style={{ maxWidth: "1280px", margin: "0 auto" }}>
+        <SectionContainer>
           <EyebrowLabel>What we stand for</EyebrowLabel>
           <h2
             style={{
@@ -735,110 +402,108 @@ function CompanyValue() {
             rhythms, the pressures, the people — and build something that works
             from the inside out. Not a quick fix. A foundation.
           </p>
-        </div>
+        </SectionContainer>
       </div>
 
       {/* Three values */}
-      <div
-        style={{
-          maxWidth: "1280px",
-          margin: "0 auto",
-          padding: "5rem 2rem",
-          display: "grid",
-          gridTemplateColumns: "repeat(auto-fit, minmax(260px, 1fr))",
-          gap: "0",
-        }}
+      <SectionContainer
+        style={{ padding: "5rem 2rem" }}
+        className="obs-values-grid"
       >
-        {VALUES.map((v, i) => (
-          <div
-            key={v.n}
-            style={{
-              padding: i === 0 ? "0 3rem 0 0" : "0 3rem",
-              borderLeft: i > 0 ? "1px solid rgba(17,17,17,0.1)" : "none",
-            }}
-          >
-            {/* number + tag */}
+        <div
+          style={{
+            display: "grid",
+            gridTemplateColumns: "repeat(auto-fit, minmax(260px, 1fr))",
+          }}
+        >
+          {VALUES.map((v, i) => (
             <div
+              key={v.n}
               style={{
-                display: "flex",
-                alignItems: "center",
-                gap: "12px",
-                marginBottom: "2rem",
+                padding: i === 0 ? "0 3rem 0 0" : "0 3rem",
+                borderLeft: i > 0 ? "1px solid rgba(17,17,17,0.1)" : "none",
               }}
             >
-              <span
+              <div
+                style={{
+                  display: "flex",
+                  alignItems: "center",
+                  gap: "12px",
+                  marginBottom: "2rem",
+                }}
+              >
+                <span
+                  style={{
+                    fontFamily: "'DM Sans', sans-serif",
+                    fontSize: "10px",
+                    letterSpacing: "0.2em",
+                    fontWeight: 300,
+                    color: "rgba(17,17,17,0.18)",
+                  }}
+                >
+                  {v.n}
+                </span>
+                <span
+                  style={{
+                    display: "block",
+                    width: "24px",
+                    height: "1px",
+                    background: "rgba(255,61,107,0.4)",
+                  }}
+                />
+                <span
+                  style={{
+                    fontFamily: "'DM Sans', sans-serif",
+                    fontSize: "9px",
+                    letterSpacing: "0.18em",
+                    fontWeight: 500,
+                    textTransform: "uppercase",
+                    color: ACCENT,
+                  }}
+                >
+                  {v.tag}
+                </span>
+              </div>
+              <h3
+                style={{
+                  fontFamily: "'Anton', sans-serif",
+                  fontSize: "clamp(26px, 2.8vw, 40px)",
+                  lineHeight: 0.92,
+                  color: "#111",
+                  marginBottom: "1.25rem",
+                  whiteSpace: "pre-line",
+                }}
+              >
+                {v.title}
+              </h3>
+              <p
                 style={{
                   fontFamily: "'DM Sans', sans-serif",
-                  fontSize: "10px",
-                  letterSpacing: "0.2em",
+                  fontSize: "14px",
+                  lineHeight: 1.85,
                   fontWeight: 300,
-                  color: "rgba(17,17,17,0.18)",
+                  color: "rgba(17,17,17,0.5)",
                 }}
-              >
-                {v.n}
-              </span>
-              <span
-                style={{
-                  display: "block",
-                  width: "24px",
-                  height: "1px",
-                  background: "rgba(255,61,107,0.4)",
-                }}
+                dangerouslySetInnerHTML={{ __html: v.body }}
               />
-              <span
-                style={{
-                  fontFamily: "'DM Sans', sans-serif",
-                  fontSize: "9px",
-                  letterSpacing: "0.18em",
-                  fontWeight: 500,
-                  textTransform: "uppercase",
-                  color: "#FF3D6B",
-                }}
-              >
-                {v.tag}
-              </span>
             </div>
-
-            <h3
-              style={{
-                fontFamily: "'Anton', sans-serif",
-                fontSize: "clamp(26px, 2.8vw, 40px)",
-                lineHeight: 0.92,
-                color: "#111",
-                marginBottom: "1.25rem",
-                whiteSpace: "pre-line",
-              }}
-            >
-              {v.title}
-            </h3>
-            <p
-              style={{
-                fontFamily: "'DM Sans', sans-serif",
-                fontSize: "14px",
-                lineHeight: 1.85,
-                fontWeight: 300,
-                color: "rgba(17,17,17,0.5)",
-              }}
-              dangerouslySetInnerHTML={{ __html: v.body }}
-            />
-          </div>
-        ))}
-      </div>
+          ))}
+        </div>
+      </SectionContainer>
 
       <style>{`
         @media (max-width: 768px) {
-          #about .values-grid > div { border-left: none !important; border-top: 1px solid rgba(17,17,17,0.1); padding: 2.5rem 0 !important; }
-          #about .values-grid > div:first-child { border-top: none; }
+          .obs-values-grid > div > div { border-left: none !important; border-top: 1px solid rgba(17,17,17,0.1); padding: 2.5rem 0 !important; }
+          .obs-values-grid > div > div:first-child { border-top: none; }
         }
       `}</style>
     </section>
   );
 }
 
-// ─── Key Ingredients ──────────────────────────────────────────────────────────
+// ─── Ingredients ──────────────────────────────────────────────────────────────
 
 function Ingredients() {
-  const sectionRef = useRef<HTMLElement>(null);
   const cardRefs = useRef<(HTMLDivElement | null)[]>([]);
 
   useEffect(() => {
@@ -847,18 +512,7 @@ function Ingredients() {
 
     const activate = (index: number) => {
       cardRefs.current.forEach((card, i) => {
-        if (!card) return;
-        if (i === index) {
-          card.classList.add("ing-card--active");
-        } else {
-          card.classList.remove("ing-card--active");
-        }
-      });
-    };
-
-    const deactivateAll = () => {
-      cardRefs.current.forEach((card) => {
-        card?.classList.remove("ing-card--active");
+        card?.classList.toggle("ing-card--active", i === index);
       });
     };
 
@@ -866,27 +520,23 @@ function Ingredients() {
       const centerY = window.innerHeight / 2;
       let closestIndex = -1;
       let closestDist = Infinity;
-
       cardRefs.current.forEach((card, i) => {
         if (!card) return;
         const rect = card.getBoundingClientRect();
-        const cardCenter = rect.top + rect.height / 2;
-        const dist = Math.abs(cardCenter - centerY);
-
-        // Only consider cards within the viewport
         if (rect.top < window.innerHeight && rect.bottom > 0) {
+          const dist = Math.abs(rect.top + rect.height / 2 - centerY);
           if (dist < closestDist) {
             closestDist = dist;
             closestIndex = i;
           }
         }
       });
-
-      // Only highlight if closest card center is within 40% of viewport height from screen center
       if (closestIndex !== -1 && closestDist < window.innerHeight * 0.4) {
         activate(closestIndex);
       } else {
-        deactivateAll();
+        cardRefs.current.forEach((c) =>
+          c?.classList.remove("ing-card--active"),
+        );
       }
     };
 
@@ -897,11 +547,9 @@ function Ingredients() {
 
   return (
     <section
-      id="ingredients"
-      ref={sectionRef}
       style={{ background: "#111", padding: "6rem 0", position: "relative" }}
     >
-      {/* Subtle grid bg */}
+      {/* Grid bg */}
       <div
         style={{
           position: "absolute",
@@ -914,16 +562,8 @@ function Ingredients() {
         }}
       />
 
-      <div
-        style={{
-          maxWidth: "1280px",
-          margin: "0 auto",
-          padding: "0 2rem",
-          position: "relative",
-          zIndex: 2,
-        }}
-      >
-        {/* Section header */}
+      <SectionContainer style={{ position: "relative", zIndex: 2 }}>
+        {/* Header */}
         <div
           style={{
             display: "flex",
@@ -947,7 +587,7 @@ function Ingredients() {
             >
               KEY
               <br />
-              <span style={{ color: "#FF3D6B" }}>INGREDIENTS</span>
+              <span style={{ color: ACCENT }}>INGREDIENTS</span>
             </h2>
           </div>
           <p
@@ -989,7 +629,6 @@ function Ingredients() {
                   transition: "background 0.35s ease, border-color 0.35s ease",
                 }}
               >
-                {/* Accent bar — left edge */}
                 <div
                   className="ing-accent"
                   style={{
@@ -998,12 +637,10 @@ function Ingredients() {
                     left: 0,
                     width: "3px",
                     height: "0%",
-                    background: "#FF3D6B",
+                    background: ACCENT,
                     transition: "height 0.4s ease",
                   }}
                 />
-
-                {/* Number */}
                 <span
                   style={{
                     fontFamily: "'Anton', sans-serif",
@@ -1016,8 +653,6 @@ function Ingredients() {
                 >
                   {ing.id}
                 </span>
-
-                {/* Category */}
                 <span
                   style={{
                     fontFamily: "'DM Sans', sans-serif",
@@ -1025,15 +660,13 @@ function Ingredients() {
                     letterSpacing: "0.18em",
                     fontWeight: 500,
                     textTransform: "uppercase",
-                    color: "#FF3D6B",
+                    color: ACCENT,
                     display: "block",
                     marginBottom: "10px",
                   }}
                 >
                   {ing.category}
                 </span>
-
-                {/* Title */}
                 <h3
                   style={{
                     fontFamily: "'Anton', sans-serif",
@@ -1047,8 +680,6 @@ function Ingredients() {
                 >
                   {ing.title}
                 </h3>
-
-                {/* Description */}
                 <p
                   style={{
                     fontFamily: "'DM Sans', sans-serif",
@@ -1060,8 +691,6 @@ function Ingredients() {
                   }}
                   dangerouslySetInnerHTML={{ __html: ing.desc }}
                 />
-
-                {/* Tags */}
                 <span
                   style={{
                     fontFamily: "'DM Sans', sans-serif",
@@ -1081,34 +710,17 @@ function Ingredients() {
             );
           })}
         </div>
-      </div>
+      </SectionContainer>
 
       <style>{`
-        /* ── Desktop: hover triggers animation ── */
         @media (min-width: 769px) {
-          .ing-card:hover {
-            background: rgba(255,61,107,0.04) !important;
-            border-color: rgba(255,61,107,0.2) !important;
-          }
-          .ing-card:hover .ing-accent {
-            height: 100% !important;
-          }
+          .ing-card:hover { background: rgba(255,61,107,0.04) !important; border-color: rgba(255,61,107,0.2) !important; }
+          .ing-card:hover .ing-accent { height: 100% !important; }
         }
-
-        /* ── Mobile: JS dynamically adds/removes .ing-card--active ── */
         @media (max-width: 768px) {
-          .ing-card {
-            width: 100% !important;
-            margin-left: 0 !important;
-            margin-right: 0 !important;
-          }
-          .ing-card--active {
-            background: rgba(255,61,107,0.04) !important;
-            border-color: rgba(255,61,107,0.2) !important;
-          }
-          .ing-card--active .ing-accent {
-            height: 100% !important;
-          }
+          .ing-card { width: 100% !important; margin-left: 0 !important; margin-right: 0 !important; }
+          .ing-card--active { background: rgba(255,61,107,0.04) !important; border-color: rgba(255,61,107,0.2) !important; }
+          .ing-card--active .ing-accent { height: 100% !important; }
         }
       `}</style>
     </section>
@@ -1123,7 +735,7 @@ function Team() {
       id="team"
       style={{ background: "#F8F6F2", padding: "7rem 0", width: "100%" }}
     >
-      <div style={{ maxWidth: "1280px", margin: "0 auto", padding: "0 2rem" }}>
+      <SectionContainer>
         <div
           style={{
             display: "flex",
@@ -1158,14 +770,13 @@ function Team() {
               maxWidth: "340px",
             }}
           >
-            Small team. Deep focus. Everyone here is someone who genuinely cares
-            about what ends up on your plate — literally and figuratively.
+            Small team. Deep focus. Everyone here genuinely cares about what
+            ends up on your plate — literally and figuratively.
           </p>
         </div>
 
-        {/* Team card grid */}
         <div
-          className="team-grid"
+          className="obs-team-grid"
           style={{
             display: "grid",
             gridTemplateColumns: "repeat(4, 1fr)",
@@ -1183,7 +794,6 @@ function Team() {
                 marginTop: i % 2 !== 0 ? "48px" : "0",
               }}
             >
-              {/* Photo card */}
               <div
                 style={{
                   width: "100%",
@@ -1216,8 +826,6 @@ function Team() {
                   }
                 />
               </div>
-
-              {/* Text */}
               <p
                 style={{
                   fontFamily: "'DM Sans', sans-serif",
@@ -1225,7 +833,7 @@ function Team() {
                   letterSpacing: "0.2em",
                   fontWeight: 500,
                   textTransform: "uppercase",
-                  color: "#FF3D6B",
+                  color: ACCENT,
                   marginBottom: "4px",
                 }}
               >
@@ -1258,16 +866,16 @@ function Team() {
             </div>
           ))}
         </div>
+      </SectionContainer>
 
-        <style>{`
-          @media (max-width: 900px) {
-            #team .team-grid { grid-template-columns: repeat(2, 1fr) !important; }
-          }
-          @media (max-width: 520px) {
-            #team .team-grid { grid-template-columns: 1fr !important;  gap: 16px !important; }
-          }
-        `}</style>
-      </div>
+      <style>{`
+        @media (max-width: 900px) {
+          .obs-team-grid { grid-template-columns: repeat(2, 1fr) !important; }
+        }
+        @media (max-width: 520px) {
+          .obs-team-grid { grid-template-columns: 1fr !important; gap: 16px !important; }
+        }
+      `}</style>
     </section>
   );
 }
@@ -1277,7 +885,6 @@ function Team() {
 function ContactCTA() {
   return (
     <section
-      id="contact"
       style={{
         background: "#111",
         padding: "8rem 2rem",
@@ -1286,7 +893,6 @@ function ContactCTA() {
         textAlign: "center",
       }}
     >
-      {/* Radial glow */}
       <div
         style={{
           position: "absolute",
@@ -1301,7 +907,6 @@ function ContactCTA() {
           pointerEvents: "none",
         }}
       />
-
       <div
         style={{
           position: "relative",
@@ -1323,9 +928,8 @@ function ContactCTA() {
         >
           LET&apos;S MAKE
           <br />
-          <span style={{ color: "#FF3D6B" }}>SOMETHING.</span>
+          <span style={{ color: ACCENT }}>SOMETHING.</span>
         </h2>
-
         <p
           style={{
             fontFamily: "'DM Sans', sans-serif",
@@ -1333,7 +937,6 @@ function ContactCTA() {
             lineHeight: 1.75,
             fontWeight: 300,
             color: "rgba(255,255,255,0.4)",
-            marginBottom: "3rem",
             maxWidth: "420px",
             margin: "0 auto 3rem",
           }}
@@ -1350,15 +953,15 @@ function ContactCTA() {
             flexWrap: "wrap",
           }}
         >
-          <a
-            href="contact"
+          <Link
+            href="/contact"
             style={{
               fontFamily: "'DM Sans', sans-serif",
               fontSize: "11px",
               letterSpacing: "0.18em",
               fontWeight: 500,
               textTransform: "uppercase",
-              background: "#FF3D6B",
+              background: ACCENT,
               color: "#fff",
               padding: "16px 34px",
               textDecoration: "none",
@@ -1366,17 +969,16 @@ function ContactCTA() {
               display: "inline-block",
             }}
             onMouseEnter={(e) =>
-              ((e.target as HTMLElement).style.background =
+              ((e.currentTarget as HTMLAnchorElement).style.background =
                 "rgba(255,61,107,0.82)")
             }
             onMouseLeave={(e) =>
-              ((e.target as HTMLElement).style.background = "#FF3D6B")
+              ((e.currentTarget as HTMLAnchorElement).style.background = ACCENT)
             }
           >
             Send a message
-          </a>
+          </Link>
           <a
-            // href="https://instagram.com/onebitestr"
             target="_blank"
             rel="noopener noreferrer"
             style={{
@@ -1393,21 +995,20 @@ function ContactCTA() {
               display: "inline-block",
             }}
             onMouseEnter={(e) => {
-              (e.target as HTMLElement).style.borderColor =
-                "rgba(255,255,255,0.4)";
-              (e.target as HTMLElement).style.color = "#fff";
+              const el = e.target as HTMLElement;
+              el.style.borderColor = "rgba(255,255,255,0.4)";
+              el.style.color = "#fff";
             }}
             onMouseLeave={(e) => {
-              (e.target as HTMLElement).style.borderColor =
-                "rgba(255,255,255,0.18)";
-              (e.target as HTMLElement).style.color = "rgba(255,255,255,0.55)";
+              const el = e.target as HTMLElement;
+              el.style.borderColor = "rgba(255,255,255,0.18)";
+              el.style.color = "rgba(255,255,255,0.55)";
             }}
           >
             @onebitestr (TBA)
           </a>
         </div>
 
-        {/* Contact details */}
         <div
           style={{
             display: "flex",
@@ -1423,12 +1024,7 @@ function ContactCTA() {
               value: "onebitestr@gmail.com",
               href: "mailto:onebitestr@gmail.com",
             },
-            {
-              label: "Instagram",
-              // value: "@onebitestr",
-              value: "@onebitestr (TBA)",
-              // href: "https://instagram.com/onebitestr",
-            },
+            { label: "Instagram", value: "@onebitestr (TBA)", href: undefined },
           ].map((item) => (
             <div key={item.label} style={{ textAlign: "center" }}>
               <p
@@ -1471,85 +1067,9 @@ function ContactCTA() {
   );
 }
 
-// ─── Footer ───────────────────────────────────────────────────────────────────
-
-function Footer() {
-  const year = new Date().getFullYear();
-
-  return (
-    <footer
-      style={{
-        background: "#0d0d0d",
-        borderTop: "1px solid rgba(255,255,255,0.05)",
-        padding: "2.5rem 2rem",
-      }}
-    >
-      <div
-        style={{
-          maxWidth: "1280px",
-          margin: "0 auto",
-          display: "flex",
-          justifyContent: "space-between",
-          alignItems: "center",
-          flexWrap: "wrap",
-          gap: "1rem",
-        }}
-      >
-        <span
-          style={{
-            fontFamily: "'Anton', sans-serif",
-            fontSize: "12px",
-            letterSpacing: "0.18em",
-            color: "rgba(255,255,255,0.2)",
-          }}
-        >
-          ONE BITE STREET
-        </span>
-        <p
-          style={{
-            fontFamily: "'DM Sans', sans-serif",
-            fontSize: "10px",
-            letterSpacing: "0.14em",
-            color: "rgba(255,255,255,0.18)",
-          }}
-        >
-          © {year} All rights reserved.
-        </p>
-        <div style={{ display: "flex", gap: "2rem" }}>
-          {["About", "Contact"].map((l) => (
-            <a
-              key={l}
-              href={l === "Contact" ? "contact" : `#${l.toLowerCase()}`}
-              style={{
-                fontFamily: "'DM Sans', sans-serif",
-                fontSize: "10px",
-                letterSpacing: "0.16em",
-                textTransform: "uppercase",
-                color: "rgba(255,255,255,0.2)",
-                textDecoration: "none",
-                transition: "color 0.2s ease",
-              }}
-              onMouseEnter={(e) =>
-                ((e.target as HTMLElement).style.color =
-                  "rgba(255,255,255,0.55)")
-              }
-              onMouseLeave={(e) =>
-                ((e.target as HTMLElement).style.color =
-                  "rgba(255,255,255,0.2)")
-              }
-            >
-              {l}
-            </a>
-          ))}
-        </div>
-      </div>
-    </footer>
-  );
-}
-
 // ─── Root ─────────────────────────────────────────────────────────────────────
 
-export default function OneBiteStreet() {
+export default function HomePageClient() {
   return (
     <>
       <style>{`
@@ -1557,27 +1077,33 @@ export default function OneBiteStreet() {
         * { box-sizing: border-box; margin: 0; padding: 0; }
         html { scroll-behavior: smooth; }
         body { background: #111; }
-        a { cursor: pointer; }
-        @keyframes ticker { 0% { transform: translateX(0); } 100% { transform: translateX(-33.333%); } }
-        @keyframes scrollLine { 0% { transform: translateY(-100%); } 100% { transform: translateY(300%); } }
-        @keyframes fadeUp { from { opacity: 0; transform: translateY(28px); } to { opacity: 1; transform: translateY(0); } }
-        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
-        @media (max-width: 768px) {
-          .desktop-nav { display: none !important; }
-          .mobile-menu-btn { display: flex !important; }
-        }
+        @keyframes obs-scrollLine { 0% { transform: translateY(-100%); } 100% { transform: translateY(300%); } }
+        @keyframes obs-fadeUp { from { opacity: 0; transform: translateY(28px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes obs-fadeIn { from { opacity: 0; } to { opacity: 1; } }
       `}</style>
 
       <OhaePopup />
-      <Header />
+
+      <SiteHeader
+        extraLinks={[{ label: "OH·AE", href: "/ohae" }]}
+        ctaHref="/contact"
+        ctaLabel="Let's talk"
+      />
+
       <Hero />
-      <Ticker />
-      <CompanyValue />
+      <Ticker items={TICKER_ITEMS} />
+      <AboutValues />
       <Ingredients />
-      <Ticker dark />
+      <Ticker items={TICKER_ITEMS} dark />
       <Team />
       <ContactCTA />
-      <Footer />
+
+      <SiteFooter
+        links={[
+          { label: "About", href: "#about" },
+          { label: "Contact", href: "/contact" },
+        ]}
+      />
     </>
   );
 }

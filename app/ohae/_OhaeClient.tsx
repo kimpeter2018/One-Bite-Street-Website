@@ -3,11 +3,18 @@
 import { useState, useEffect } from "react";
 import Link from "next/link";
 import Image from "next/image";
+import SiteHeader from "@/components/layout/SiteHeader";
+import SiteFooter from "@/components/layout/SiteFooter";
+import { EyebrowLabel } from "@/components/ui/primitives";
 
-// Background: #2a6120 (dark forest green)
-// Header:     #1C2E24
-// Primary:    #fb933d (orange)
-// Text:       #F5F4FF (off-white)
+// ─── OHAE palette (overrides global #FF3D6B accent) ──────────────────────────
+const ACCENT = "#fb933d"; // OHAE orange
+const BG_DARK = "#1C2E24"; // deep forest green
+const BG_PAGE = "#2a6120"; // mid green (page background)
+const TEXT_DIM = "rgba(245,244,255,0.55)";
+const TEXT_MAIN = "#F5F4FF";
+
+// ─── Blurred map placeholder ──────────────────────────────────────────────────
 
 function BlurredMap() {
   return (
@@ -89,6 +96,8 @@ function BlurredMap() {
             "radial-gradient(ellipse at center, rgba(28,46,36,0.15) 0%, rgba(28,46,36,0.7) 100%)",
         }}
       />
+
+      {/* Pin */}
       <div
         style={{
           position: "absolute",
@@ -108,7 +117,7 @@ function BlurredMap() {
             height: "44px",
             borderRadius: "50% 50% 50% 0",
             transform: "rotate(-45deg)",
-            background: "#fb933d",
+            background: ACCENT,
             display: "flex",
             alignItems: "center",
             justifyContent: "center",
@@ -164,7 +173,9 @@ function BlurredMap() {
   );
 }
 
-export default function OhaePage() {
+// ─── Main page ────────────────────────────────────────────────────────────────
+
+export default function OhaePageClient() {
   const [vis, setVis] = useState(false);
   useEffect(() => {
     const t = setTimeout(() => setVis(true), 80);
@@ -172,88 +183,31 @@ export default function OhaePage() {
   }, []);
 
   return (
-    <div style={{ background: "#2a6120", color: "#F5F4FF" }}>
+    <div style={{ background: BG_PAGE, color: TEXT_MAIN }}>
       <style>{`
-        @keyframes fadeUp { from { opacity:0; transform:translateY(20px); } to { opacity:1; transform:translateY(0); } }
-        .ohae-about { display:grid; grid-template-columns:1fr 2fr; gap:64px; align-items:start; }
-        .menu-grid { display:grid; grid-template-columns:1fr 1fr; gap:2px; align-items:start; }
-        .menu-card-inner { display:flex; flex-direction:column; gap:0; }
-        @media(max-width:680px) {
-          .ohae-about { grid-template-columns:1fr !important; gap:32px !important; }
-          .menu-grid { grid-template-columns:1fr !important; }
+        @import url('https://fonts.googleapis.com/css2?family=Anton&family=DM+Sans:ital,wght@0,200;0,300;0,400;0,500;1,300;1,400&display=swap');
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        html { scroll-behavior: smooth; }
+        @keyframes obs-fadeUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+        .ohae-about { display: grid; grid-template-columns: 1fr 2fr; gap: 64px; align-items: start; }
+        .ohae-menu-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 2px; align-items: start; }
+        @media (max-width: 680px) {
+          .ohae-about { grid-template-columns: 1fr !important; gap: 32px !important; }
+          .ohae-menu-grid { grid-template-columns: 1fr !important; }
         }
       `}</style>
 
-      {/* ── NAV ──────────────────────────────────────────────────────────── */}
-      <header
-        style={{
-          position: "fixed",
-          top: 0,
-          left: 0,
-          right: 0,
-          zIndex: 100,
-          background: "#1C2E24",
-          borderBottom: "1px solid rgba(255,255,255,0.08)",
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "space-between",
-          padding: "0 2rem",
-          height: "64px",
-        }}
-      >
-        <Link
-          href="/"
-          style={{
-            fontFamily: "'Anton', sans-serif",
-            fontSize: "11px",
-            letterSpacing: "0.2em",
-            color: "rgba(255,255,255,0.45)",
-            textDecoration: "none",
-            transition: "color 0.2s",
-          }}
-          onMouseEnter={(e) =>
-            (e.currentTarget.style.color = "rgba(255,255,255,0.9)")
-          }
-          onMouseLeave={(e) =>
-            (e.currentTarget.style.color = "rgba(255,255,255,0.45)")
-          }
-        >
-          ← ONE BITE STREET
-        </Link>
-        <span
-          style={{
-            fontFamily: "'Anton', sans-serif",
-            fontSize: "13px",
-            letterSpacing: "0.22em",
-            color: "#fb933d",
-          }}
-        >
-          OH·AE
-        </span>
-        <a
-          href="#location"
-          style={{
-            fontFamily: "'DM Sans', sans-serif",
-            fontSize: "10px",
-            letterSpacing: "0.16em",
-            fontWeight: 500,
-            textTransform: "uppercase",
-            color: "rgba(255,255,255,0.45)",
-            textDecoration: "none",
-            transition: "color 0.2s",
-          }}
-          onMouseEnter={(e) =>
-            (e.currentTarget.style.color = "rgba(255,255,255,0.9)")
-          }
-          onMouseLeave={(e) =>
-            (e.currentTarget.style.color = "rgba(255,255,255,0.45)")
-          }
-        >
-          Find us
-        </a>
-      </header>
+      {/* ── Shared header — OHAE colour overrides */}
+      <SiteHeader
+        accentColor={ACCENT}
+        scrolledBg={`${BG_DARK}F5`}
+        backHref="/"
+        backLabel="ONE BITE STREET"
+        brandTag="OH·AE"
+        brandTagColor={ACCENT}
+      />
 
-      {/* ── HERO TEXT ────────────────────────────────────────────────────── */}
+      {/* ── Hero text */}
       <section
         style={{
           maxWidth: "1100px",
@@ -268,10 +222,10 @@ export default function OhaePage() {
             letterSpacing: "0.28em",
             fontWeight: 700,
             textTransform: "uppercase",
-            color: "#fb933d",
+            color: ACCENT,
             marginBottom: "1.75rem",
             opacity: vis ? 1 : 0,
-            animation: vis ? "fadeUp 0.8s ease forwards" : "none",
+            animation: vis ? "obs-fadeUp 0.8s ease forwards" : "none",
           }}
         >
           Opening 2026 · Marburg, DE
@@ -282,15 +236,15 @@ export default function OhaePage() {
             fontSize: "clamp(72px,14vw,172px)",
             lineHeight: 0.88,
             letterSpacing: "-0.01em",
-            color: "#F5F4FF",
+            color: TEXT_MAIN,
             marginBottom: "2rem",
             opacity: vis ? 1 : 0,
-            animation: vis ? "fadeUp 0.9s ease 0.1s forwards" : "none",
+            animation: vis ? "obs-fadeUp 0.9s ease 0.1s forwards" : "none",
           }}
         >
           OH·AE
           <br />
-          <span style={{ color: "#fb933d" }}>CAFÉ.</span>
+          <span style={{ color: ACCENT }}>CAFÉ.</span>
         </h1>
         <p
           style={{
@@ -298,11 +252,10 @@ export default function OhaePage() {
             fontSize: "clamp(16px,1.8vw,21px)",
             lineHeight: 1.75,
             fontWeight: 300,
-            color: "rgba(245,244,255,0.55)",
+            color: TEXT_DIM,
             maxWidth: "500px",
-            margin: 0,
             opacity: vis ? 1 : 0,
-            animation: vis ? "fadeUp 0.9s ease 0.25s forwards" : "none",
+            animation: vis ? "obs-fadeUp 0.9s ease 0.25s forwards" : "none",
           }}
         >
           A chill spot to sit longer than you planned, eat something good, and
@@ -310,11 +263,11 @@ export default function OhaePage() {
         </p>
       </section>
 
-      {/* ── MENU ─────────────────────────────────────────────────────────── */}
+      {/* ── Menu */}
       <article
         style={{ maxWidth: "1100px", margin: "0 auto", padding: "0 2rem" }}
       >
-        {/* Section label */}
+        {/* Section divider */}
         <div
           style={{
             display: "flex",
@@ -345,14 +298,16 @@ export default function OhaePage() {
           />
         </div>
 
-        {/* Intro line */}
+        {/* Intro */}
         <div style={{ marginBottom: "4rem" }}>
+          {/* EyebrowLabel with OHAE accent colour */}
+          <EyebrowLabel color={ACCENT}>Signature item</EyebrowLabel>
           <h2
             style={{
               fontFamily: "'Anton', sans-serif",
               fontSize: "clamp(32px,5vw,58px)",
               lineHeight: 0.92,
-              color: "#F5F4FF",
+              color: TEXT_MAIN,
               marginBottom: "1.25rem",
             }}
           >
@@ -364,9 +319,8 @@ export default function OhaePage() {
               fontSize: "16px",
               lineHeight: 1.85,
               fontWeight: 300,
-              color: "rgba(245,244,255,0.55)",
+              color: TEXT_DIM,
               maxWidth: "560px",
-              margin: 0,
             }}
           >
             A croissant twisted into a cone, filled to the brim with matcha
@@ -376,17 +330,10 @@ export default function OhaePage() {
         </div>
 
         {/* Menu card grid */}
-        <div className="menu-grid">
-          {/* ── Card 1: Plain Matcha ─────────────────────────────────────── */}
-          <div className="menu-card-inner">
-            {/* Poster image — full width, natural portrait ratio */}
-            <div
-              style={{
-                width: "100%",
-                overflow: "hidden",
-                position: "relative",
-              }}
-            >
+        <div className="ohae-menu-grid">
+          {/* Card 1 */}
+          <div style={{ display: "flex", flexDirection: "column" }}>
+            <div style={{ width: "100%", overflow: "hidden" }}>
               <Image
                 src="/images/plain_matcha.jpg"
                 alt="Matcha Cro-Cone with Oreo crumbles"
@@ -396,8 +343,7 @@ export default function OhaePage() {
                 priority
               />
             </div>
-            {/* Copy block */}
-            <div style={{ background: "#1C2E24", padding: "2rem 2rem 2.5rem" }}>
+            <div style={{ background: BG_DARK, padding: "2rem 2rem 2.5rem" }}>
               <p
                 style={{
                   fontFamily: "monospace",
@@ -416,13 +362,13 @@ export default function OhaePage() {
                   fontFamily: "'Anton', sans-serif",
                   fontSize: "clamp(24px,3vw,36px)",
                   lineHeight: 0.92,
-                  color: "#F5F4FF",
+                  color: TEXT_MAIN,
                   marginBottom: "1rem",
                 }}
               >
                 MATCHA
                 <br />
-                <span style={{ color: "#fb933d" }}>CRO-CONE</span>
+                <span style={{ color: ACCENT }}>CRO-CONE</span>
               </h3>
               <p
                 style={{
@@ -430,7 +376,7 @@ export default function OhaePage() {
                   fontSize: "14px",
                   lineHeight: 1.85,
                   fontWeight: 300,
-                  color: "rgba(245,244,255,0.5)",
+                  color: TEXT_DIM,
                   marginBottom: "1.25rem",
                 }}
               >
@@ -461,19 +407,15 @@ export default function OhaePage() {
             </div>
           </div>
 
-          {/* ── Card 2: Strawberry Matcha ────────────────────────────────── */}
+          {/* Card 2 (offset) */}
           <div
-            className="menu-card-inner"
-            style={{ marginTop: "clamp(40px,6vw,80px)" }}
+            style={{
+              display: "flex",
+              flexDirection: "column",
+              marginTop: "clamp(40px,6vw,80px)",
+            }}
           >
-            {/* Poster image */}
-            <div
-              style={{
-                width: "100%",
-                overflow: "hidden",
-                position: "relative",
-              }}
-            >
+            <div style={{ width: "100%", overflow: "hidden" }}>
               <Image
                 src="/images/strawberry_matcha.jpg"
                 alt="Strawberry Matcha Cro-Cone"
@@ -482,8 +424,7 @@ export default function OhaePage() {
                 style={{ width: "100%", height: "auto", display: "block" }}
               />
             </div>
-            {/* Copy block */}
-            <div style={{ background: "#1C2E24", padding: "2rem 2rem 2.5rem" }}>
+            <div style={{ background: BG_DARK, padding: "2rem 2rem 2.5rem" }}>
               <p
                 style={{
                   fontFamily: "monospace",
@@ -502,13 +443,13 @@ export default function OhaePage() {
                   fontFamily: "'Anton', sans-serif",
                   fontSize: "clamp(24px,3vw,36px)",
                   lineHeight: 0.92,
-                  color: "#F5F4FF",
+                  color: TEXT_MAIN,
                   marginBottom: "1rem",
                 }}
               >
                 STRAWBERRY
                 <br />
-                <span style={{ color: "#fb933d" }}>CRO-CONE</span>
+                <span style={{ color: ACCENT }}>CRO-CONE</span>
               </h3>
               <p
                 style={{
@@ -516,7 +457,7 @@ export default function OhaePage() {
                   fontSize: "14px",
                   lineHeight: 1.85,
                   fontWeight: 300,
-                  color: "rgba(245,244,255,0.5)",
+                  color: TEXT_DIM,
                   marginBottom: "1.25rem",
                 }}
               >
@@ -548,7 +489,7 @@ export default function OhaePage() {
           </div>
         </div>
 
-        {/* Hype sign-off line */}
+        {/* Pull quote */}
         <div
           style={{
             margin: "5rem 0 0",
@@ -557,19 +498,14 @@ export default function OhaePage() {
           }}
         >
           <blockquote
-            style={{
-              margin: 0,
-              padding: "0 0 0 2rem",
-              borderLeft: "3px solid #fb933d",
-            }}
+            style={{ padding: "0 0 0 2rem", borderLeft: `3px solid ${ACCENT}` }}
           >
             <p
               style={{
                 fontFamily: "'Anton', sans-serif",
                 fontSize: "clamp(20px,2.8vw,32px)",
                 lineHeight: 1.1,
-                color: "rgba(245,244,255,0.55)",
-                margin: 0,
+                color: TEXT_DIM,
               }}
             >
               &ldquo;We couldn&apos;t decide between a croissant and an ice
@@ -578,7 +514,7 @@ export default function OhaePage() {
           </blockquote>
         </div>
 
-        {/* ── ABOUT ─────────────────────────────────────────────────────── */}
+        {/* ── About */}
         <section
           className="ohae-about"
           style={{
@@ -592,70 +528,43 @@ export default function OhaePage() {
               fontFamily: "'Anton', sans-serif",
               fontSize: "clamp(36px,5vw,58px)",
               lineHeight: 0.92,
-              color: "#F5F4FF",
-              margin: 0,
+              color: TEXT_MAIN,
             }}
           >
             WHAT IS
             <br />
-            <span style={{ color: "#fb933d" }}>OH·AE?</span>
+            <span style={{ color: ACCENT }}>OH·AE?</span>
           </h2>
           <div
             style={{ display: "flex", flexDirection: "column", gap: "1.25rem" }}
           >
-            <p
-              style={{
-                fontFamily: "'DM Sans', sans-serif",
-                fontSize: "16px",
-                lineHeight: 1.85,
-                fontWeight: 300,
-                color: "rgba(245,244,255,0.6)",
-                margin: 0,
-              }}
-            >
-              OH·AE is just getting started. This week marks our first festival,
-              where we&apos;re introducing something authentic, fun, and new. We
-              want it to be more than just food — a space that feels unhurried,
-              where people can take their time. And of course, it tastes good.
-            </p>
-            <p
-              style={{
-                fontFamily: "'DM Sans', sans-serif",
-                fontSize: "16px",
-                lineHeight: 1.85,
-                fontWeight: 300,
-                color: "rgba(245,244,255,0.6)",
-                margin: 0,
-              }}
-            >
-              We&apos;re hoping to open a proper café — one built on simple
-              things done well: good food, good coffee, and a genuinely
-              comfortable atmosphere. Our goal is to create your favourite
-              corner in Marburg — a place to relax, slow down, and just be.
-            </p>
-            <p
-              style={{
-                fontFamily: "'DM Sans', sans-serif",
-                fontSize: "16px",
-                lineHeight: 1.85,
-                fontWeight: 300,
-                color: "rgba(245,244,255,0.6)",
-                margin: 0,
-              }}
-            >
-              We&apos;re opening in Marburg later this year. More details coming
-              soon.
-            </p>
+            {[
+              "OH·AE is just getting started. This week marks our first festival, where we're introducing something authentic, fun, and new. We want it to be more than just food — a space that feels unhurried, where people can take their time. And of course, it tastes good.",
+              "We're hoping to open a proper café — one built on simple things done well: good food, good coffee, and a genuinely comfortable atmosphere. Our goal is to create your favourite corner in Marburg — a place to relax, slow down, and just be.",
+              "We're opening in Marburg later this year. More details coming soon.",
+            ].map((text, i) => (
+              <p
+                key={i}
+                style={{
+                  fontFamily: "'DM Sans', sans-serif",
+                  fontSize: "16px",
+                  lineHeight: 1.85,
+                  fontWeight: 300,
+                  color: TEXT_DIM,
+                }}
+              >
+                {text}
+              </p>
+            ))}
           </div>
         </section>
 
-        {/* Pull quote */}
+        {/* Second pull quote */}
         <blockquote
           style={{
             margin: "0 0 96px",
             padding: "0 0 0 2rem",
-            borderLeft: "3px solid #fb933d",
-            borderRadius: 0,
+            borderLeft: `3px solid ${ACCENT}`,
           }}
         >
           <p
@@ -663,15 +572,14 @@ export default function OhaePage() {
               fontFamily: "'Anton', sans-serif",
               fontSize: "clamp(22px,3vw,36px)",
               lineHeight: 1.1,
-              color: "rgba(245,244,255,0.6)",
-              margin: 0,
+              color: TEXT_DIM,
             }}
           >
             &ldquo;Good coffee. Good food. Somewhere to actually sit.&rdquo;
           </p>
         </blockquote>
 
-        {/* ── LOCATION ──────────────────────────────────────────────────── */}
+        {/* ── Location */}
         <section id="location" style={{ paddingBottom: "96px" }}>
           <div
             style={{
@@ -684,31 +592,20 @@ export default function OhaePage() {
             }}
           >
             <div>
-              <p
-                style={{
-                  fontFamily: "monospace",
-                  fontSize: "10px",
-                  letterSpacing: "0.24em",
-                  fontWeight: 700,
-                  textTransform: "uppercase",
-                  color: "rgba(255,255,255,0.2)",
-                  marginBottom: "1rem",
-                }}
-              >
+              <EyebrowLabel color="rgba(255,255,255,0.2)">
                 Coming to
-              </p>
+              </EyebrowLabel>
               <h2
                 style={{
                   fontFamily: "'Anton', sans-serif",
                   fontSize: "clamp(36px,5vw,58px)",
                   lineHeight: 0.92,
-                  color: "#F5F4FF",
-                  margin: 0,
+                  color: TEXT_MAIN,
                 }}
               >
                 MARBURG,
                 <br />
-                <span style={{ color: "#fb933d" }}>GERMANY.</span>
+                <span style={{ color: ACCENT }}>GERMANY.</span>
               </h2>
             </div>
             <p
@@ -719,7 +616,6 @@ export default function OhaePage() {
                 fontWeight: 300,
                 color: "rgba(245,244,255,0.4)",
                 maxWidth: "340px",
-                margin: 0,
               }}
             >
               We&apos;re finding the right space. Exact address not confirmed
@@ -748,7 +644,7 @@ export default function OhaePage() {
                 letterSpacing: "0.18em",
                 fontWeight: 500,
                 textTransform: "uppercase",
-                background: "#fb933d",
+                background: ACCENT,
                 color: "#fff",
                 padding: "13px 28px",
                 textDecoration: "none",
@@ -773,61 +669,16 @@ export default function OhaePage() {
         </section>
       </article>
 
-      {/* ── FOOTER ───────────────────────────────────────────────────────── */}
-      <footer
-        style={{
-          borderTop: "1px solid rgba(255,255,255,0.06)",
-          maxWidth: "1100px",
-          margin: "0 auto",
-          padding: "2rem",
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "space-between",
-          flexWrap: "wrap",
-          gap: "1rem",
-        }}
-      >
-        <span
-          style={{
-            fontFamily: "'Anton', sans-serif",
-            fontSize: "11px",
-            letterSpacing: "0.2em",
-            color: "rgba(255,255,255,0.18)",
-          }}
-        >
-          OH·AE × ONE BITE STREET
-        </span>
-        <p
-          style={{
-            fontFamily: "monospace",
-            fontSize: "9px",
-            letterSpacing: "0.14em",
-            color: "rgba(255,255,255,0.12)",
-            margin: 0,
-          }}
-        >
-          © {new Date().getFullYear()} All rights reserved.
-        </p>
-        <Link
-          href="/"
-          style={{
-            fontFamily: "monospace",
-            fontSize: "10px",
-            letterSpacing: "0.16em",
-            color: "rgba(255,255,255,0.18)",
-            textDecoration: "none",
-            transition: "color 0.2s",
-          }}
-          onMouseEnter={(e) =>
-            (e.currentTarget.style.color = "rgba(255,255,255,0.55)")
-          }
-          onMouseLeave={(e) =>
-            (e.currentTarget.style.color = "rgba(255,255,255,0.18)")
-          }
-        >
-          ← Back to One Bite Street
-        </Link>
-      </footer>
+      {/* ── Shared footer with OHAE overrides */}
+      <SiteFooter
+        bg={BG_DARK}
+        borderColor="rgba(255,255,255,0.06)"
+        brand="OH·AE × ONE BITE STREET"
+        links={[
+          { label: "← One Bite Street", href: "/" },
+          { label: "Find us", href: "#location" },
+        ]}
+      />
     </div>
   );
 }
