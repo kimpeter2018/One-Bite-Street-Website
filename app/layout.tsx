@@ -67,7 +67,7 @@ export const metadata: Metadata = {
     type: "website",
     images: [
       {
-        url: `${SITE_CONFIG.url}/og-default.jpg`, // ← absolute URL
+        url: `${SITE_CONFIG.url}/og-default.png`, // ← absolute URL
         width: 1200,
         height: 630,
         alt: "One Bite Street — Grab a Seat. Take a Bite.",
@@ -83,7 +83,7 @@ export const metadata: Metadata = {
       "A hospitality collective building human-first food festivals, café concepts, and F&B experiences.",
     site: "@onebitestr",
     creator: "@onebitestr",
-    images: [`${SITE_CONFIG.url}/og-default.jpg`],
+    images: [`${SITE_CONFIG.url}/og-default.png`],
   },
 
   // ── Robots ────────────────────────────────────────────────────────────────

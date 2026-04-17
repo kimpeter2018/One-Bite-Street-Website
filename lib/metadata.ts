@@ -8,7 +8,7 @@ export const SITE_CONFIG = {
   description:
     "A hospitality collective building human-first food festivals, café concepts, and F&B experiences. We create spaces and events people actually come back to.",
   url: BASE_URL,
-  ogImage: `${BASE_URL}/og-default.jpg`,
+  ogImage: `${BASE_URL}/og-default.png`,
   twitterHandle: "@onebitestr",
   instagramHandle: "@onebitestr",
   email: "onebitestr@gmail.com",
