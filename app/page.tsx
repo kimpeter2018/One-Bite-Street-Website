@@ -16,26 +16,16 @@
 
 // ── app/page.tsx (SERVER COMPONENT) ──────────────────────────────────────────
 import type { Metadata } from "next";
-import { SITE_CONFIG } from "@/lib/metadata";
+import { buildMetadata, SITE_CONFIG } from "@/lib/metadata";
 import HomePageClient from "./_home/HomePageClient";
 
-export const metadata: Metadata = {
-  title: "One Bite Street | Grab a Seat. Take a Bite.",
+export const metadata = buildMetadata({
+  title: "Grab a Seat. Take a Bite.",
   description:
-    "A hospitality collective building human-first food festivals, café concepts, and F&B experiences. We create spaces people actually come back to.",
-  alternates: {
-    canonical: SITE_CONFIG.url,
-  },
-  openGraph: {
-    title: "One Bite Street | Grab a Seat. Take a Bite.",
-    description:
-      "A hospitality collective building human-first food festivals, café concepts, and F&B experiences in Germany. We create spaces people come back to.",
-    url: SITE_CONFIG.url,
-    images: [
-      { url: "/og-home.jpg", width: 1200, height: 630, alt: "One Bite Street" },
-    ],
-  },
-};
+    "A hospitality collective building human-first food festivals, café concepts, and F&B experiences in Germany. We create spaces people actually come back to.",
+  path: "/",
+  ogImage: "/og-home.png",
+});
 
 // JSON-LD for homepage
 const homeSchema = {

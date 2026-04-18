@@ -3,38 +3,16 @@
 // Move your existing "use client" contact page to app/contact/_ContactClient.tsx
 
 import type { Metadata } from "next";
-import { SITE_CONFIG } from "@/lib/metadata";
+import { buildMetadata, SITE_CONFIG } from "@/lib/metadata";
 import ContactPageClient from "./_ContactClient";
 
-export const metadata: Metadata = {
+export const metadata = buildMetadata({
   title: "Contact | Let's Make Something",
   description:
     "Get in touch with One Bite Street. Whether you're a vendor, potential partner, or just curious — a real person reads every message and writes back.",
-  keywords: [
-    "contact One Bite Street",
-    "f&b consulting inquiry",
-    "food festival vendor",
-    "hospitality consulting Germany",
-    "restaurant consulting contact",
-  ],
-  alternates: {
-    canonical: `${SITE_CONFIG.url}/contact`,
-  },
-  openGraph: {
-    title: "Contact One Bite Street | Let's Make Something",
-    description:
-      "Get in touch. Whether you're a vendor, potential partner, or just curious — a real person reads every message.",
-    url: `${SITE_CONFIG.url}/contact`,
-    images: [
-      {
-        url: "/og-default.jpg",
-        width: 1200,
-        height: 630,
-        alt: "Contact One Bite Street",
-      },
-    ],
-  },
-};
+  path: "/contact",
+  ogImage: "/og-default.png",
+});
 
 // JSON-LD: ContactPage schema
 const contactSchema = {
