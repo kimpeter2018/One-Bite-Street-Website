@@ -1,26 +1,23 @@
 // app/ohae/page.tsx
-// SERVER COMPONENT wrapper — exports metadata, renders client component.
-// Move your existing "use client" ohae page to app/ohae/_OhaeClient.tsx
+// Server component: exports metadata and renders the page.
 
-import type { Metadata } from "next";
 import { buildMetadata, SITE_CONFIG } from "@/lib/metadata";
 import OhaePageClient from "./_OhaeClient";
 
 export const metadata = buildMetadata({
-  title: "OH·AE Café | Opening in Marburg, Germany",
+  title: "ohae | Café & wine bar in Marburg",
   description:
-    "Good coffee. Good food. Somewhere to actually sit. OH·AE is opening in Marburg, Germany.",
+    "Coffee by day, wine and small plates on Thursday to Saturday evenings. ohae opens end of November 2026 at Elisabethstraße 13, Marburg.",
   path: "/ohae",
   ogImage: "/og-ohae.png",
 });
 
-// JSON-LD: CafeOrCoffeeShop schema
 const ohaeSchema = {
   "@context": "https://schema.org",
   "@type": "CafeOrCoffeeShop",
-  name: "OH·AE",
+  name: "ohae",
   description:
-    "A chill spot to sit longer than you planned, eat something good, and leave feeling slightly better about everything.",
+    "Café by day, wine bar and bistro Thursday to Saturday evenings, in Marburg.",
   url: `${SITE_CONFIG.url}/ohae`,
   parentOrganization: {
     "@type": "Organization",
@@ -29,14 +26,28 @@ const ohaeSchema = {
   },
   address: {
     "@type": "PostalAddress",
+    streetAddress: "Elisabethstraße 13",
+    postalCode: "35037",
     addressLocality: "Marburg",
     addressCountry: "DE",
   },
-  openingDate: "2026",
-  sameAs: ["https://instagram.com/onebitestr"],
-  servesCuisine: ["Coffee", "Café food", "Matcha"],
-  priceRange: "$$",
-  image: `${SITE_CONFIG.url}/og-ohae.jpg`,
+  openingHoursSpecification: [
+    {
+      "@type": "OpeningHoursSpecification",
+      dayOfWeek: ["Monday", "Tuesday", "Wednesday"],
+      opens: "09:00",
+      closes: "20:00",
+    },
+    {
+      "@type": "OpeningHoursSpecification",
+      dayOfWeek: ["Thursday", "Friday", "Saturday"],
+      opens: "09:00",
+      closes: "22:00",
+    },
+  ],
+  sameAs: ["https://instagram.com/ohae_cafe"],
+  servesCuisine: ["Coffee", "Desserts", "Tapas", "Wine", "Beer"],
+  image: `${SITE_CONFIG.url}/og-ohae.png`,
 };
 
 export default function OhaePage() {
