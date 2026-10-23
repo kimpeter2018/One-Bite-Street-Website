@@ -7,6 +7,7 @@ import SiteHeader from "@/components/layout/SiteHeader";
 import SiteFooter from "@/components/layout/SiteFooter";
 import Ticker from "@/components/ui/Ticker";
 import { EyebrowLabel, SectionContainer } from "@/components/ui/primitives";
+import OhaePopup from "@/components/features/OhaePopup";
 // import OhaePopup from "@/components/features/OhaePopup";
 
 // ─── Constants ────────────────────────────────────────────────────────────────
@@ -1082,7 +1083,7 @@ export default function HomePageClient() {
         @keyframes obs-fadeIn { from { opacity: 0; } to { opacity: 1; } }
       `}</style>
 
-      {/* <OhaePopup /> */}
+      <OhaePopup />
 
       <SiteHeader
         extraLinks={[{ label: "OH·AE", href: "/ohae" }]}

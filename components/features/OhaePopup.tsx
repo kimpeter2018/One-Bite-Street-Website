@@ -4,71 +4,116 @@ import { useState, useEffect } from "react";
 import Link from "next/link";
 import Image from "next/image";
 
-const OHAE_SEEN_KEY = "obs_ohae_seen";
+// New key, so visitors who dismissed the old "OH·AE launched" popup see this one.
+const OHAE_SEEN_KEY = "obs_ohae_opening_seen";
+
+// Put the photo (1086 x 1304) at public/images/ohae-popup.jpeg
+const PHOTO_SRC = "/images/ohae-popup.jpeg";
 
 export default function OhaePopup() {
-  const [visible, setVisible] = useState(false);
-  const [dismissed, setDismissed] = useState(() => {
-    if (typeof window !== "undefined" && localStorage.getItem(OHAE_SEEN_KEY)) {
-      return true;
-    }
-    return false;
-  });
+  // Starts closed on server and client alike (no hydration mismatch);
+  // the effect decides after mount whether to open it.
+  const [open, setOpen] = useState(false);
 
   useEffect(() => {
-    if (dismissed) {
-      return;
+    let seen = false;
+    try {
+      seen = !!localStorage.getItem(OHAE_SEEN_KEY);
+    } catch {
+      // storage unavailable: show the popup
     }
-    const t = setTimeout(() => setVisible(true), 1200);
+    if (seen) return;
+    const t = setTimeout(() => setOpen(true), 1200);
     return () => clearTimeout(t);
-  }, [dismissed]);
+  }, []);
+
+  useEffect(() => {
+    if (!open) return;
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") dismiss();
+    };
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, [open]);
 
   const dismiss = () => {
-    if (typeof window !== "undefined") {
+    try {
       localStorage.setItem(OHAE_SEEN_KEY, "1");
+    } catch {
+      // ignore
     }
-    setDismissed(true);
-    setVisible(false);
+    setOpen(false);
   };
 
-  if (dismissed) return null;
+  if (!open) return null;
 
   return (
     <>
       <style>{`
-        @keyframes cookieSlideUp {
-          from { transform: translateY(20px); opacity: 0; }
-          to   { transform: translateY(0); opacity: 1; }
-        }
-        .ohae-text-btn {
+        .ohae-pop-card {
           position: relative;
-          background: none;
+          width: 100%;
+          max-width: 720px;
+          max-height: calc(100vh - 2rem);
+          overflow-y: auto;
+          background: #FAF8F5;
+          border-radius: 12px;
+          box-shadow: 0 24px 48px rgba(0,0,0,0.25);
+          pointer-events: auto;
+          display: grid;
+          grid-template-columns: 5fr 6fr;
+        }
+        /* Desktop: photo shown in full at its own 1086 x 1304 ratio */
+        .ohae-pop-photo {
+          position: relative;
+          aspect-ratio: 1086 / 1304;
+          background: #E8E2D8;
+        }
+        .ohae-pop-body {
+          padding: 40px 32px 32px;
+          display: flex;
+          flex-direction: column;
+          justify-content: center;
+        }
+        .ohae-pop-link {
+          align-self: flex-start;
+          font-family: 'DM Sans', sans-serif;
+          font-size: 15px;
+          font-weight: 500;
+          color: #2B2623;
+          text-decoration: underline;
+          text-underline-offset: 4px;
+          transition: text-underline-offset 0.15s ease;
+        }
+        .ohae-pop-link:hover { text-underline-offset: 7px; }
+        .ohae-pop-close {
+          position: absolute;
+          top: 12px;
+          right: 12px;
+          z-index: 2;
+          width: 32px;
+          height: 32px;
+          border-radius: 50%;
           border: none;
           cursor: pointer;
-          font-family: monospace;
-          font-size: 12px;
-          font-weight: 700;
-          letter-spacing: 0.18em;
-          text-transform: uppercase;
-          color: #F0FFE8;
-          text-decoration: none;
-          padding: 4px 0;
-          display: inline-block;
+          background: rgba(250,248,245,0.92);
+          color: #2B2623;
+          font-size: 14px;
+          line-height: 1;
+          box-shadow: 0 1px 4px rgba(0,0,0,0.2);
+          transition: background 0.15s ease;
         }
-        .ohae-text-btn::after {
-          content: '';
-          position: absolute;
-          left: 0;
-          bottom: 0;
-          width: 0%;
-          height: 1.5px;
-          background: #F0FFE8;
-          transition: width 0.3s ease;
+        .ohae-pop-close:hover { background: #fff; }
+
+        /* Mobile: photo on top, cropped to 4:3 so the card stays short */
+        @media (max-width: 640px) {
+          .ohae-pop-card { grid-template-columns: 1fr; max-width: 420px; }
+          .ohae-pop-photo { aspect-ratio: 4 / 3; }
+          .ohae-pop-body { padding: 24px 24px 28px; }
         }
-        .ohae-text-btn:hover::after { width: 100%; }
       `}</style>
 
-      {/* Backdrop — anchored to viewport edges, never to scroll width */}
+      {/* Backdrop */}
       <div
         onClick={dismiss}
         style={{
@@ -76,159 +121,88 @@ export default function OhaePopup() {
           inset: 0,
           zIndex: 200,
           background: "rgba(17,17,17,0.6)",
-          opacity: visible ? 1 : 0,
-          transition: "opacity 0.4s ease",
-          pointerEvents: visible ? "auto" : "none",
         }}
       />
 
-      {/* Card wrapper — uses margin: auto trick anchored to viewport, not scroll width */}
       <div
         style={{
           position: "fixed",
-          /* Pin to viewport left/right edges so centering is always viewport-relative */
-          left: 0,
-          right: 0,
-          top: 0,
-          bottom: 0,
+          inset: 0,
           zIndex: 201,
           display: "flex",
           alignItems: "center",
           justifyContent: "center",
           padding: "1rem",
-          pointerEvents: visible ? "auto" : "none",
+          pointerEvents: "none",
         }}
       >
         <div
           role="dialog"
           aria-modal="true"
-          aria-label="Introducing Café OHAE"
-          style={{
-            /* Width constrained to never exceed viewport */
-            width: "100%",
-            maxWidth: "540px",
-            background: "#ffffff",
-            borderRadius: "16px",
-            overflow: "hidden",
-            boxShadow:
-              "0 0 0 1px rgba(0,0,0,0.08), 0 24px 48px rgba(0,0,0,0.22)",
-            transform: visible ? "scale(1)" : "scale(0.94)",
-            opacity: visible ? 1 : 0,
-            transition:
-              "transform 0.45s cubic-bezier(0.34,1.4,0.64,1), opacity 0.35s ease",
-            position: "relative",
-          }}
+          aria-label="ohae is opening soon"
+          className="ohae-pop-card"
         >
-          {/* Close button */}
           <button
             onClick={dismiss}
             aria-label="Close"
-            style={{
-              position: "absolute",
-              top: "14px",
-              right: "14px",
-              zIndex: 10,
-              width: "32px",
-              height: "32px",
-              borderRadius: "50%",
-              background: "rgba(0,0,0,0.42)",
-              border: "none",
-              cursor: "pointer",
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-              color: "#fff",
-              fontSize: "15px",
-              lineHeight: "1",
-              transition: "background 0.2s",
-            }}
-            onMouseEnter={(e) =>
-              (e.currentTarget.style.background = "rgba(0,0,0,0.65)")
-            }
-            onMouseLeave={(e) =>
-              (e.currentTarget.style.background = "rgba(0,0,0,0.42)")
-            }
+            className="ohae-pop-close"
           >
             &#x2715;
           </button>
 
-          {/* Photo */}
-          <Image
-            src="/images/ohae-popup.jpg"
-            alt="OHAE pop-up booth at food festival"
-            width={540}
-            height={320}
-            style={{
-              width: "100%",
-              height: "auto",
-              maxHeight: "320px",
-              objectFit: "cover",
-              display: "block",
-            }}
-            priority
-          />
-
-          {/* Green intro band */}
-          <div
-            style={{
-              background: "#2A6120",
-              padding: "22px 28px 20px",
-              position: "relative",
-            }}
-          >
+          <div className="ohae-pop-photo">
             <Image
-              src="/images/ohae-logo.png"
-              alt="OH·AE logo"
-              width={64}
-              height={64}
-              style={{
-                position: "absolute",
-                top: "18px",
-                right: "22px",
-                borderRadius: "8px",
-                objectFit: "cover",
-              }}
+              src={PHOTO_SRC}
+              alt="ohae"
+              fill
+              sizes="(max-width: 640px) 420px, 300px"
+              style={{ objectFit: "cover", objectPosition: "center" }}
+              priority
             />
-            <p
-              style={{
-                fontFamily: "monospace",
-                fontSize: "10px",
-                fontWeight: 700,
-                letterSpacing: "0.22em",
-                textTransform: "uppercase",
-                color: "rgba(240,255,232,0.55)",
-                margin: "0 0 10px",
-              }}
-            >
-              New from One Bite Street
-            </p>
+          </div>
+
+          <div className="ohae-pop-body">
             <p
               style={{
                 fontFamily: "'DM Sans', sans-serif",
-                fontSize: "19px",
-                fontWeight: 500,
-                color: "#F0FFE8",
-                lineHeight: "1.35",
-                margin: "0 80px 0 0",
+                fontSize: "14px",
+                color: "#6B625B",
+                margin: "0 0 12px",
               }}
             >
-              We just launched our first café brand &mdash;{" "}
-              <strong style={{ fontWeight: 700 }}>OH·AE</strong>. Check it out.
+              News from One Bite Street
             </p>
-          </div>
 
-          {/* Button row */}
-          <div
-            style={{
-              padding: "20px 28px 26px",
-              background: "#2A6120",
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-            }}
-          >
-            <Link href="/ohae" onClick={dismiss} className="ohae-text-btn">
-              Check out OH·AE &rarr;
+            <h2
+              style={{
+                fontFamily: "'Anton', sans-serif",
+                fontSize: "30px",
+                fontWeight: 400,
+                lineHeight: 1.1,
+                color: "#2B2623",
+                margin: "0 0 16px",
+              }}
+            >
+              We&apos;re getting ready to open ohae
+            </h2>
+
+            <p
+              style={{
+                fontFamily: "'DM Sans', sans-serif",
+                fontSize: "15px",
+                fontWeight: 300,
+                lineHeight: 1.65,
+                color: "#4A423C",
+                margin: "0 0 24px",
+              }}
+            >
+              Our café at Elisabethstraße 13 in Marburg opens at the end of
+              November. Coffee by day, wine and small plates on Thursday to
+              Saturday evenings.
+            </p>
+
+            <Link href="/ohae" onClick={dismiss} className="ohae-pop-link">
+              See ohae
             </Link>
           </div>
         </div>
