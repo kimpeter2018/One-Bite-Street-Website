@@ -1,4 +1,6 @@
 import { SITE_CONFIG } from "@/lib/metadata";
+import HeroVideo from "./_HeroVideo";
+import Nav from "./_Nav";
 
 // ─── Editable content ────────────────────────────────────────────────────────
 // Everything that may change (name, hours, address) lives here, so a rename
@@ -14,13 +16,22 @@ const ADDRESS = {
 const MAPS_URL =
   "https://www.google.com/maps/search/?api=1&query=Elisabethstra%C3%9Fe+13+35037+Marburg";
 
+// Put the files in public/videos/
+const HERO_VIDEO = "/videos/ohae-hero.mp4";
+
 const INSTAGRAM_URL = "https://instagram.com/ohae_cafe";
 const INSTAGRAM_HANDLE = "@ohae_cafe";
 
 const OPENING = "at the end of November";
 
-const HOURS: Array<{ days: string; services: Array<{ name: string; time: string }> | null }> = [
-  { days: "Monday to Wednesday", services: [{ name: "Coffee", time: "9:00 – 20:00" }] },
+const HOURS: Array<{
+  days: string;
+  services: Array<{ name: string; time: string }> | null;
+}> = [
+  {
+    days: "Monday to Wednesday",
+    services: [{ name: "Coffee", time: "9:00 – 20:00" }],
+  },
   {
     days: "Thursday to Saturday",
     services: [
@@ -40,23 +51,27 @@ export default function OhaePageClient() {
     <div className="ohae">
       <style>{css}</style>
 
-      {/* Header: no One Bite Street branding, this is ohae's own site */}
-      <header className="ohae-header">
-        <div className="ohae-wrap ohae-header-row">
-          <a href="#top" className="ohae-wordmark">
-            {BRAND}
-          </a>
-          <nav aria-label="Main" className="ohae-nav">
-            <a href="#about">About</a>
-            <a href="#hours">Hours</a>
-            <a href="#find-us">Find us</a>
-          </nav>
-        </div>
-      </header>
+      {/* Hidden over the video until hover, focus or scroll */}
+      <Nav
+        brand={BRAND}
+        links={[
+          { label: "About", href: "#about" },
+          { label: "Hours", href: "#hours" },
+          { label: "Find us", href: "#find-us" },
+        ]}
+      />
 
       <main id="top">
         {/* Hero */}
+        {/* Hero: the video fills the first screen */}
         <section className="ohae-hero">
+          <div className="ohae-hero-stage">
+            <HeroVideo src={HERO_VIDEO} label="Something new is coming" />
+          </div>
+        </section>
+
+        {/* Name and intro, below the video */}
+        <section className="ohae-intro">
           <div className="ohae-wrap">
             <h1 className="ohae-display">{BRAND}</h1>
             <p className="ohae-lead">
@@ -102,7 +117,9 @@ export default function OhaePageClient() {
                 </p>
               </article>
               <article>
-                <h3 className="ohae-h3">Wine bar and bistro, Thursday to Saturday evenings</h3>
+                <h3 className="ohae-h3">
+                  Wine bar and bistro, Thursday to Saturday evenings
+                </h3>
                 <p>
                   From 17:00 the coffee machine rests and the wine comes out.
                   Wine and beer, with good fingerfood and tapas for sharing.
@@ -159,14 +176,24 @@ export default function OhaePageClient() {
                 {ADDRESS.city}
               </address>
               <p>
-                <a className="ohae-link" href={MAPS_URL} target="_blank" rel="noopener noreferrer">
+                <a
+                  className="ohae-link"
+                  href={MAPS_URL}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
                   Open in Google Maps
                 </a>
               </p>
               <p>
-                We open {OPENING}. Follow us on Instagram for the exact date
-                and first photos of the space:{" "}
-                <a className="ohae-link" href={INSTAGRAM_URL} target="_blank" rel="noopener noreferrer">
+                We open {OPENING}. Follow us on Instagram for the exact date and
+                first photos of the space:{" "}
+                <a
+                  className="ohae-link"
+                  href={INSTAGRAM_URL}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
                   {INSTAGRAM_HANDLE}
                 </a>
               </p>
@@ -223,6 +250,7 @@ const css = `
   --ink-soft: #6b625b;
   --line: #ddd5ca;
   --accent: #2a6120;
+  --hero-bg: #faf8f5;
   --font-body: 'DM Sans', system-ui, sans-serif;
   --font-display: 'Fraunces', Georgia, serif;
 
@@ -240,19 +268,26 @@ const css = `
 .ohae-wrap { max-width: 1040px; margin: 0 auto; padding: 0 1.5rem; }
 .ohae-sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
 
-/* Header */
-.ohae-header { border-bottom: 1px solid var(--line); }
+/* Header: floats over the video, hidden until hover / focus / scroll */
+.ohae-header { position: fixed; top: 0; left: 0; right: 0; z-index: 50; opacity: 0; background: transparent; transition: opacity .2s ease, background-color .2s ease; }
+.ohae-header:hover, .ohae-header:focus-within { opacity: 1; background: rgba(250,248,245,.92); }
+.ohae-header[data-scrolled="true"] { opacity: 1; background: var(--bg); border-bottom: 1px solid var(--line); }
+@media (hover: none) { .ohae-header { opacity: 1; background: rgba(250,248,245,.92); } }
 .ohae-header-row { display: flex; align-items: center; justify-content: space-between; height: 72px; }
 .ohae-wordmark { font-family: var(--font-display); font-size: 26px; text-decoration: none; }
 .ohae-nav { display: flex; gap: 1.75rem; font-size: 15px; }
 .ohae-nav a { text-decoration: none; color: var(--ink-soft); padding: 4px 0; border-bottom: 1px solid transparent; transition: color .15s, border-color .15s; }
 .ohae-nav a:hover { color: var(--ink); border-bottom-color: var(--ink); }
+html { scroll-padding-top: 72px; }
 
-/* Hero */
-.ohae-hero { padding: clamp(72px, 12vw, 140px) 0 clamp(64px, 10vw, 120px); }
-.ohae-display { font-family: var(--font-display); font-weight: 400; font-size: clamp(72px, 14vw, 168px); line-height: 0.95; letter-spacing: -0.02em; }
-.ohae-lead { margin-top: 2rem; max-width: 28em; font-size: clamp(20px, 2.2vw, 26px); line-height: 1.5; }
-.ohae-hero-note { margin-top: 1.25rem; color: var(--ink-soft); }
+/* Hero video: fills the first screen. contain = never crops the drawing;
+   --hero-bg should match the video's own background colour. */
+.ohae-hero-stage { height: 100vh; height: 100svh; min-height: 360px; background: var(--hero-bg); }
+.ohae-hero-video { display: block; width: 100%; height: 100%; object-fit: contain; }
+.ohae-intro { padding: clamp(56px, 8vw, 96px) 0 clamp(40px, 6vw, 72px); }
+.ohae-display { font-family: var(--font-display); font-weight: 400; font-size: clamp(44px, 7vw, 80px); line-height: 1; letter-spacing: -0.02em; }
+.ohae-lead { margin-top: 1rem; max-width: 30em; font-size: clamp(18px, 1.8vw, 21px); line-height: 1.55; }
+.ohae-hero-note { margin-top: .75rem; color: var(--ink-soft); font-size: 15px; }
 
 /* Sections */
 .ohae-section { padding: clamp(56px, 8vw, 96px) 0; }
@@ -287,6 +322,10 @@ const css = `
 
 .ohae a:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
 
+@media (max-width: 640px) {
+  .ohae-hero-stage { height: auto; min-height: 0; }
+  .ohae-hero-video { height: auto; aspect-ratio: 864 / 576; }
+}
 @media (max-width: 720px) {
   .ohae-split, .ohae-two { grid-template-columns: 1fr; gap: 1.5rem; }
   .ohae-nav { gap: 1.1rem; font-size: 14px; }

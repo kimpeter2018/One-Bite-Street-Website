@@ -30,6 +30,7 @@ export default function OhaePopup() {
   useEffect(() => {
     if (!open) return;
     const onKey = (e: KeyboardEvent) => {
+      // eslint-disable-next-line react-hooks/immutability
       if (e.key === "Escape") dismiss();
     };
     window.addEventListener("keydown", onKey);
