@@ -1,5 +1,5 @@
 import { SITE_CONFIG } from "@/lib/metadata";
-import HeroVideo from "./_HeroVideo";
+import Image from "next/image";
 import Nav from "./_Nav";
 
 // ─── Editable content ────────────────────────────────────────────────────────
@@ -16,8 +16,7 @@ const ADDRESS = {
 const MAPS_URL =
   "https://www.google.com/maps/search/?api=1&query=Elisabethstra%C3%9Fe+13+35037+Marburg";
 
-// Put the files in public/videos/
-const HERO_VIDEO = "/videos/ohae-hero.mp4";
+const HERO_IMAGE = "/images/ohae-hero.jpeg";
 
 const INSTAGRAM_URL = "https://instagram.com/ohae_cafe";
 const INSTAGRAM_HANDLE = "@ohae_cafe";
@@ -51,7 +50,7 @@ export default function OhaePageClient() {
     <div className="ohae">
       <style>{css}</style>
 
-      {/* Hidden over the video until hover, focus or scroll */}
+      {/* Hidden over the hero until hover, focus or scroll */}
       <Nav
         brand={BRAND}
         links={[
@@ -62,15 +61,21 @@ export default function OhaePageClient() {
       />
 
       <main id="top">
-        {/* Hero */}
-        {/* Hero: the video fills the first screen */}
+        {/* Hero image fills the first screen */}
         <section className="ohae-hero">
           <div className="ohae-hero-stage">
-            <HeroVideo src={HERO_VIDEO} label="Something new is coming" />
+            <Image
+              className="ohae-hero-image"
+              src={HERO_IMAGE}
+              alt="Something new is coming"
+              fill
+              priority
+              sizes="100vw"
+            />
           </div>
         </section>
 
-        {/* Name and intro, below the video */}
+        {/* Name and intro, below the hero */}
         <section className="ohae-intro">
           <div className="ohae-wrap">
             <h1 className="ohae-display">{BRAND}</h1>
@@ -268,7 +273,7 @@ const css = `
 .ohae-wrap { max-width: 1040px; margin: 0 auto; padding: 0 1.5rem; }
 .ohae-sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
 
-/* Header: floats over the video, hidden until hover / focus / scroll */
+/* Header: floats over the hero, hidden until hover / focus / scroll */
 .ohae-header { position: fixed; top: 0; left: 0; right: 0; z-index: 50; opacity: 0; background: transparent; transition: opacity .2s ease, background-color .2s ease; }
 .ohae-header:hover, .ohae-header:focus-within { opacity: 1; background: rgba(250,248,245,.92); }
 .ohae-header[data-scrolled="true"] { opacity: 1; background: var(--bg); border-bottom: 1px solid var(--line); }
@@ -280,10 +285,11 @@ const css = `
 .ohae-nav a:hover { color: var(--ink); border-bottom-color: var(--ink); }
 html { scroll-padding-top: 72px; }
 
-/* Hero video: fills the first screen. contain = never crops the drawing;
-   --hero-bg should match the video's own background colour. */
-.ohae-hero-stage { height: 100vh; height: 100svh; min-height: 360px; background: var(--hero-bg); }
-.ohae-hero-video { display: block; width: 100%; height: 100%; object-fit: contain; }
+/* Hero image: fills the first screen edge to edge. cover = no side bars;
+   on screens wider than 16:9 a thin slice is cropped from top and bottom.
+   Keep important drawing/text away from the very top and bottom edges. */
+.ohae-hero-stage { position: relative; height: 100vh; height: 100svh; min-height: 360px; background: var(--hero-bg); }
+.ohae-hero-image { object-fit: cover; object-position: center; }
 .ohae-intro { padding: clamp(56px, 8vw, 96px) 0 clamp(40px, 6vw, 72px); }
 .ohae-display { font-family: var(--font-display); font-weight: 400; font-size: clamp(44px, 7vw, 80px); line-height: 1; letter-spacing: -0.02em; }
 .ohae-lead { margin-top: 1rem; max-width: 30em; font-size: clamp(18px, 1.8vw, 21px); line-height: 1.55; }
@@ -323,8 +329,7 @@ html { scroll-padding-top: 72px; }
 .ohae a:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
 
 @media (max-width: 640px) {
-  .ohae-hero-stage { height: auto; min-height: 0; }
-  .ohae-hero-video { height: auto; aspect-ratio: 864 / 576; }
+  .ohae-hero-stage { height: auto; min-height: 0; aspect-ratio: 2048 / 1152; }
 }
 @media (max-width: 720px) {
   .ohae-split, .ohae-two { grid-template-columns: 1fr; gap: 1.5rem; }

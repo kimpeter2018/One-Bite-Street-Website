@@ -1086,7 +1086,7 @@ export default function HomePageClient() {
       <OhaePopup />
 
       <SiteHeader
-        extraLinks={[{ label: "OH·AE", href: "/ohae" }]}
+        extraLinks={[{ label: "ohae", href: "/ohae" }]}
         ctaHref="/contact"
         ctaLabel="Let's talk"
       />
